@@ -1,0 +1,39 @@
+{
+	"url": "https://www.maersk.com/tracking/#tracking/{container}",
+	"input": null,
+	"output": {
+		"actions": [
+			{
+				"type": "class",
+				"selector": "open",
+				"action": "click"
+			}
+		],
+		"general_info": [
+			{
+				"type": "class",
+				"selector": "font--display-1--heavy",
+				"attributes": {
+					"origin_point": 0,
+					"dest_point": 1
+				}
+			},
+			{
+				"type": "css",
+				"selector": "td data-th=\"Container type size\" span",
+				"attributes": {
+					"container_type": 3
+				}
+			},
+			{
+				"type": "css",
+				"selector": "td[data-th=\"Estimated arrival date\"] span",
+				"attributes": {
+					"estimated_arrival": 3
+				}
+			}
+		],
+		"route_info": null
+	}
+}
+
