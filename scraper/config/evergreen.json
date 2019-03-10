@@ -1,0 +1,71 @@
+{
+	"name": "Evergreen",
+	"general": {
+		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
+		"date_format": "%b-%d-%Y",
+		"time_format": null
+	},
+	"input_assert": [
+		{
+			"type": "css",
+			"value": "#shipmentlink_lang_layer .button",
+			"elements": [
+				{
+					"index": 1,
+					"action": "cookie",
+					"wait": true
+				}
+			]
+		},
+		{
+			"type": "css",
+			"value": "[name=\"SEL\"][value=\"s_cntr\"]",
+			"elements": [
+				{
+					"index": 1,
+					"action": "click",
+					"wait": false
+				}
+			]
+		},
+		{
+			"type": "id",
+			"value": "NO",
+			"action": "container_write",
+			"wait": false
+		},
+		{
+			"type": "id",
+			"value": "captchaImg",
+			"action": "captcha_process"
+		},
+		{
+			"type": "id",
+			"value": "captcha_input",
+			"action": "captcha_write"
+		},
+		{
+			"type": "css",
+			"value": ".f12rown3 input[type=\"button\"]",
+			"elements": [
+				{
+					"index": 1,
+					"action": "click",
+					"wait": true
+				}
+			]
+		}
+	],
+	"output_assert": [
+		{
+			"type": "alert",
+			"value": "accept",
+			"wanted": false
+		},
+		{
+			"type": "css",
+			"value": "td.f12wrdb2",
+			"wanted": false
+		}
+	]
+}	

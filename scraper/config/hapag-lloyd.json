@@ -1,0 +1,138 @@
+{
+	"name": "Hapag-Lloyd",
+	"general": {
+		"url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
+		"date_format": "%Y-%m-%d",
+		"time_format": "%H:%M"
+	},
+	"input": [
+		{
+			"type": "class",
+			"value": "error",
+			"action": "abort"
+		},
+		{
+			"type": "id",
+			"value": "hal-cookieconsent-button",
+			"action": "cookie",
+			"wait": false
+		}
+	],
+	"output_assert": null,
+	"output_general": [
+		{
+			"type": "class",
+			"value": "inputNonEdit",
+			"elements": [
+				{
+					"index": 0,
+					"attribute": "container_type",
+					"required": false
+				},
+				{
+					"index": 1,
+					"attribute": "container_description",
+					"required": true
+				},
+				{
+					"index": 2,
+					"type": "split",
+					"value": " X ",
+					"elements": [
+						{
+							"index": 0,
+							"attribute": "container_length",
+							"required": false
+						}, {
+							"index": 2,
+							"attribute": "container_height",
+							"required": false
+						}, {
+							"index": 1,
+							"attribute": "container_width",
+							"required": false
+						}
+					]
+				},
+				{
+					"index": 3,
+					"attribute": "container_tare",
+					"required": false
+				},
+				{
+					"index": 4,
+					"attribute": "container_max_payload",
+					"required": false
+				},
+				{
+					"index": 5,
+					"type": "regex",
+					"value": "The container (.*?) (in|from) (.*?) at (.*?) ",
+					"elements": [
+						{
+							"index": 0,
+							"attribute": "last_status",
+							"required": true
+						},
+						{
+							"index": 2,
+							"attribute": "last_location",
+							"required": true
+						},
+						{
+							"index": 3,
+							"attribute": "last_date",
+							"required": true
+						}
+					]
+				}
+			]
+		}
+	],
+	"output_movements": {
+		"parent": {
+			"type": "css",
+			"value": ".hal-table tbody tr"
+		},
+		"common": null,
+		"specific": [
+			{
+				"type": "tag",
+				"value": "td",
+				"elements": [
+					{
+						"index": 0,
+						"attribute": "status",
+						"required": true
+					},
+					{
+						"index": 1,
+						"attribute": "location",
+						"required": true
+					},
+					{
+						"index": 2,
+						"attribute": "date",
+						"required": true
+					},
+					{
+						"index": 3,
+						"attribute": "time",
+						"required": false
+					},
+					{
+						"index": 4,
+						"attribute": "transport_ship",
+						"required": false
+					},
+					{
+						"index": 5,
+						"attribute": "transport_voyage",
+						"required": false
+					}
+				]
+			}
+		],
+		"multiple": true
+	}
+}

@@ -1,33 +1,156 @@
 {
-	"url": "https://www.maersk.com/tracking/#tracking/{container}",
-	"input": null,
-	"output": {
-		"actions": [{
+	"name": "Maersk",
+	"general": {
+		"url": "https://www.maersk.com/tracking/#tracking/{container}",
+		"date_format": "%d %b %Y",
+		"time_format": "%H:%M"
+	},
+	"input": [
+		{
 			"type": "class",
-			"selector": "open",
-			"action": "click"
-		}],
-		"general_info": [{
+			"value": "resultError",
+			"action": "abort"
+		},
+		{
 			"type": "class",
-			"selector": "font--display-1--heavy",
-			"attributes": {
-				"origin_point": 0,
-				"dest_point": 1
-			}
-		}, {
+			"value": "font--display-1",
+			"action": "abort"
+		},
+		{
+			"type": "id",
+			"value": "ign-accept-cookie",
+			"action": "cookie",
+			"wait": false
+		},
+		{
 			"type": "css",
-			"selector": "td data-th=\"Container type size\" span",
-			"attributes": {
-				"container_type": 3
-			}
-		}, {
+			"value": "a.button",
+			"action": "click",
+			"wait": false
+		}
+	],
+	"output_assert": null,
+	"output_general": [
+		{
+			"type": "class",
+			"value": "font--display-1--heavy",
+			"elements": [
+				{
+					"index": 0,
+					"attribute": "origin_point",
+					"required": true
+				},
+				{
+					"index": 1,
+					"attribute": "dest_point",
+					"required": true
+				}
+			]
+		},
+		{
 			"type": "css",
-			"selector": "td[data-th=\"Estimated arrival date\"] span",
-			"attributes": {
-				"estimated_arrival": 3
+			"value": ".expandable-table__wrapper td",
+			"elements": [
+				{
+					"index": 1,
+					"type": "tag",
+					"value": "span",
+					"elements": [
+						{
+							"index": 3,
+							"attribute": "container_description",
+							"required": false
+						}
+					]
+				},
+				{
+					"index": 2,
+					"type": "tag",
+					"value": "span",
+					"elements": [
+						{
+							"index": 3,
+							"type": "split",
+							"value": "\n",
+							"elements": [
+								{
+									"index": 0,
+									"attribute": "arrival_date",
+									"required": true
+								},
+								{
+									"index": 1,
+									"attribute": "arrival_time",
+									"required": false
+								}
+							]
+						}
+					]
+				},
+				{
+					"index": 3,
+					"type": "tag",
+					"value": "span",
+					"elements": [
+						{
+							"index": 3,
+							"type": "regex",
+							"value": "(.*?) • (.*?)\n(.*?)$",
+							"elements": [
+								{
+									"index": 0,
+									"attribute": "last_status",
+									"required": true
+								},
+								{
+									"index": 1,
+									"attribute": "last_location",
+									"required": true
+								},
+								{
+									"index": 2,
+									"attribute": "last_date",
+									"required": true
+								}
+							]
+						}
+					]
+				}
+			]
+		}		
+	],
+	"output_movements": {
+		"parent": {
+			"type": "class",
+			"value": "timeline__event-table"
+		},
+		"common": [
+			{
+				"type": "class",
+				"value": "timeline__event-table__cell--heading",
+				"elements": [
+					{
+						"index": 0,
+						"type": "split",
+						"elements": [
+							{
+								"index": 0,
+								"attribute": "location_terminal",
+								"required": true
+							},
+							{
+								"index": 1,
+								"attribute": "location",
+								"required": true
+							}
+						]
+					}
+				]
 			}
-		}],
-		"route_info": null
+		],
+		"specific": {
+		},
+		"multiple": true
 	}
 }
 
