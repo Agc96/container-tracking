@@ -9,24 +9,37 @@
 		{
 			"type": "class",
 			"value": "resultError",
-			"action": "abort"
+			"element": {
+				"type": "assert",
+				"wanted": false
+			}
 		},
 		{
 			"type": "class",
 			"value": "font--display-1",
-			"action": "abort"
+			"element": {
+				"type": "assert",
+				"wanted": false
+			}
 		},
 		{
 			"type": "id",
 			"value": "ign-accept-cookie",
-			"action": "cookie",
-			"wait": false
+			"element": {
+				"type": "cookie",
+				"wait": false
+			}
 		},
 		{
 			"type": "css",
 			"value": "a.button",
-			"action": "click",
-			"wait": false
+			"elements": [
+				{
+					"index": 0,
+					"type": "click",
+					"wait": false
+				}
+			]
 		}
 	],
 	"output_assert": null,
@@ -37,12 +50,14 @@
 			"elements": [
 				{
 					"index": 0,
-					"attribute": "origin_point",
+					"type": "save",
+					"value": "origin_point",
 					"required": true
 				},
 				{
 					"index": 1,
-					"attribute": "dest_point",
+					"type": "save",
+					"value": "dest_point",
 					"required": true
 				}
 			]
@@ -58,7 +73,7 @@
 					"elements": [
 						{
 							"index": 3,
-							"attribute": "container_description",
+							"value": "container_description",
 							"required": false
 						}
 					]
@@ -75,12 +90,14 @@
 							"elements": [
 								{
 									"index": 0,
-									"attribute": "arrival_date",
+									"type": "save",
+									"value": "arrival_date",
 									"required": true
 								},
 								{
 									"index": 1,
-									"attribute": "arrival_time",
+									"type": "save",
+									"value": "arrival_time",
 									"required": false
 								}
 							]
@@ -99,17 +116,20 @@
 							"elements": [
 								{
 									"index": 0,
-									"attribute": "last_status",
+									"type": "save",
+									"value": "last_status",
 									"required": true
 								},
 								{
 									"index": 1,
-									"attribute": "last_location",
+									"type": "save",
+									"value": "last_location",
 									"required": true
 								},
 								{
 									"index": 2,
-									"attribute": "last_date",
+									"type": "save",
+									"value": "last_date",
 									"required": true
 								}
 							]
@@ -132,15 +152,18 @@
 					{
 						"index": 0,
 						"type": "split",
+						"value": "\n",
 						"elements": [
 							{
 								"index": 0,
-								"attribute": "location_terminal",
+								"type": "save",
+								"value": "location_terminal",
 								"required": true
 							},
 							{
 								"index": 1,
-								"attribute": "location",
+								"type": "save",
+								"value": "location",
 								"required": true
 							}
 						]

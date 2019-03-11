@@ -9,13 +9,18 @@
 		{
 			"type": "class",
 			"value": "error",
-			"action": "abort"
+			"command": {
+				"type": "assert",
+				"value": false
+			}
 		},
 		{
 			"type": "id",
 			"value": "hal-cookieconsent-button",
-			"action": "cookie",
-			"wait": false
+			"command": {
+				"type": "cookie",
+				"wait": false
+			}
 		}
 	],
 	"output_assert": null,
@@ -23,65 +28,77 @@
 		{
 			"type": "class",
 			"value": "inputNonEdit",
-			"elements": [
+			"commands": [
 				{
 					"index": 0,
-					"attribute": "container_type",
+					"type": "save",
+					"value": "container_type",
 					"required": false
 				},
 				{
 					"index": 1,
-					"attribute": "container_description",
+					"type": "save",
+					"value": "container_description",
 					"required": true
 				},
 				{
 					"index": 2,
 					"type": "split",
 					"value": " X ",
-					"elements": [
+					"commands": [
 						{
 							"index": 0,
-							"attribute": "container_length",
+							"type": "save",
+							"value": "container_length",
 							"required": false
-						}, {
+						},
+						{
 							"index": 2,
-							"attribute": "container_height",
+							"type": "save",
+							"value": "container_height",
 							"required": false
-						}, {
+						},
+						{
 							"index": 1,
-							"attribute": "container_width",
+							"type": "save",
+							"value": "container_width",
 							"required": false
 						}
 					]
 				},
 				{
 					"index": 3,
-					"attribute": "container_tare",
+					"type": "save",
+					"value": "container_tare",
 					"required": false
 				},
 				{
 					"index": 4,
-					"attribute": "container_max_payload",
+					"type": "save",
+					"value": "container_max_payload",
 					"required": false
 				},
 				{
 					"index": 5,
 					"type": "regex",
 					"value": "The container (.*?) (in|from) (.*?) at (.*?) ",
-					"elements": [
+					"commands": [
 						{
 							"index": 0,
-							"attribute": "last_status",
+							"type": "save",
+							"value": "last_status",
 							"required": true
 						},
 						{
 							"index": 2,
-							"attribute": "last_location",
+							"type": "save",
+							"value": "last_location",
 							"required": true
 						},
 						{
 							"index": 3,
-							"attribute": "last_date",
+							"type": "save",
+							"value": "last_date",
 							"required": true
 						}
 					]
@@ -99,35 +116,41 @@
 			{
 				"type": "tag",
 				"value": "td",
-				"elements": [
+				"commands": [
 					{
 						"index": 0,
-						"attribute": "status",
+						"type": "save",
+						"value": "status",
 						"required": true
 					},
 					{
 						"index": 1,
-						"attribute": "location",
+						"type": "save",
+						"value": "location",
 						"required": true
 					},
 					{
 						"index": 2,
-						"attribute": "date",
+						"type": "save",
+						"value": "date",
 						"required": true
 					},
 					{
 						"index": 3,
-						"attribute": "time",
+						"type": "save",
+						"value": "time",
 						"required": false
 					},
 					{
 						"index": 4,
-						"attribute": "transport_ship",
+						"type": "save",
+						"value": "transport_ship",
 						"required": false
 					},
 					{
 						"index": 5,
-						"attribute": "transport_voyage",
+						"type": "save",
+						"value": "transport_voyage",
 						"required": false
 					}
 				]

@@ -5,14 +5,14 @@
 		"date_format": "%b-%d-%Y",
 		"time_format": null
 	},
-	"input_assert": [
+	"input": [
 		{
 			"type": "css",
 			"value": "#shipmentlink_lang_layer .button",
-			"elements": [
+			"commands": [
 				{
 					"index": 1,
-					"action": "cookie",
+					"type": "cookie",
 					"wait": true
 				}
 			]
@@ -20,10 +20,10 @@
 		{
 			"type": "css",
 			"value": "[name=\"SEL\"][value=\"s_cntr\"]",
-			"elements": [
+			"commands": [
 				{
 					"index": 1,
-					"action": "click",
+					"type": "click",
 					"wait": false
 				}
 			]
@@ -31,26 +31,32 @@
 		{
 			"type": "id",
 			"value": "NO",
-			"action": "container_write",
-			"wait": false
+			"command": {
+				"type": "container_write",
+				"wait": false
+			}
 		},
 		{
 			"type": "id",
 			"value": "captchaImg",
-			"action": "captcha_process"
+			"command": {
+				"type": "captcha_process"
+			}
 		},
 		{
 			"type": "id",
 			"value": "captcha_input",
-			"action": "captcha_write"
+			"command": {
+				"type": "captcha_write"
+			}
 		},
 		{
 			"type": "css",
 			"value": ".f12rown3 input[type=\"button\"]",
-			"elements": [
+			"commands": [
 				{
 					"index": 1,
-					"action": "click",
+					"type": "click",
 					"wait": true
 				}
 			]
@@ -68,4 +74,4 @@
 			"wanted": false
 		}
 	]
-}	
+}
