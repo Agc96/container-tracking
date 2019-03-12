@@ -9,7 +9,7 @@
 		{
 			"type": "class",
 			"value": "resultError",
-			"element": {
+			"command": {
 				"type": "assert",
 				"wanted": false
 			}
@@ -17,7 +17,7 @@
 		{
 			"type": "class",
 			"value": "font--display-1",
-			"element": {
+			"command": {
 				"type": "assert",
 				"wanted": false
 			}
@@ -25,7 +25,7 @@
 		{
 			"type": "id",
 			"value": "ign-accept-cookie",
-			"element": {
+			"command": {
 				"type": "cookie",
 				"wait": false
 			}
@@ -33,7 +33,7 @@
 		{
 			"type": "css",
 			"value": "a.button",
-			"elements": [
+			"commands": [
 				{
 					"index": 0,
 					"type": "click",
@@ -47,7 +47,7 @@
 		{
 			"type": "class",
 			"value": "font--display-1--heavy",
-			"elements": [
+			"commands": [
 				{
 					"index": 0,
 					"type": "save",
@@ -65,12 +65,12 @@
 		{
 			"type": "css",
 			"value": ".expandable-table__wrapper td",
-			"elements": [
+			"commands": [
 				{
 					"index": 1,
 					"type": "tag",
 					"value": "span",
-					"elements": [
+					"commands": [
 						{
 							"index": 3,
 							"value": "container_description",
@@ -82,12 +82,12 @@
 					"index": 2,
 					"type": "tag",
 					"value": "span",
-					"elements": [
+					"commands": [
 						{
 							"index": 3,
 							"type": "split",
 							"value": "\n",
-							"elements": [
+							"commands": [
 								{
 									"index": 0,
 									"type": "save",
@@ -108,12 +108,12 @@
 					"index": 3,
 					"type": "tag",
 					"value": "span",
-					"elements": [
+					"commands": [
 						{
 							"index": 3,
 							"type": "regex",
 							"value": "(.*?) • (.*?)\n(.*?)$",
-							"elements": [
+							"commands": [
 								{
 									"index": 0,
 									"type": "save",
@@ -148,12 +148,12 @@
 			{
 				"type": "class",
 				"value": "timeline__event-table__cell--heading",
-				"elements": [
+				"commands": [
 					{
 						"index": 0,
 						"type": "split",
 						"value": "\n",
-						"elements": [
+						"commands": [
 							{
 								"index": 0,
 								"type": "save",
@@ -171,8 +171,13 @@
 				]
 			}
 		],
-		"specific": {
-		},
+		"specific": [
+			{
+				"type": "css",
+				"value": ".timeline__event-table__row:not(:first-child)",
+				"commands": []
+			}
+		],
 		"multiple": true
 	}
 }

@@ -22,7 +22,7 @@
 			"value": "[name=\"SEL\"][value=\"s_cntr\"]",
 			"commands": [
 				{
-					"index": 1,
+					"index": 0,
 					"type": "click",
 					"wait": false
 				}

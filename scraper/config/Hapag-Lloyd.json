@@ -11,7 +11,7 @@
 			"value": "error",
 			"command": {
 				"type": "assert",
-				"value": false
+				"wanted": false
 			}
 		},
 		{
