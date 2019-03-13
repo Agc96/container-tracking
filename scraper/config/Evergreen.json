@@ -62,7 +62,7 @@
 			]
 		}
 	],
-	"output_assert": [
+	"output": [
 		{
 			"type": "alert",
 			"value": "accept",
