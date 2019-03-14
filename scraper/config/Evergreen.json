@@ -8,11 +8,12 @@
 	"input": [
 		{
 			"type": "css",
-			"value": "#shipmentlink_lang_layer .button",
+			"value": "#shipmentlink_lang_layer button",
 			"commands": [
 				{
 					"index": 1,
-					"type": "cookie",
+					"type": "click",
+					"required": false,
 					"wait": true
 				}
 			]
@@ -24,6 +25,7 @@
 				{
 					"index": 0,
 					"type": "click",
+					"required": true,
 					"wait": false
 				}
 			]
@@ -65,13 +67,22 @@
 	"output": [
 		{
 			"type": "alert",
-			"value": "accept",
-			"wanted": false
+			"command": {
+				"type": "assert",
+				"value": false
+			},
+			"required": false
 		},
 		{
 			"type": "css",
 			"value": "td.f12wrdb2",
-			"wanted": false
+			"commands": [
+				{
+					"index": 0,
+					"type": "assert",
+					"value": false
+				}
+			]
 		}
 	]
 }

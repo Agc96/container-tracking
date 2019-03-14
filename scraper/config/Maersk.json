@@ -11,22 +11,25 @@
 			"value": "resultError",
 			"command": {
 				"type": "assert",
-				"wanted": false
-			}
+				"value": false
+			},
+			"required": false
 		},
 		{
 			"type": "class",
 			"value": "font--display-1",
 			"command": {
 				"type": "assert",
-				"wanted": false
-			}
+				"value": false
+			},
+			"required": false
 		},
 		{
 			"type": "id",
 			"value": "ign-accept-cookie",
 			"command": {
-				"type": "cookie",
+				"type": "click",
+				"required": false,
 				"wait": false
 			}
 		},
@@ -37,13 +40,13 @@
 				{
 					"index": 0,
 					"type": "click",
+					"required": true,
 					"wait": false
 				}
 			]
 		}
 	],
-	"output_assert": null,
-	"output_general": [
+	"output": [
 		{
 			"type": "class",
 			"value": "font--display-1--heavy",
@@ -139,7 +142,7 @@
 			]
 		}		
 	],
-	"output_movements": {
+	"movements": {
 		"parent": {
 			"type": "class",
 			"value": "timeline__event-table"
@@ -171,11 +174,29 @@
 				]
 			}
 		],
-		"specific": [
+		"specific_row": {
+			"type": "css",
+			"value": ".timeline__event-table__row:not(:first-child)"
+		},
+		"specific_commands": [
 			{
-				"type": "css",
-				"value": ".timeline__event-table__row:not(:first-child)",
-				"commands": []
+				"type": "class",
+				"value": "timeline__event-table__cell--time",
+				"commands": [
+					{
+						"index": 0,
+						"type": "split",
+						"value": "\n",
+						"commands": [
+							{
+								"index": 0,
+								"type": "save",
+								"value": "date",
+								"required": 
+							}
+						]
+					}
+				]
 			}
 		],
 		"multiple": true

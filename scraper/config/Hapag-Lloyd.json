@@ -11,14 +11,15 @@
 			"value": "error",
 			"command": {
 				"type": "assert",
-				"wanted": false
+				"value": false
 			}
 		},
 		{
 			"type": "id",
 			"value": "hal-cookieconsent-button",
 			"command": {
-				"type": "cookie",
+				"type": "click",
+				"required": false,
 				"wait": false
 			}
 		}

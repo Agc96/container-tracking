@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test</title>
+  <style type="text/css">
+    #div-display {
+      display: none;
+    }
+    #div-visibility {
+      visibility: hidden;
+    }
+    #div-opacity {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="div-display">
+    Texto oculto con <strong>display: none</strong>
+    <button id="button-display">Click aquí</button>
+  </div>
+  <div id="div-visibility">
+    Texto oculto con <strong>visibility: hidden</strong>
+    <button id="button-visibility">Click aquí</button>  
+  </div>
+  <div id="div-opacity">
+    Texto oculto con <strong>opacity: 0</strong>
+    <button id="button-opacity">Click aquí</button>
+  </div>
+  <p>Consultar el DOM para ver los <strong>div</strong>s ocultos.</p>
+  <script type="text/javascript">
+    document.getElementById('button-display').addEventListener('click', function () {
+      console.log('with display: none');
+    });
+    document.getElementById('button-visibility').addEventListener('click', function () {
+      console.log('visibility: hidden');
+    });
+    document.getElementById('button-opacity').addEventListener('click', function () {
+      console.log('opacity: 0');
+    });
+  </script>
+</body>
+</html>
