@@ -4,8 +4,5 @@
 # Python cache
 __pycache__
 
-# WebDrivers from Chrome and Firefox (Windows version)
-scraper/driver
-
 # Logs
 *.log
