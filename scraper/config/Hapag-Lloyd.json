@@ -1,161 +1,161 @@
 {
-	"name": "Hapag-Lloyd",
-	"general": {
-		"url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
-		"date_format": "%Y-%m-%d",
-		"time_format": "%H:%M"
-	},
-	"input": [
-		{
-			"type": "class",
-			"value": "error",
-			"command": {
-				"type": "assert",
-				"value": false
-			}
-		},
-		{
-			"type": "id",
-			"value": "hal-cookieconsent-button",
-			"command": {
-				"type": "click",
-				"required": false,
-				"wait": false
-			}
-		}
-	],
-	"output": [
-		{
-			"type": "class",
-			"value": "inputNonEdit",
-			"commands": [
-				{
-					"index": 0,
-					"type": "save",
-					"value": "container_type",
-					"required": false
-				},
-				{
-					"index": 1,
-					"type": "save",
-					"value": "container_description",
-					"required": true
-				},
-				{
-					"index": 2,
-					"type": "split",
-					"value": " X ",
-					"commands": [
-						{
-							"index": 0,
-							"type": "save",
-							"value": "container_length",
-							"required": false
-						},
-						{
-							"index": 2,
-							"type": "save",
-							"value": "container_height",
-							"required": false
-						},
-						{
-							"index": 1,
-							"type": "save",
-							"value": "container_width",
-							"required": false
-						}
-					]
-				},
-				{
-					"index": 3,
-					"type": "save",
-					"value": "container_tare",
-					"required": false
-				},
-				{
-					"index": 4,
-					"type": "save",
-					"value": "container_max_payload",
-					"required": false
-				},
-				{
-					"index": 5,
-					"type": "regex",
-					"value": "The container (.*?) (in|from) (.*?) at (.*?) ",
-					"commands": [
-						{
-							"index": 0,
-							"type": "save",
-							"value": "last_status",
-							"required": true
-						},
-						{
-							"index": 2,
-							"type": "save",
-							"value": "last_location",
-							"required": true
-						},
-						{
-							"index": 3,
-							"type": "save",
-							"value": "last_date",
-							"required": true
-						}
-					]
-				}
-			]
-		}
-	],
-	"movements": {
-		"parent": {
-			"type": "css",
-			"value": ".hal-table tbody tr"
-		},
-		"common": null,
-		"specific": [
-			{
-				"type": "tag",
-				"value": "td",
-				"commands": [
-					{
-						"index": 0,
-						"type": "save",
-						"value": "status",
-						"required": true
-					},
-					{
-						"index": 1,
-						"type": "save",
-						"value": "location",
-						"required": true
-					},
-					{
-						"index": 2,
-						"type": "save",
-						"value": "date",
-						"required": true
-					},
-					{
-						"index": 3,
-						"type": "save",
-						"value": "time",
-						"required": false
-					},
-					{
-						"index": 4,
-						"type": "save",
-						"value": "transport_ship",
-						"required": false
-					},
-					{
-						"index": 5,
-						"type": "save",
-						"value": "transport_voyage",
-						"required": false
-					}
-				]
-			}
-		],
-		"multiple": true
-	}
+    "name": "Hapag-Lloyd",
+    "general": {
+        "url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
+        "date_format": "%Y-%m-%d",
+        "time_format": "%H:%M"
+    },
+    "input": [
+        {
+            "type": "class",
+            "value": "error",
+            "command": {
+                "type": "assert",
+                "value": false
+            }
+        },
+        {
+            "type": "id",
+            "value": "hal-cookieconsent-button",
+            "command": {
+                "type": "click",
+                "value": false,
+                "required": false
+            }
+        }
+    ],
+    "output": [
+        {
+            "type": "class",
+            "value": "inputNonEdit",
+            "commands": [
+                {
+                    "index": 0,
+                    "type": "save",
+                    "value": "container_type",
+                    "required": false
+                },
+                {
+                    "index": 1,
+                    "type": "save",
+                    "value": "container_description",
+                    "required": true
+                },
+                {
+                    "index": 2,
+                    "type": "split",
+                    "value": " X ",
+                    "commands": [
+                        {
+                            "index": 0,
+                            "type": "save",
+                            "value": "container_length",
+                            "required": false
+                        },
+                        {
+                            "index": 2,
+                            "type": "save",
+                            "value": "container_height",
+                            "required": false
+                        },
+                        {
+                            "index": 1,
+                            "type": "save",
+                            "value": "container_width",
+                            "required": false
+                        }
+                    ]
+                },
+                {
+                    "index": 3,
+                    "type": "save",
+                    "value": "container_tare",
+                    "required": false
+                },
+                {
+                    "index": 4,
+                    "type": "save",
+                    "value": "container_max_payload",
+                    "required": false
+                },
+                {
+                    "index": 5,
+                    "type": "regex",
+                    "value": "The container (.*?) (in|from) (.*?) at (.*?) ",
+                    "commands": [
+                        {
+                            "index": 0,
+                            "type": "save",
+                            "value": "last_status",
+                            "required": true
+                        },
+                        {
+                            "index": 2,
+                            "type": "save",
+                            "value": "last_location",
+                            "required": true
+                        },
+                        {
+                            "index": 3,
+                            "type": "save",
+                            "value": "last_date",
+                            "required": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "movements": {
+        "parent": {
+            "type": "css",
+            "value": ".hal-table tbody tr"
+        },
+        "common": null,
+        "specific": [
+            {
+                "type": "tag",
+                "value": "td",
+                "commands": [
+                    {
+                        "index": 0,
+                        "type": "save",
+                        "value": "status",
+                        "required": true
+                    },
+                    {
+                        "index": 1,
+                        "type": "save",
+                        "value": "location",
+                        "required": true
+                    },
+                    {
+                        "index": 2,
+                        "type": "save",
+                        "value": "date",
+                        "required": true
+                    },
+                    {
+                        "index": 3,
+                        "type": "save",
+                        "value": "time",
+                        "required": false
+                    },
+                    {
+                        "index": 4,
+                        "type": "save",
+                        "value": "transport_ship",
+                        "required": false
+                    },
+                    {
+                        "index": 5,
+                        "type": "save",
+                        "value": "transport_voyage",
+                        "required": false
+                    }
+                ]
+            }
+        ],
+        "multiple": true
+    }
 }

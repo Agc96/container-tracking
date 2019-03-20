@@ -13,8 +13,8 @@
 				{
 					"index": 1,
 					"type": "click",
-					"required": false,
-					"wait": true
+					"value": true,
+					"required": false
 				}
 			]
 		},
