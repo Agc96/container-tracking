@@ -1,0 +1,88 @@
+{
+    "name": "SUNAT - Manifiestos",
+    "general": {
+        "url": "http://www.aduanet.gob.pe/aduanas/informao/HRMCFLlega.htm",
+        "date_format": "%d/%m/%Y",
+        "time_format": "%H:%M",
+        "multiple": {
+            "table": "manifests",
+            "query": ["year", "manifest"]
+        } 
+    },
+    "input": [
+        {
+            "type": "name",
+            "value": "CMc2_Fecha1",
+            "command": {
+                "type": "write",
+                "value": "today",
+                "extra": -25,
+                "clear": true
+            }
+        },
+        {
+            "type": "css",
+            "value": "input[type=button]",
+            "command": {
+                "type": "click",
+                "value": false
+            }
+        }
+    ],
+    "multiple": {
+        "parent": {
+            "type": "tag",
+            "value": "table",
+            "commands": [
+                {
+                    "index": 3,
+                    "type": "css",
+                    "value": "tr:not(:first-child)"
+                }
+            ]
+        },
+        "children": [
+            {
+                "type": "tag",
+                "value": "td",
+                "commands": [
+                    {
+                        "index": 0,
+                        "type": "split",
+                        "value": " - ",
+                        "commands": [
+                            {
+                                "index": 0,
+                                "type": "save",
+                                "value": "year",
+                                "prepend": "20"
+                            },
+                            {
+                                "index": 1,
+                                "type": "save",
+                                "value": "manifest"
+                            }
+                        ]
+                    },
+                    {
+                        "index": 1,
+                        "type": "save",
+                        "value": "arrival",
+                        "format": "date"
+                    },
+                    {
+                        "index": 2,
+                        "type": "save",
+                        "value": "discharge",
+                        "format": "date"
+                    },
+                    {
+                        "index": 3,
+                        "type": "save",
+                        "value": "ship"
+                    }
+                ]
+            }
+        ]
+    }
+}
