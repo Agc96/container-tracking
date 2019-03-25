@@ -4,10 +4,11 @@
         "url": "http://www.aduanet.gob.pe/aduanas/informao/HRMCFLlega.htm",
         "date_format": "%d/%m/%Y",
         "time_format": "%H:%M",
+        "single": null,
         "multiple": {
             "table": "manifests",
             "query": ["year", "manifest"]
-        } 
+        }
     },
     "input": [
         {
@@ -29,6 +30,7 @@
             }
         }
     ],
+    "single": null,
     "multiple": {
         "parent": {
             "type": "tag",

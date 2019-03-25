@@ -2,25 +2,33 @@
 	"name": "Evergreen",
 	"general": {
 		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
-		"date_format": "%b-%d-%Y",
-		"time_format": null
+		"date": "%b-%d-%Y",
+		"time": null,
+		"datetime": null,
+        "single": {
+            "table": "containers",
+            "query": ["year", "manifest", "detail", "container"]
+        },
+        "multiple": {
+            "key": "tracking"
+        }
 	},
 	"input": [
 		{
 			"type": "css",
-			"value": "#shipmentlink_lang_layer button",
+			"selector": "#shipmentlink_lang_layer button",
 			"commands": [
 				{
 					"index": 1,
 					"type": "click",
-					"value": true,
+					"wait": true,
 					"required": false
 				}
 			]
 		},
 		{
 			"type": "css",
-			"value": "[name=\"SEL\"][value=\"s_cntr\"]",
+			"selector": "[name=\"SEL\"][value=\"s_cntr\"]",
 			"commands": [
 				{
 					"index": 0,
@@ -32,57 +40,185 @@
 		},
 		{
 			"type": "id",
-			"value": "NO",
+			"selector": "NO",
 			"command": {
-				"type": "container_write",
-				"wait": false
+				"type": "write",
+				"attribute": "container",
+				"clean_first": true
 			}
 		},
 		{
 			"type": "id",
-			"value": "captchaImg",
+			"selector": "captchaImg",
 			"command": {
-				"type": "captcha_process"
+				"type": "ocr",
+				"pattern": "Evergreen",
+				"length": 4
 			}
 		},
 		{
 			"type": "id",
-			"value": "captcha_input",
+			"selector": "captcha_input",
 			"command": {
-				"type": "captcha_write"
+				"type": "write",
+				"attribute": "ocr"
 			}
 		},
 		{
 			"type": "css",
-			"value": ".f12rown3 input[type=\"button\"]",
+			"selector": ".f12rown3 input[type=\"button\"]",
 			"commands": [
 				{
 					"index": 1,
 					"type": "click",
-					"wait": true
+					"wait": true,
+					"required": true
 				}
 			]
 		}
 	],
-	"output": [
+	"single": [
 		{
 			"type": "alert",
-			"command": {
-				"type": "assert",
-				"value": false
-			},
+			"action": true,
+			"assert": false
+		},
+		{
+			"type": "css",
+			"selector": "td.f12wrdb1",
+			"assert": false
+		},
+		{
+			"type": "class",
+			"selector": "f12rown1",
+			"commands": [
+				{
+					"index": 2,
+					"type": "save",
+					"key": "type",
+					"required": true
+				}
+			]
+		},
+		{
+			"type": "class",
+			"selector": "f13tabb2",
+			"commands": [
+				{
+					"index": 1,
+					"type": "split",
+					"delimeter": "\n",
+					"commands": [
+						{
+							"index": 1,
+							"type": "save",
+							"key": "estimated_arrival",
+							"format": "date"
+						}
+					]
+				}
+			],
 			"required": false
 		},
 		{
 			"type": "css",
-			"value": "td.f12wrdb2",
+			"selector": "td.f12wrdb2",
 			"commands": [
 				{
-					"index": 0,
-					"type": "assert",
-					"value": false
+					"index": 1,
+					"type": "regex",
+					"pattern": "(.*?) *\\(.*?\\)",
+					"commands": [
+						{
+							"index": 0,
+							"type": "save",
+							"key": "vessel_voyage"
+						}
+					]
 				}
-			]
+			],
+			"required": false
+		}
+	],
+	"multiple": {
+		"parents": null,
+		"common": null,
+		"specific_parents": null,
+		"specific_commands": [
+			{
+				"type": "class",
+				"selector": "f12rown1",
+				"commands": [
+					{
+						"index": 3,
+						"type": "save",
+						"key": "date",
+						"format": "date",
+						"required": true
+					},
+					{
+						"index": 4,
+						"type": "save",
+						"key": "status",
+						"format": "status",
+						"required": true
+					},
+					{
+						"index": 5,
+						"type": "save",
+						"key": "location",
+						"required": true
+					},
+					{
+						"index": 6,
+						"type": "regex",
+						"pattern": "(.*) (.*?)$",
+						"commands": [
+							{
+								"index": 0,
+								"type": "save",
+								"key": "transport_ship",
+								"required": false
+							},
+							{
+								"index": 1,
+								"type": "save",
+								"key": "transport_voyage",
+								"required": false
+							}
+						],
+						"required": false
+					}
+				]
+			},
+			{
+				"type": "save",
+				"key": "is_estimated",
+				"value": false
+			}
+		],
+		"overwrite": false
+	},
+	"translation": [
+		{
+			"original": "Empty pick-up by merchant haulage",
+			"translated": "Retiro de vacío",
+			"exact": true
+		},
+		{
+			"original": "Received",
+			"translated": "Llegada de contenedor a puerto",
+			"exact": false
+		},
+		{
+			"original": "Loaded",
+			"translated": "Contenedor cargado en barco",
+			"exact": false
+		},
+		{
+			"original": "Discharged",
+			"translated": "Descarga del barco",
+			"exact": false
 		}
 	]
 }

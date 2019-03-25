@@ -2,66 +2,77 @@
     "name": "Hapag-Lloyd",
     "general": {
         "url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
-        "date_format": "%Y-%m-%d",
-        "time_format": "%H:%M"
+        "date": "%Y-%m-%d",
+        "time": "%H:%M",
+        "datetime": "%Y-%m-%d %H:%M",
+        "single": {
+            "table": "containers",
+            "query": ["year", "manifest", "detail", "container"]
+        },
+        "multiple": {
+            "key": "tracking"
+        }
     },
     "input": [
         {
+            "type": "id",
+            "selector": "tracing_by_container_f",
+            "assert": true
+        },
+        {
             "type": "class",
-            "value": "error",
-            "command": {
-                "type": "assert",
-                "value": false
-            }
+            "selector": "error",
+            "assert": false,
+            "required": false
         },
         {
             "type": "id",
-            "value": "hal-cookieconsent-button",
+            "selector": "hal-cookieconsent-button",
             "command": {
                 "type": "click",
-                "value": false,
+                "wait": false,
                 "required": false
             }
         }
     ],
-    "output": [
+    "single": [
         {
             "type": "class",
-            "value": "inputNonEdit",
+            "selector": "inputNonEdit",
             "commands": [
                 {
                     "index": 0,
                     "type": "save",
-                    "value": "container_type",
+                    "key": "type",
                     "required": false
                 },
                 {
                     "index": 1,
                     "type": "save",
-                    "value": "container_description",
+                    "key": "description",
                     "required": true
                 },
                 {
                     "index": 2,
                     "type": "split",
-                    "value": " X ",
+                    "delimiter": " X ",
                     "commands": [
                         {
                             "index": 0,
                             "type": "save",
-                            "value": "container_length",
+                            "key": "length",
                             "required": false
                         },
                         {
                             "index": 2,
                             "type": "save",
-                            "value": "container_height",
+                            "key": "height",
                             "required": false
                         },
                         {
                             "index": 1,
                             "type": "save",
-                            "value": "container_width",
+                            "key": "width",
                             "required": false
                         }
                     ]
@@ -69,36 +80,37 @@
                 {
                     "index": 3,
                     "type": "save",
-                    "value": "container_tare",
+                    "key": "tare",
                     "required": false
                 },
                 {
                     "index": 4,
                     "type": "save",
-                    "value": "container_max_payload",
+                    "key": "max_payload",
                     "required": false
                 },
                 {
                     "index": 5,
                     "type": "regex",
-                    "value": "The container (.*?) (in|from) (.*?) at (.*?) ",
+                    "pattern": "The container (.*?) (in|from) (.*?) at (.*?) \\.",
                     "commands": [
                         {
                             "index": 0,
                             "type": "save",
-                            "value": "last_status",
+                            "key": "last_status",
+                            "format": "status",
                             "required": true
                         },
                         {
                             "index": 2,
                             "type": "save",
-                            "value": "last_location",
+                            "key": "last_location",
                             "required": true
                         },
                         {
                             "index": 3,
                             "type": "save",
-                            "value": "last_date",
+                            "key": "last_date",
                             "required": true
                         }
                     ]
@@ -106,56 +118,120 @@
             ]
         }
     ],
-    "movements": {
-        "parent": {
-            "type": "css",
-            "value": ".hal-table tbody tr"
-        },
+    "multiple": {
+        "parents": null,
         "common": null,
-        "specific": [
+        "specific_parents": {
+            "type": "css",
+            "selector": ".hal-table tbody tr"
+        },
+        "specific_commands": [
             {
                 "type": "tag",
-                "value": "td",
+                "selector": "td",
                 "commands": [
                     {
                         "index": 0,
                         "type": "save",
-                        "value": "status",
+                        "key": "status",
+                        "format": "status",
                         "required": true
                     },
                     {
                         "index": 1,
                         "type": "save",
-                        "value": "location",
+                        "key": "location",
                         "required": true
                     },
                     {
                         "index": 2,
                         "type": "save",
-                        "value": "date",
+                        "key": "date",
+                        "format": "date",
                         "required": true
                     },
                     {
                         "index": 3,
                         "type": "save",
-                        "value": "time",
+                        "key": "time",
+                        "format": "time",
                         "required": false
                     },
                     {
                         "index": 4,
-                        "type": "save",
-                        "value": "transport_ship",
-                        "required": false
+                        "type": "compare",
+                        "values": ["Truck"],
+                        "success": [
+                            {
+                                "type": "save",
+                                "key": "transport_type",
+                                "value": "Truck"
+                            }
+                        ],
+                        "failure": [
+                            {
+                                "type": "save",
+                                "key": "transport_type",
+                                "value": "Vessel"
+                            },
+                            {
+                                "type": "save",
+                                "key": "transport_ship",
+                                "required": false
+                            }
+                        ]
                     },
                     {
                         "index": 5,
                         "type": "save",
-                        "value": "transport_voyage",
+                        "key": "transport_voyage",
                         "required": false
                     }
                 ]
+            },
+            {
+                "type": "class",
+                "selector": "strong",
+                "command": {
+                    "type": "save",
+                    "key": "is_estimated",
+                    "value": false
+                },
+                "required": false
             }
         ],
-        "multiple": true
-    }
+        "overwrite": true
+    },
+    "translation": [
+        {
+            "original": "Gate out empty",
+            "translated": "Retiro de vacío",
+            "exact": true
+        },
+        {
+            "original": "Arrival in",
+            "translated": "Llegada de puerto a contenedor",
+            "exact": true
+        },
+        {
+            "original": "Loaded",
+            "translated": "Contenedor cargado en barco",
+            "exact": true
+        },
+        {
+            "original": "Vessel departed",
+            "translated": "Salida de barco",
+            "exact": true
+        },
+        {
+            "original": "Vessel arrived",
+            "translated": "Transbordo",
+            "exact": true
+        },
+        {
+            "original": "Discharged",
+            "translated": "Descarga del barco",
+            "exact": true
+        }
+    ]
 }
