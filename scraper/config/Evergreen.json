@@ -44,7 +44,7 @@
 			"command": {
 				"type": "write",
 				"attribute": "container",
-				"clean_first": true
+				"clean": true
 			}
 		},
 		{

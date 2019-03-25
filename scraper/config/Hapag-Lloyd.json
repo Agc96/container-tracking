@@ -115,7 +115,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "required": true
         }
     ],
     "multiple": {
@@ -160,7 +161,7 @@
                     {
                         "index": 4,
                         "type": "compare",
-                        "values": ["Truck"],
+                        "values": "Truck",
                         "success": [
                             {
                                 "type": "save",
