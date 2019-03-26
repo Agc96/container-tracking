@@ -6,3 +6,7 @@ __pycache__
 
 # Logs
 *.log
+
+# MongoDB dumps
+dumps
+

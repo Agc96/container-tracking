@@ -66,15 +66,12 @@
 		},
 		{
 			"type": "css",
-			"selector": ".f12rown3 input[type=\"button\"]",
-			"commands": [
-				{
-					"index": 1,
-					"type": "click",
-					"wait": true,
-					"required": true
-				}
-			]
+			"selector": "#quick input[type=button]",
+			"command": {
+				"type": "click",
+				"wait": true,
+				"required": true
+			}
 		}
 	],
 	"single": [
@@ -107,13 +104,14 @@
 				{
 					"index": 1,
 					"type": "split",
-					"delimeter": "\n",
+					"delimiter": "\n",
 					"commands": [
 						{
 							"index": 1,
 							"type": "save",
 							"key": "estimated_arrival",
-							"format": "date"
+							"format": "date",
+							"required": false
 						}
 					]
 				}
