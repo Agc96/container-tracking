@@ -1,0 +1,104 @@
+{
+	"name": "Textainer",
+	"general": {
+		"url": "http://tex.textainer.com/Equipment/StatusAndSpecificationsInquiry.aspx",
+		"date": "%Y-%b-%d",
+		"time": null,
+		"datetime": null
+	},
+	"input": [
+		{
+			"type": "class",
+			"selector": "textBoxNoWidthMultipleLineStyle",
+			"command": {
+				"type": "write",
+				"attribute": "container",
+				"clear": true,
+				"required": true
+			},
+			"required": true
+		},
+		{
+			"type": "class",
+			"selector": "btn_tex_basic",
+			"command": {
+				"type": "click",
+				"wait": true,
+				"required": true
+			},
+			"required": true
+		},
+		{
+			"type": "id",
+			"selector": "oReportDiv",
+			"assert": true
+		}
+	],
+	"single": [
+		{
+			"type": "class",
+			"selector": "a482",
+			"command": {
+				"type": "save",
+				"key": "last_status",
+				"required": false
+			},
+			"required": false
+		},
+		{
+			"type": "class",
+			"selector": "a486",
+			"command": {
+				"type": "save",
+				"key": "last_date",
+				"format": "date",
+				"required": false
+			},
+			"required": false
+		},
+		{
+			"type": "class",
+			"selector": "a494",
+			"command": {
+				"type": "compare",
+				"values": ["HAPAG LLOYD", "HAPAG"],
+				"success": [
+					{
+						"type": "save",
+						"key": "carrier",
+						"value": "Hapag-Lloyd"
+					}
+				],
+				"failure": [
+					{
+						"type": "compare",
+						"values": "EVERGREEN",
+						"success": [
+							{
+								"type": "save",
+								"key": "carrier",
+								"value": "Evergreen"
+							}
+						],
+						"failure": [
+							{
+								"type": "compare",
+								"values": ["MAERSK", "MAERSK LINE"],
+								"success": [
+									{
+										"type": "save",
+										"key": "carrier",
+										"value": "Maersk"
+									}
+								],
+								"failure": null
+							}
+						]
+					}
+				]
+			},
+			"required": true
+		}
+	],
+	"multiple": null
+}
