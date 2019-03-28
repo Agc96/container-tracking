@@ -2,9 +2,7 @@
 	"name": "Evergreen",
 	"general": {
 		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
-		"date": "%b-%d-%Y",
-		"time": null,
-		"datetime": null,
+		"datetimes": ["%b-%d-%Y"],
         "single": {
             "table": "containers",
             "query": ["year", "manifest", "detail", "container"]
@@ -196,27 +194,5 @@
 			}
 		],
 		"overwrite": false
-	},
-	"translation": [
-		{
-			"original": "Empty pick-up by merchant haulage",
-			"translated": "Retiro de vacío",
-			"exact": true
-		},
-		{
-			"original": "Received",
-			"translated": "Llegada de contenedor a puerto",
-			"exact": false
-		},
-		{
-			"original": "Loaded",
-			"translated": "Contenedor cargado en barco",
-			"exact": false
-		},
-		{
-			"original": "Discharged",
-			"translated": "Descarga del barco",
-			"exact": false
-		}
-	]
+	}
 }

@@ -2,9 +2,7 @@
 	"name": "Maersk",
 	"general": {
 		"url": "https://www.maersk.com/tracking/#tracking/{container}",
-		"date": "%d %b %Y",
-		"time": "%H:%M",
-		"datetime": "%d %b %Y %H:%M",
+		"datetimes": ["%d %b %Y", "%H:%M", "%d %b %Y %H:%M"],
         "single": {
             "table": "containers",
             "query": ["year", "manifest", "detail", "container"]
@@ -305,28 +303,6 @@
 			}
 		],
 		"overwrite": true
-	},
-	"translation": [
-        {
-            "original": "Gate out",
-            "translated": "Retiro de vacío",
-            "exact": true
-        },
-        {
-            "original": "Gate in",
-            "translated": "Llegada de contenedor a puerto",
-            "exact": true
-        },
-        {
-            "original": "Load",
-            "translated": "Contenedor cargado en barco",
-            "exact": true
-        },
-        {
-            "original": "Discharge",
-            "translated": "Descarga del barco",
-            "exact": true
-        }
-	]
+	}
 }
 

@@ -1,0 +1,81 @@
+{
+    "name": "Scharff",
+    "status": {
+        "Hapag-Lloyd": [
+            {
+                "original": "Gate out empty",
+                "translated": "Retiro de vacío",
+                "exact": true
+            },
+            {
+                "original": "Arrival in",
+                "translated": "Llegada de puerto a contenedor",
+                "exact": true
+            },
+            {
+                "original": "Loaded",
+                "translated": "Contenedor cargado en barco",
+                "exact": true
+            },
+            {
+                "original": "Vessel departed",
+                "translated": "Salida de barco",
+                "exact": true
+            },
+            {
+                "original": "Vessel arrived",
+                "translated": "Transbordo",
+                "exact": true
+            },
+            {
+                "original": "Discharged",
+                "translated": "Descarga del barco",
+                "exact": true
+            }
+        ],
+        "Maersk": [
+            {
+                "original": "Gate out",
+                "translated": "Retiro de vacío",
+                "exact": true
+            },
+            {
+                "original": "Gate in",
+                "translated": "Llegada de contenedor a puerto",
+                "exact": true
+            },
+            {
+                "original": "Load",
+                "translated": "Contenedor cargado en barco",
+                "exact": true
+            },
+            {
+                "original": "Discharge",
+                "translated": "Descarga del barco",
+                "exact": true
+            }
+        ],
+        "Evergreen": [
+            {
+                "original": "Empty pick-up by merchant haulage",
+                "translated": "Retiro de vacío",
+                "exact": true
+            },
+            {
+                "original": "Received",
+                "translated": "Llegada de contenedor a puerto",
+                "exact": false
+            },
+            {
+                "original": "Loaded",
+                "translated": "Contenedor cargado en barco",
+                "exact": false
+            },
+            {
+                "original": "Discharged",
+                "translated": "Descarga del barco",
+                "exact": false
+            }
+        ]
+    }
+}
