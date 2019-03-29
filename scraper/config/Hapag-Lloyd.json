@@ -1,5 +1,5 @@
 {
-    "name": "Hapag-Lloyd",
+    "carrier": "Hapag-Lloyd",
     "general": {
         "url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
         "datetimes": ["%Y-%m-%d", "%H:%M", "%Y-%m-%d %H:%M"],
@@ -118,13 +118,11 @@
         }
     ],
     "multiple": {
-        "parents": null,
-        "common": null,
-        "specific_parents": {
+        "parents": {
             "type": "css",
             "selector": ".hal-table tbody tr"
         },
-        "specific_commands": [
+        "single": [
             {
                 "type": "tag",
                 "selector": "td",
@@ -199,6 +197,7 @@
                 "required": false
             }
         ],
+        "multiple": null,
         "overwrite": true
     }
 }

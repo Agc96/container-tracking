@@ -6,22 +6,24 @@ class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
     # Default timeout, in seconds
-    DEFAULT_TIMEOUT        = 60
+    DEFAULT_TIMEOUT         = 60
     # Default wait for long actions, in seconds
-    DEFAULT_WAIT_LONG      = 5
+    DEFAULT_WAIT_LONG       = 5
     # Default wait for short actions, in seconds
-    DEFAULT_WAIT_SHORT     = 1.5
+    DEFAULT_WAIT_SHORT      = 1.5
     
     # Default value for the key "required" in all types
-    DEFAULT_KEY_REQUIRED   = True
+    DEFAULT_KEY_REQUIRED    = True
     # Default value for the key "action" in type "alert"
-    DEFAULT_KEY_ACTION     = True
+    DEFAULT_KEY_ACTION      = True
     # Default value for the key "wait" in type "click"
-    DEFAULT_KEY_WAIT       = True
+    DEFAULT_KEY_WAIT        = True
     # Default value for the key "clean" in type "write"
-    DEFAULT_KEY_CLEAN      = False
+    DEFAULT_KEY_CLEAN       = False
     # Default value for the key "enter" in type "write"
-    DEFAULT_KEY_ENTER      = False
+    DEFAULT_KEY_ENTER       = False
+    # Default value for the key "overwrite" in multiple configuration
+    DEFAULT_KEY_OVERWRITE   = False
     
     # Default thousand separator symbol
     DEFAULT_THOUSAND_SYMBOL = ","

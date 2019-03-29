@@ -2,7 +2,7 @@ from converter import TrackingScraperConverter
 from utils import TrackingScraperError, TrackingScraperConfig
 
 from selenium.common.exceptions import (TimeoutException, ElementNotInteractableException,
-NoAlertPresentException)
+                                        NoAlertPresentException)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait

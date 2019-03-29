@@ -1,5 +1,5 @@
 {
-	"name": "Maersk",
+	"carrier": "Maersk",
 	"general": {
 		"url": "https://www.maersk.com/tracking/#tracking/{container}",
 		"datetimes": ["%d %b %Y", "%H:%M", "%d %b %Y %H:%M"],
@@ -157,7 +157,7 @@
 			"type": "class",
 			"selector": "timeline__event-table"
 		},
-		"common": [
+		"single": [
 			{
 				"type": "class",
 				"selector": "timeline__event-table__cell--heading",
@@ -184,124 +184,127 @@
 				]
 			}
 		],
-		"specific_parents": {
-			"type": "css",
-			"selector": ".timeline__event-table__row:not(:first-child)"
+		"multiple": {
+			"parents": {
+				"type": "css",
+				"selector": ".timeline__event-table__row:not(:first-child)"
+			},
+			"single": [
+				{
+					"type": "attr",
+					"name": "data-status",
+					"commands": [
+						{
+							"type": "compare",
+							"values": ["done", "current"],
+							"success": [
+								{
+									"type": "save",
+									"key": "is_estimated",
+									"value": false
+								}
+							],
+							"failure": null,
+							"required": false
+						}
+					]
+				},
+				{
+					"type": "class",
+					"selector": "timeline__event-table__cell--time",
+					"commands": [
+						{
+							"index": 0,
+							"type": "split",
+							"delimiter": "\n",
+							"commands": [
+								{
+									"index": 0,
+									"type": "save",
+									"key": "date",
+									"format": "date",
+									"required": true
+								},
+								{
+									"index": 1,
+									"type": "save",
+									"key": "time",
+									"format": "time",
+									"required": false
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "class",
+					"selector": "timeline__event-table__cell--desc",
+					"commands": [
+						{
+							"index": 0,
+							"type": "split",
+							"delimiter": "\n",
+							"commands": [
+								{
+									"index": 0,
+									"type": "split",
+									"delimeter": " on ",
+									"commands": [
+										{
+											"index": 0,
+											"type": "save",
+											"key": "status",
+											"format": "status",
+											"required": true
+										},
+										{
+											"index": 1,
+											"type": "save",
+											"key": "transport_ship",
+											"required": false
+										}
+									]
+								},
+								{
+									"index": 1,
+									"type": "regex",
+									"pattern": "Voyage No.(.*?)$",
+									"commands": [
+										{
+											"index": 0,
+											"type": "save",
+											"key": "transport_voyage"
+										}
+									],
+									"required": false
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "class",
+					"selector": "icon-vessel",
+					"command": {
+						"type": "save",
+						"key": "transport_type",
+						"value": "Vessel"
+					},
+					"required": false
+				},
+				{
+					"type": "class",
+					"selector": "icon-truck",
+					"command": {
+						"type": "save",
+						"key": "transport_type",
+						"value": "Vessel"
+					},
+					"required": false
+				}
+			],
+			"multiple": null
 		},
-		"specific_commands": [
-			{
-				"type": "attr",
-				"name": "data-status",
-				"commands": [
-					{
-						"type": "compare",
-						"values": ["done", "current"],
-						"success": [
-							{
-								"type": "save",
-								"key": "is_estimated",
-								"value": false
-							}
-						],
-						"failure": null,
-						"required": false
-					}
-				]
-			},
-			{
-				"type": "class",
-				"selector": "timeline__event-table__cell--time",
-				"commands": [
-					{
-						"index": 0,
-						"type": "split",
-						"delimiter": "\n",
-						"commands": [
-							{
-								"index": 0,
-								"type": "save",
-								"key": "date",
-								"format": "date",
-								"required": true
-							},
-							{
-								"index": 1,
-								"type": "save",
-								"key": "time",
-								"format": "time",
-								"required": false
-							}
-						]
-					}
-				]
-			},
-			{
-				"type": "class",
-				"selector": "timeline__event-table__cell--desc",
-				"commands": [
-					{
-						"index": 0,
-						"type": "split",
-						"delimiter": "\n",
-						"commands": [
-							{
-								"index": 0,
-								"type": "split",
-								"delimeter": " on ",
-								"commands": [
-									{
-										"index": 0,
-										"type": "save",
-										"key": "status",
-										"format": "status",
-										"required": true
-									},
-									{
-										"index": 1,
-										"type": "save",
-										"key": "transport_ship",
-										"required": false
-									}
-								]
-							},
-							{
-								"index": 1,
-								"type": "regex",
-								"pattern": "Voyage No.(.*?)$",
-								"commands": [
-									{
-										"index": 0,
-										"type": "save",
-										"key": "transport_voyage"
-									}
-								],
-								"required": false
-							}
-						]
-					}
-				]
-			},
-			{
-				"type": "class",
-				"selector": "icon-vessel",
-				"command": {
-					"type": "save",
-					"key": "transport_type",
-					"value": "Vessel"
-				},
-				"required": false
-			},
-			{
-				"type": "class",
-				"selector": "icon-truck",
-				"command": {
-					"type": "save",
-					"key": "transport_type",
-					"value": "Vessel"
-				},
-				"required": false
-			}
-		],
 		"overwrite": true
 	}
 }

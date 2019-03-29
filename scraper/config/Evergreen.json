@@ -1,5 +1,5 @@
 {
-	"name": "Evergreen",
+	"carrier": "Evergreen",
 	"general": {
 		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
 		"datetimes": ["%b-%d-%Y"],
@@ -138,9 +138,7 @@
 	],
 	"multiple": {
 		"parents": null,
-		"common": null,
-		"specific_parents": null,
-		"specific_commands": [
+		"single": [
 			{
 				"type": "class",
 				"selector": "f12rown1",
@@ -193,6 +191,7 @@
 				"value": false
 			}
 		],
+		"multiple": null,
 		"overwrite": false
 	}
 }
