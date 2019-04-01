@@ -2,13 +2,16 @@
     "carrier": "Hapag-Lloyd",
     "general": {
         "url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
-        "datetimes": ["%Y-%m-%d", "%H:%M", "%Y-%m-%d %H:%M"],
+        "date_formats": ["%Y-%m-%d", "%H:%M", "%Y-%m-%d %H:%M"],
         "single": {
             "table": "containers",
-            "query": ["year", "manifest", "detail", "container"]
+            "query": ["year", "manifest", "detail", "container"],
+			"processed": true
         },
         "multiple": {
-            "key": "tracking"
+            "table": "container_movements",
+			"query": ["year", "manifest", "detail", "container", "date"],
+			"estimated": true
         }
     },
     "input": [
@@ -79,18 +82,20 @@
                     "index": 3,
                     "type": "save",
                     "key": "tare",
+					"format": "float",
                     "required": false
                 },
                 {
                     "index": 4,
                     "type": "save",
                     "key": "max_payload",
+					"format": "float",
                     "required": false
                 },
                 {
                     "index": 5,
                     "type": "regex",
-                    "pattern": "The container (.*?) (in|from) (.*?) at (.*?) \\.",
+                    "pattern": "The (.*?) (in|from) (.*?) (at|on) (.*?) \\.",
                     "commands": [
                         {
                             "index": 0,
@@ -106,9 +111,10 @@
                             "required": true
                         },
                         {
-                            "index": 3,
+                            "index": 4,
                             "type": "save",
                             "key": "last_date",
+							"format": "date",
                             "required": true
                         }
                     ]
@@ -150,7 +156,7 @@
                     {
                         "index": 3,
                         "type": "save",
-                        "key": "time",
+                        "key": "date",
                         "format": "time",
                         "required": false
                     },
@@ -191,7 +197,7 @@
                 "selector": "strong",
                 "command": {
                     "type": "save",
-                    "key": "is_estimated",
+                    "key": "estimated",
                     "value": false
                 },
                 "required": false

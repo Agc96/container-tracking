@@ -2,13 +2,16 @@
 	"carrier": "Maersk",
 	"general": {
 		"url": "https://www.maersk.com/tracking/#tracking/{container}",
-		"datetimes": ["%d %b %Y", "%H:%M", "%d %b %Y %H:%M"],
+		"date_formats": ["%d %b %Y", "%H:%M", "%d %b %Y %H:%M"],
         "single": {
             "table": "containers",
-            "query": ["year", "manifest", "detail", "container"]
+            "query": ["year", "manifest", "detail", "container"],
+			"processed": true
         },
         "multiple": {
-            "key": "tracking"
+            "table": "container_movements",
+			"query": ["year", "manifest", "detail", "container", "date"],
+			"estimated": true
         }
 	},
 	"input": [
@@ -94,24 +97,10 @@
 					"commands": [
 						{
 							"index": 3,
-							"type": "split",
-							"delimiter": "\n",
-							"commands": [
-								{
-									"index": 0,
-									"type": "save",
-									"key": "arrival_date",
-									"format": "date",
-									"required": true
-								},
-								{
-									"index": 1,
-									"type": "save",
-									"key": "arrival_time",
-									"format": "time",
-									"required": false
-								}
-							]
+							"type": "save",
+							"key": "arrival_date",
+							"format": "date",
+							"required": true
 						}
 					]
 				},
@@ -193,21 +182,19 @@
 				{
 					"type": "attr",
 					"name": "data-status",
-					"commands": [
-						{
-							"type": "compare",
-							"values": ["done", "current"],
-							"success": [
-								{
-									"type": "save",
-									"key": "is_estimated",
-									"value": false
-								}
-							],
-							"failure": null,
-							"required": false
-						}
-					]
+					"command": {
+						"type": "compare",
+						"values": ["done", "current"],
+						"success": [
+							{
+								"type": "save",
+								"key": "estimated",
+								"value": false
+							}
+						],
+						"failure": null,
+						"required": false
+					}
 				},
 				{
 					"type": "class",
@@ -215,24 +202,9 @@
 					"commands": [
 						{
 							"index": 0,
-							"type": "split",
-							"delimiter": "\n",
-							"commands": [
-								{
-									"index": 0,
-									"type": "save",
-									"key": "date",
-									"format": "date",
-									"required": true
-								},
-								{
-									"index": 1,
-									"type": "save",
-									"key": "time",
-									"format": "time",
-									"required": false
-								}
-							]
+							"type": "save",
+							"key": "date",
+							"format": "date"
 						}
 					]
 				},
@@ -248,7 +220,7 @@
 								{
 									"index": 0,
 									"type": "split",
-									"delimeter": " on ",
+									"delimiter": " on ",
 									"commands": [
 										{
 											"index": 0,

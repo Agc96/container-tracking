@@ -2,9 +2,16 @@
 	"name": "Textainer",
 	"general": {
 		"url": "http://tex.textainer.com/Equipment/StatusAndSpecificationsInquiry.aspx",
-		"date": "%Y-%b-%d",
-		"time": null,
-		"datetime": null
+		"date_formats": ["%Y-%b-%d"],
+        "single": {
+            "table": "containers",
+            "query": ["year", "manifest", "detail", "container"],
+			"processed": false
+        },
+		"multiple": {
+			"table": "container_movements",
+			"query": ["year", "manifest", "detail", "container", "date"]
+		}
 	},
 	"input": [
 		{

@@ -2,13 +2,16 @@
 	"carrier": "Evergreen",
 	"general": {
 		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
-		"datetimes": ["%b-%d-%Y"],
+		"date_formats": ["%b-%d-%Y"],
         "single": {
             "table": "containers",
-            "query": ["year", "manifest", "detail", "container"]
+            "query": ["year", "manifest", "detail", "container"],
+			"processed": true
         },
         "multiple": {
-            "key": "tracking"
+            "table": "container_movements",
+			"query": ["year", "manifest", "detail", "container", "date"],
+			"estimated": false
         }
 	},
 	"input": [
@@ -107,7 +110,7 @@
 						{
 							"index": 1,
 							"type": "save",
-							"key": "estimated_arrival",
+							"key": "arrival_date",
 							"format": "date",
 							"required": false
 						}
@@ -184,11 +187,6 @@
 						"required": false
 					}
 				]
-			},
-			{
-				"type": "save",
-				"key": "is_estimated",
-				"value": false
 			}
 		],
 		"multiple": null,
