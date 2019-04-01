@@ -34,76 +34,98 @@
 				"required": true
 			},
 			"required": true
+		}
+	],
+	"single": [
+		{
+			"type": "id",
+			"selector": "ReportFramectl00_bodyContent_rptViewer",
+			"assert": true,
+			"frame": true
+		},
+		{
+			"type": "id",
+			"selector": "report",
+			"assert": true,
+			"frame": true
 		},
 		{
 			"type": "id",
 			"selector": "oReportDiv",
 			"assert": true
-		}
-	],
-	"single": [
+		},
 		{
 			"type": "class",
 			"selector": "a482",
-			"command": {
-				"type": "save",
-				"key": "last_status",
-				"required": false
-			},
+			"commands": [
+				{
+					"index": 0,
+					"type": "save",
+					"key": "last_status",
+					"format": "status",
+					"required": false
+				}
+			],
 			"required": false
 		},
 		{
 			"type": "class",
 			"selector": "a486",
-			"command": {
-				"type": "save",
-				"key": "last_date",
-				"format": "date",
-				"required": false
-			},
+			"commands": [
+				{
+					"index": 0,
+					"type": "save",
+					"key": "last_date",
+					"format": "date",
+					"required": false
+				}
+			],
 			"required": false
 		},
 		{
 			"type": "class",
 			"selector": "a494",
-			"command": {
-				"type": "compare",
-				"values": ["HAPAG LLOYD", "HAPAG"],
-				"success": [
-					{
-						"type": "save",
-						"key": "carrier",
-						"value": "Hapag-Lloyd"
-					}
-				],
-				"failure": [
-					{
-						"type": "compare",
-						"values": "EVERGREEN",
-						"success": [
-							{
-								"type": "save",
-								"key": "carrier",
-								"value": "Evergreen"
-							}
-						],
-						"failure": [
-							{
-								"type": "compare",
-								"values": ["MAERSK", "MAERSK LINE"],
-								"success": [
-									{
-										"type": "save",
-										"key": "carrier",
-										"value": "Maersk"
-									}
-								],
-								"failure": null
-							}
-						]
-					}
-				]
-			},
+			"commands": [
+				{
+					"index": 0,
+					"type": "compare",
+					"values": ["HAPAG LLOYD", "HAPAG"],
+					"success": [
+						{
+							"type": "save",
+							"key": "carrier",
+							"value": "Hapag-Lloyd"
+						}
+					],
+					"failure": [
+						{
+							"type": "compare",
+							"values": ["EVERGREEN"],
+							"success": [
+								{
+									"type": "save",
+									"key": "carrier",
+									"value": "Evergreen"
+								}
+							],
+							"failure": [
+								{
+									"type": "compare",
+									"values": ["MAERSK", "MAERSK LINE"],
+									"success": [
+										{
+											"type": "save",
+											"key": "carrier",
+											"value": "Maersk"
+										}
+									],
+									"failure": null
+								}
+							]
+						}
+					]
+				}
+			],
 			"required": true
 		}
 	],
