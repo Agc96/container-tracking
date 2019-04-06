@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+import datetime
 import logging
 import re
 import time
@@ -55,19 +56,19 @@ class TrackingScraperSwitcher:
     ###############################################################################################
     
     def _process_id(self):
-        return self._process_dom_elements(By.ID)
+        return self.__process_dom_elements(By.ID)
     def _process_class(self):
-        return self._process_dom_elements(By.CLASS_NAME)
+        return self.__process_dom_elements(By.CLASS_NAME)
     def _process_css(self):
-        return self._process_dom_elements(By.CSS_SELECTOR)
+        return self.__process_dom_elements(By.CSS_SELECTOR)
     def _process_name(self):
-        return self._process_dom_elements(By.NAME)
+        return self.__process_dom_elements(By.NAME)
     def _process_tag(self):
-        return self._process_dom_elements(By.TAG_NAME)
+        return self.__process_dom_elements(By.TAG_NAME)
     def _process_xpath(self):
-        return self._process_dom_elements(By.XPATH)
+        return self.__process_dom_elements(By.XPATH)
     
-    def _process_dom_elements(self, selector_type):
+    def __process_dom_elements(self, selector_type):
         # Get selector
         selector = self.__parent_command.get("selector")
         if selector is None:
@@ -76,6 +77,7 @@ class TrackingScraperSwitcher:
         # Check assertions
         assertions = self.__check_assertions(selector_type, selector)
         if assertions is True:
+            logging.info("Assertions are correct")
             return True
         
         # Get DOM elements
@@ -94,7 +96,7 @@ class TrackingScraperSwitcher:
         
         # Get a child command for all elements and process them, if possible
         child_command = self.__parent_command.get("command")
-        if child_command is not None:
+        if isinstance(child_command, dict):
             for child_element in dom_elements:
                 result = self.__generate_child_process(child_command, child_element)
                 if result is not True:
@@ -102,36 +104,41 @@ class TrackingScraperSwitcher:
             return True
         
         # If no single child command was found, return all DOM elements
-        logging.info("No commands found, return")
+        logging.info("No commands found, return all elements")
         return dom_elements
     
     def __check_assertions(self, selector_type, selector):
         assertion = self.__parent_command.get("assert")
         
-        # Assert at least one element found
-        if assertion is True:
-            try:
-                WebDriverWait(self.__driver, TrackingScraperConfig.DEFAULT_TIMEOUT,
-                              TrackingScraperConfig.DEFAULT_WAIT_SHORT).until(
-                    EC.presence_of_all_elements_located((selector_type, selector)))
-            except TimeoutException:
-                raise TrackingScraperError("Assertion error: Elements unexpectedly not found")
+        if isinstance(assertion, bool):
+            # Set expected conditions depending if we want to switch to a frame or not
+            frame = self.__parent_command.get("frame", TrackingScraperConfig.DEFAULT_KEY_FRAME)
+            if frame:
+                conditions = EC.frame_to_be_available_and_switch_to_it((selector_type, selector))
+            else:
+                conditions = EC.presence_of_all_elements_located((selector_type, selector))
             
+            # Prepare waiter
+            waiter = WebDriverWait(self.__driver, TrackingScraperConfig.DEFAULT_TIMEOUT)
+            
+            if assertion:
+                # Assert at least one element found
+                try:
+                    waiter.until(conditions)
+                except TimeoutException:
+                    raise TrackingScraperError("Assertion error: Elements unexpectedly not found")
+            else:
+                # Assert no elements found
+                try:
+                    waiter.until_not(conditions)
+                except TimeoutException:
+                    raise TrackingScraperError("Assertion error: Elements unexpectedly found")
+            
+            # Wait a little bit and return
             time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
             return True
         
-        # Assert no elements found
-        if assertion is False:
-            try:
-                WebDriverWait(self.__driver, TrackingScraperConfig.DEFAULT_TIMEOUT,
-                              TrackingScraperConfig.DEFAULT_WAIT_SHORT).until_not(
-                    EC.presence_of_all_elements_located((selector_type, selector)))
-            except TimeoutException:
-                raise TrackingScraperError("Assertion error: Elements unexpectedly found")
-            
-            time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
-            return True
-        
+        logging.info("Assertions not found, selector: %s by %s", selector, selector_type)
         return False
     
     def __process_child_commands(self, commands, elements):
@@ -143,7 +150,7 @@ class TrackingScraperSwitcher:
             
             # Check requirements
             if index >= len(elements):
-                logging.info("Child element at index " + index + ", using required")
+                logging.info("Child element at index %d, using required", index)
                 return not child_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
             
             # Process child element at specified index
@@ -165,6 +172,7 @@ class TrackingScraperSwitcher:
     ###############################################################################################
     
     def _process_split(self):
+        """Split text from a DOM element based on a delimiter."""
         # Get text to split
         parent_text = self.__get_parent_text()
         
@@ -223,9 +231,16 @@ class TrackingScraperSwitcher:
     ###############################################################################################
     
     def _process_save(self):
+        """Saves text or subtext from a DOM element, or an specified value."""
         attribute = self.__parent_command.get("key")
         if attribute is None:
             raise TrackingScraperError("Save key not found")
+        
+        # If a value was already defined, save it and exit
+        value = self.__parent_command.get("value")
+        if value is not None:
+            self.__document[attribute] = value
+            return True
         
         # Get text to be saved, and verify if it's not empty
         value    = self.__get_parent_text()
@@ -238,12 +253,50 @@ class TrackingScraperSwitcher:
         format_type = self.__parent_command.get("format")
         if format_type is not None:
             value = TrackingScraperConverter(value, format_type, self.__configuration).convert()
-        
-        #  Save according to parent key and formatting value
+            # If a value already exists in the attribute and it's a datetime object, join them
+            if self.__join_datetimes_if_possible(attribute, value):
+                return True
+            
+        # Save according to parent key and formatting value
         self.__document[attribute] = value
-        
-        # Return True to indicate everything was OK
         return True
+    
+    def __join_datetimes_if_possible(self, attribute, new_value):
+        # Check if attribute exists
+        if attribute not in self.__document:
+            return False
+        
+        # Get value from attribute
+        old_value = self.__document[attribute]
+        
+        # Check if old value is a date and new value is a time
+        if isinstance(old_value, datetime.datetime) and isinstance(new_value, datetime.time):
+            self.__document[attribute] = datetime.datetime.combine(old_value.date(), new_value)
+            return True
+        
+        # Return False if nothing was found
+        return False
+    
+    ###############################################################################################
+    
+    def _process_attr(self):
+        # Get attribute name
+        attribute_name = self.__parent_command.get("name")
+        if attribute_name is None:
+            raise TrackingScraperError("Attribute name not found")
+        
+        # Get attribute value from parent element
+        attribute = self.__parent_element.get_attribute(attribute_name)
+        
+        # Get child command, if none found, return attribute
+        child_command = self.__parent_command.get("command")
+        if child_command is not None:
+            # logging.info("ATTRIBUTE - Child command found")
+            return TrackingScraperSwitcher(self.__driver, self.__document, self.__configuration,
+                                           child_command, attribute).process()
+        # print(attribute)
+        # logging.info("ATTRIBUTE - No child command found")
+        return attribute
     
     ###############################################################################################
     
@@ -253,7 +306,7 @@ class TrackingScraperSwitcher:
         
         # Get values to compare
         values = self.__parent_command.get("values")
-        if values is not None:
+        if values is None:
             raise TrackingScraperError("Values to compare not found")
         
         # Check if text equals to value, or if it is in value list, then act accordingly
@@ -312,6 +365,7 @@ class TrackingScraperSwitcher:
     
     def _process_alert(self):
         assertion = self.__parent_command.get("assertion")
+        # TODO: Usar waits
         try:
             # Try to switch to alert
             alert = self.__driver.switch_to.alert
@@ -365,7 +419,7 @@ class TrackingScraperSwitcher:
         # Request text
         text = input("Enter captcha text: ")
         if len(text) != length:
-            raise TrackingScraperError("Text is not " + length + " characters long")
+            raise TrackingScraperError("Text is not " + str(length) + " characters long")
         
         # Save to attribute
         self.__document["ocr"] = text

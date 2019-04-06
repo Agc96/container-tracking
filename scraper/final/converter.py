@@ -1,10 +1,10 @@
-from utils import *
-from datetime import datetime, timedelta
+from utils import TrackingScraperError, TrackingScraperConfig
 
+import datetime
 import logging
 
 class TrackingScraperConverter:
-    """Utility class to convert tracking-related text to other Python types."""
+    """Utility class to convert text to other Python types."""
     
     def __init__(self, raw_text, format_type, configuration):
         self.__raw_text      = raw_text
@@ -12,7 +12,7 @@ class TrackingScraperConverter:
         self.__configuration = configuration
     
     def convert(self):
-        """Convert text to the desired type, if none found, return text as-is."""
+        """Try to convert to the desired type, if none found, return text as-is."""
         try:
             method = getattr(self, "_convert_to_" + self.__format_type)
             return method()
@@ -37,15 +37,16 @@ class TrackingScraperConverter:
         except ValueError:
             logging.info("Convertion to float failed, resorting to text")
             return self.__raw_text
-            
+    
     def _convert_to_double(self):
+        # Alias for self._convert_to_float().
         return self._convert_to_float()
     
-    def _convert_to_datetime(self):
+    def _convert_to_date(self):
         """Convert text to a Python datetime object."""
         # Get datetime patterns
         try:
-            patterns = self.__configuration["general"]["datetimes"]
+            patterns = self.__configuration["general"]["date_formats"]
         except KeyError:
             logging.info("Datetime patterns not found, resorting to text")
             return self.__raw_text
@@ -53,7 +54,7 @@ class TrackingScraperConverter:
         # Try each pattern until it matches one
         for pattern in patterns:
             try:
-                return datetime.strptime(self.__raw_text, pattern)
+                return datetime.datetime.strptime(self.__raw_text, pattern)
             except ValueError:
                 continue
         
@@ -61,30 +62,31 @@ class TrackingScraperConverter:
         logging.info("None of the patterns matched, resorting to text")
         return self.__raw_text
     
-    def _convert_to_date(self):
-        """Convert text to a Python date object."""
-        value = self._convert_to_datetime()
-        if isinstance(value, datetime):
-            return value.date()
-        return value
+    def _convert_to_datetime(self):
+        return self._convert_to_date()
     
     def _convert_to_time(self):
         """Convert text to a Python time object."""
-        value = self._convert_to_datetime()
-        if isinstance(value, datetime):
+        value = self._convert_to_date()
+        if isinstance(value, datetime.datetime):
             return value.time()
         return value
     
-    def _convert_to_local_datetime(self):
+    def _convert_to_datelocal(self):
         """Convert text to a Python datetime object taking the defined locale into account."""
-        value = self._convert_to_datetime()
-        if isinstance(value, datetime):
-            return value - timedelta(**TrackingScraperConfig.DEFAULT_DATETIME_LOCALE)
+        value = self._convert_to_date()
+        if isinstance(value, datetime.datetime):
+            return value - datetime.timedelta(**TrackingScraperConfig.DEFAULT_DATETIME_LOCALE)
         return value
     
-    def _convert_to_local_time(self):
+    def _convert_to_timelocal(self):
         """Convert text to a Python time object taking the defined locale into account."""
-        value = self._convert_to_local_datetime()
-        if isinstance(value, datetime):
+        value = self._convert_to_datelocal()
+        if isinstance(value, datetime.datetime):
             return value.time()
         return value
+    
+    def _convert_to_status(self):
+        """Convert text to a tracking status based on the configuration for translation."""
+        # TO-DO
+        return self.__raw_text

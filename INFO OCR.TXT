@@ -1,4 +1,0 @@
-https://stackoverflow.com/questions/51360683/no-ocr-tool-found-in-python
-https://gitlab.gnome.org/World/OpenPaperwork/pyocr
-https://www.pyimagesearch.com/2017/07/10/using-tesseract-ocr-python/
-

@@ -119,7 +119,13 @@
 											"value": "Maersk"
 										}
 									],
-									"failure": null
+									"failure": [
+										{
+											"type": "save",
+											"key": "carrier",
+											"required": false
+										}
+									]
 								}
 							]
 						}
