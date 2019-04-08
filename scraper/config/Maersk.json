@@ -270,7 +270,7 @@
 					"command": {
 						"type": "save",
 						"key": "transport_type",
-						"value": "Vessel"
+						"value": "Truck"
 					},
 					"required": false
 				}

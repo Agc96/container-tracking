@@ -74,7 +74,7 @@ class TrackingScraper:
             while True:
                 # Check if we're still on time
                 end = time.time()
-                if (end - start) > TrackingScraperConfig.DEFAULT_TIMEOUT:
+                if (end - start) > TrackingScraperConfig.DEFAULT_TIMEOUT_LONG:
                     raise TrackingScraperError("Timeout exceeded, scraping was unsuccessful")
                 
                 # Execute input
