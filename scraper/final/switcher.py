@@ -429,7 +429,7 @@ class TrackingScraperSwitcher:
         
         # Take screenshot of element and process it
         image_bytes = self.__parent_element.screenshot_as_png
-        result = TrackingScraperImageProcessor(self.__parent_command, image_bytes)
+        result = TrackingScraperImageProcessor(self.__parent_command, image_bytes).execute()
         
         # If image processing failed, execute failure commands if they exist
         if result is None:

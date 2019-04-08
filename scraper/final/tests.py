@@ -166,7 +166,8 @@ class TrackingScraperTestCase(unittest.TestCase):
     
     def getMovements(self, container):
         movements = []
-        query = dict(container).pop("carrier")
+        query = dict(container)
+        query.pop("carrier")
         for movement in self.container_movements.find(query).sort("date", 1):
             movements.append(movement)
         return movements
