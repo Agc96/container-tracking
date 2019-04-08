@@ -53,8 +53,25 @@
 			"selector": "captchaImg",
 			"command": {
 				"type": "ocr",
-				"pattern": "Evergreen",
-				"length": 4
+				"commands": [
+					{
+						"type": "bnw",
+						"pivot": 32
+					}
+				],
+				"length": 4,
+				"alphabet": true,
+				"numbers": false,
+				"filter": "C",
+				"failure": {
+					"type": "css",
+					"selector": "a[href='javascript:captchaReload()'",
+					"command": {
+						"type": "click",
+						"wait": true,
+						"required": true
+					}
+				}
 			}
 		},
 		{
@@ -127,12 +144,17 @@
 				{
 					"index": 1,
 					"type": "regex",
-					"pattern": "(.*?) *\\(.*?\\)",
+					"pattern": "(.*) (.*?) *\\(.*?\\)",
 					"commands": [
 						{
 							"index": 0,
 							"type": "save",
-							"key": "vessel_voyage"
+							"key": "vessel"
+						},
+						{
+							"index": 1,
+							"type": "save",
+							"key": "voyage"
 						}
 					]
 				}

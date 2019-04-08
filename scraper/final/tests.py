@@ -44,7 +44,7 @@ class TrackingScraperTestCase(unittest.TestCase):
             "year": "2019",
             "manifest": "TEST",
             "detail": "3",
-            "container": "MAEU6835658",
+            "container": "MRKU5264777",
             "carrier": "Maersk"
         }
         self.executeTest(container)

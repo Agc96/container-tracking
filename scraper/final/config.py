@@ -1,7 +1,3 @@
-class TrackingScraperError(Exception):
-    """Custom exception for the Tracking Web Scraper."""
-    pass
-
 class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
@@ -45,3 +41,12 @@ class TrackingScraperConfig:
     DEFAULT_DATETIME_LOCALE = {
         "hours": -5
     }
+    
+    # Default image to black-and-white pixel pivot
+    DEFAULT_BNW_PIVOT       = 32
+    # Default value for the key "alphabet" in image processing (include alphabet symbols?)
+    DEFAULT_KEY_ALPHABET    = True
+    # Default value for the key "numbers" in image processing (include numeric symbols?)
+    DEFAULT_KEY_NUMBERS     = False
+    # Default value for the key "length" in image processing (desired text length)
+    DEFAULT_KEY_LENGTH      = 4

@@ -1,4 +1,5 @@
-from utils import TrackingScraperError, TrackingScraperConfig
+from config import TrackingScraperConfig
+from exception import TrackingScraperError
 
 import datetime
 import logging
