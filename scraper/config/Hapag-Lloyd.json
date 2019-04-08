@@ -117,7 +117,8 @@
 							"format": "date",
                             "required": true
                         }
-                    ]
+                    ],
+                    "required": false
                 }
             ],
             "required": true
