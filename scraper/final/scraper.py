@@ -40,7 +40,7 @@ class TrackingScraper:
         collection_configuration = self.__configuration["general"].get(config_type)
         if collection_configuration is None:
             return None
-
+        
         # Get collection name
         table_name = collection_configuration.get("table")
         if table_name is None:
@@ -241,22 +241,22 @@ class TrackingScraper:
     def _insert_or_update(self, document, collection, query_keys):
         # Create shallow copy of document, with specified keys, for query
         query_document = self._create_query_document(document, query_keys)
-        logging.info("query document: %s", query_document)
+        logging.info("Query document: %s", query_document)
         
         # Try to update
         document["updated_at"] = datetime.datetime.utcnow()
         result = collection.update_one(query_document, {"$set": document})
         
         if result.matched_count > 0:
-            logging.info("Container updated: %s", query_document)
+            logging.info("Updated: %s", query_document)
             return True
-
+        
         # If update was unsuccessful, insert document
         document["created_at"] = datetime.datetime.utcnow()
         document["updated_at"] = None
         
         result = collection.insert_one(document)
-        logging.info("Container insert: %s", query_document)
+        logging.info("Inserted: %s", query_document)
         return True
     
     def _create_query_document(self, document, query_keys):

@@ -112,6 +112,21 @@
 					"type": "save",
 					"key": "type",
 					"required": true
+				},
+				{
+					"index": 8,
+					"type": "split",
+					"delimiter": " ",
+					"commands": [
+						{
+							"index": 0,
+							"type": "save",
+							"key": "vgm",
+							"format": "int",
+							"required": false
+						}
+					],
+					"required": false
 				}
 			]
 		},
@@ -133,30 +148,6 @@
 						}
 					],
 					"required": false
-				}
-			],
-			"required": false
-		},
-		{
-			"type": "css",
-			"selector": "td.f12wrdb2",
-			"commands": [
-				{
-					"index": 1,
-					"type": "regex",
-					"pattern": "(.*) (.*?) *\\(.*?\\)",
-					"commands": [
-						{
-							"index": 0,
-							"type": "save",
-							"key": "vessel"
-						},
-						{
-							"index": 1,
-							"type": "save",
-							"key": "voyage"
-						}
-					]
 				}
 			],
 			"required": false

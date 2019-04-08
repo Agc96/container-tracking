@@ -53,7 +53,7 @@ class TrackingScraperImageProcessor:
             # Get command based on command type
             method = getattr(self, "_command_" + command_type)
             # Execute command
-            return method()
+            return method(command)
         except KeyError:
             raise TrackingScraperSwitcherError("Image command type not found", self.__parent_command)
         except AttributeError:

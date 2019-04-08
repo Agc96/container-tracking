@@ -179,7 +179,7 @@ class TrackingScraperSwitcher:
     
     def _process_split(self):
         """Split text from a DOM element based on a delimiter."""
-
+        
         # Get text to split
         parent_text = self.__get_parent_text()
         
@@ -221,6 +221,7 @@ class TrackingScraperSwitcher:
         regex    = re.search(pattern, text)
         required = self.__parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
         if regex is None:
+            logging.info("Command: %s", self.print_command(self.__parent_command))
             logging.info("Regular expression does not match text, using required")
             return not required
         
@@ -254,6 +255,7 @@ class TrackingScraperSwitcher:
         value    = self.__get_parent_text()
         required = self.__parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
         if len(value) == 0:
+            logging.info("Command: %s", self.print_command(self.__parent_command))
             logging.info("Text to save is empty, using required")
             return not required
         
@@ -329,6 +331,7 @@ class TrackingScraperSwitcher:
         # Check requirements
         required = self.__parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
         if commands is None:
+            logging.info("Command: %s", self.print_command(self.__parent_command))
             logging.info(compare_result + " commands not found, resorting to required")
             return not required
         
