@@ -13,10 +13,11 @@ import time
 class TrackingScraper:
     """Main class for the Tracking Web Scraper."""
     
-    def __init__(self, driver, database, document):
-        self.__driver   = driver
-        self.__database = database
-        self.__document = document
+    def __init__(self, driver, container_table, movement_table, document):
+        self.__driver          = driver
+        self.__container_table = container_table
+        self.__movement_table  = movement_table
+        self.__document        = document
         
         # Get configuration file
         try:
@@ -27,33 +28,10 @@ class TrackingScraper:
         except FileNotFoundError:
             raise TrackingScraperError("Configuration file not found")
         
-        # Get general configuration
+        # Check if general configuration exists
         if "general" not in self.__configuration:
             raise TrackingScraperError("General configuration information not found")
-        
-        # Get single and multiple tables
-        self.__single_table, self.__single_query     = self._get_database_config(database, "single")
-        self.__multiple_table, self.__multiple_query = self._get_database_config(database, "multiple")
     
-    def _get_database_config(self, database, config_type):
-        # Get configuration
-        collection_configuration = self.__configuration["general"].get(config_type)
-        if collection_configuration is None:
-            return None
-        
-        # Get collection name
-        table_name = collection_configuration.get("table")
-        if table_name is None:
-            raise TrackingScraperError("Table name for " + config_type + " entries not found")
-        
-        # Get collection query
-        table_query_keys = collection_configuration.get("query")
-        if not isinstance(table_query_keys, list):
-            table_query_keys = []
-        
-        # Return database and query keys
-        return database[table_name], table_query_keys
-        
     @property
     def document(self):
         """Returns the container information."""
@@ -167,15 +145,11 @@ class TrackingScraper:
         if multiple_configuration is None:
             return True
         
-        # Create multiple document based on single query items
-        multiple_document = self._create_query_document(self.__document, self.__single_query)
-        # Overwrite previous tracking items, if necessary
-        # if multiple_command.get("overwrite", TrackingScraperConfig.DEFAULT_KEY_OVERWRITE):
-            # self.__single_table.delete_many(multiple_document)
-        
+        # Create multiple document based on configuration file
+        multiple_document = dict(multiple_configuration)
+        for key in TrackingScraperConfig.DEFAULT_CONTAINER_QUERY:
+            multiple_document[key] = self.__document[key]
         # Generate and process multiple documents
-        estimated = multiple_configuration.get("estimated", TrackingScraperConfig.DEFAULT_KEY_ESTIMATED)
-        multiple_document["estimated"] = estimated
         return self.__process_multiple_elements(multiple_command, multiple_document, self.__driver)
     
     def __process_multiple_elements(self, multiple_command, multiple_document, previous_element):
@@ -210,7 +184,8 @@ class TrackingScraper:
             
             # Check if multiple subcommand exists, if it doesn't, save and continue.
             if multiple_multiple_command is None:
-                self._insert_or_update(subdocument, self.__multiple_table, self.__multiple_query)
+                self._insert_or_update(subdocument, self.__movement_table,
+                                       TrackingScraperConfig.DEFAULT_MOVEMENT_QUERY)
                 continue
             
             # If it exists, copy result document and iterate these new multiple elements with it
@@ -236,7 +211,8 @@ class TrackingScraper:
         self.__document["processed"] = processed_value
         
         # Get collection and upsert container
-        return self._insert_or_update(self.__document, self.__single_table, self.__single_query)
+        return self._insert_or_update(self.__document, self.__container_table,
+                                      TrackingScraperConfig.DEFAULT_CONTAINER_QUERY)
     
     def _insert_or_update(self, document, collection, query_keys):
         # Create shallow copy of document, with specified keys, for query

@@ -320,20 +320,19 @@ class TrackingScraperSwitcher:
             raise TrackingScraperSwitcherError("Values to compare not found", self.__parent_command)
         
         # Check if text equals to value, or if it is in value list, then act accordingly
-        if text in values:
-            commands = self.__parent_command.get("success")
-            return self.__process_compare_commands(commands, "Success")
-        else:
-            commands = self.__parent_command.get("failure")
-            return self.__process_compare_commands(commands, "Failure")
-    
-    def __process_compare_commands(self, commands, compare_result):
-        # Check requirements
-        required = self.__parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
-        if commands is None:
+        success_commands = self.__parent_command.get("success")
+        failure_commands = self.__parent_command.get("failure")
+        if success_commands is None and failure_commands is None:
             logging.info("Command: %s", self.print_command(self.__parent_command))
-            logging.info(compare_result + " commands not found, resorting to required")
-            return not required
+            logging.info("No commands found, resorting to required")
+            return not self.__parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+        
+        return self.__process_compare_commands(success_commands if text in values else failure_commands)
+    
+    def __process_compare_commands(self, commands):
+        # Check requirements
+        if commands is None:
+            return True
         
         # Process child commands
         for child_command in commands:
@@ -432,17 +431,28 @@ class TrackingScraperSwitcher:
         
         # Take screenshot of element and process it
         image_bytes = self.__parent_element.screenshot_as_png
-        result = TrackingScraperImageProcessor(self.__parent_command, image_bytes).execute()
+        text = TrackingScraperImageProcessor(self.__parent_command, image_bytes).execute()
         
         # If image processing failed, execute failure commands if they exist
-        if result is None:
+        if text is None:
             failure_command = self.__parent_command.get("failure")
             if failure_command is not None:
                 self.__generate_child_process(failure_command, self.__driver)
             return False
         
-        # Save to attribute
-        self.__document["ocr"] = result
+        # Find element to write image text to
+        element_command = self.__parent_command.get("write")
+        if not isinstance(element_command, dict):
+            raise TrackingScraperSwitcherError("Process OCR write command not found",
+                                               self.__parent_command)
+        elements = self.__generate_child_process(element_command, self.__driver)
+        
+        # Write to element
+        write_command = {"type": "write", "value": text}
+        for element in elements:
+            result = self.__generate_child_process(write_command, element)
+            if result is not True:
+                return result
         return True
     
     def __set_element_attribute(self, attribute_name):

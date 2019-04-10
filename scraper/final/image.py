@@ -38,7 +38,7 @@ class TrackingScraperImageProcessor:
         
         # Check for possible problems in text
         filter_chars = self.__parent_command.get("filter")
-        if filter_chars is not None:
+        if isinstance(filter_chars, str):
             for char in filter_chars:
                 if char in text:
                     logging.info("Text has dangerous characters, retrying...")

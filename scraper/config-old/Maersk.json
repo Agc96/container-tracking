@@ -4,9 +4,13 @@
 		"url": "https://www.maersk.com/tracking/#tracking/{container}",
 		"date_formats": ["%d %b %Y", "%H:%M", "%d %b %Y %H:%M"],
         "single": {
+            "table": "containers",
+            "query": ["year", "manifest", "detail", "container"],
 			"processed": true
         },
         "multiple": {
+            "table": "container_movements",
+			"query": ["year", "manifest", "detail", "container", "date"],
 			"estimated": true
         }
 	},
@@ -149,9 +153,22 @@
 				"commands": [
 					{
 						"index": 0,
-						"type": "save",
-						"key": "location",
-						"required": true
+						"type": "split",
+						"delimiter": "\n",
+						"commands": [
+							{
+								"index": 0,
+								"type": "save",
+								"key": "location_terminal",
+								"required": true
+							},
+							{
+								"index": 1,
+								"type": "save",
+								"key": "location",
+								"required": true
+							}
+						]
 					}
 				]
 			}

@@ -1,0 +1,13 @@
+https://www.researchgate.net/post/How_to_install_Basemap_in_Python3
+https://scitools.org.uk/cartopy/docs/latest/
+
+https://matplotlib.org/basemap/users/examples.html
+
+https://www.youtube.com/watch?v=Xr6sG1QnMbw (Geographical Plotting with Python Part 4 - Plotting on a Map)
+
+https://geopy.readthedocs.io/en/latest/#googlev3
+
+https://www.latlong.net/
+
+
+

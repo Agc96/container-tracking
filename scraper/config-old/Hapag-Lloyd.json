@@ -4,11 +4,14 @@
         "url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
         "date_formats": ["%Y-%m-%d", "%H:%M", "%Y-%m-%d %H:%M"],
         "single": {
-            "processed": true
+            "table": "containers",
+            "query": ["year", "manifest", "detail", "container"],
+			"processed": true
         },
         "multiple": {
-            "transport_type": "Truck",
-            "estimated": true
+            "table": "container_movements",
+			"query": ["year", "manifest", "detail", "container", "date"],
+			"estimated": true
         }
     },
     "input": [
@@ -39,10 +42,55 @@
             "selector": "inputNonEdit",
             "commands": [
                 {
+                    "index": 0,
+                    "type": "save",
+                    "key": "type",
+                    "required": false
+                },
+                {
                     "index": 1,
                     "type": "save",
                     "key": "description",
                     "required": true
+                },
+                {
+                    "index": 2,
+                    "type": "split",
+                    "delimiter": " X ",
+                    "commands": [
+                        {
+                            "index": 0,
+                            "type": "save",
+                            "key": "length",
+                            "required": false
+                        },
+                        {
+                            "index": 2,
+                            "type": "save",
+                            "key": "height",
+                            "required": false
+                        },
+                        {
+                            "index": 1,
+                            "type": "save",
+                            "key": "width",
+                            "required": false
+                        }
+                    ]
+                },
+                {
+                    "index": 3,
+                    "type": "save",
+                    "key": "tare",
+					"format": "float",
+                    "required": false
+                },
+                {
+                    "index": 4,
+                    "type": "save",
+                    "key": "max_payload",
+					"format": "float",
+                    "required": false
                 },
                 {
                     "index": 5,
@@ -66,7 +114,7 @@
                             "index": 4,
                             "type": "save",
                             "key": "last_date",
-                            "format": "date",
+							"format": "date",
                             "required": true
                         }
                     ],
@@ -117,7 +165,13 @@
                         "index": 4,
                         "type": "compare",
                         "values": "Truck",
-                        "success": null,
+                        "success": [
+                            {
+                                "type": "save",
+                                "key": "transport_type",
+                                "value": "Truck"
+                            }
+                        ],
                         "failure": [
                             {
                                 "type": "save",
@@ -150,6 +204,7 @@
                 "required": false
             }
         ],
-        "multiple": null
+        "multiple": null,
+        "overwrite": true
     }
 }

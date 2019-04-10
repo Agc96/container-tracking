@@ -5,6 +5,16 @@ class TrackingScraperConfig:
     DEFAULT_PATH_CHROME     = "../driver/chromedriver"
     # Default executable path for the Firefox webdriver
     DEFAULT_PATH_FIREFOX    = "../driver/geckodriver"
+    # Default database name
+    DEFAULT_DATABASE_NAME   = "scraper2"
+    # Default table name for containers
+    DEFAULT_CONTAINER_TABLE = "containers"
+    # Default table name for container movements
+    DEFAULT_MOVEMENT_TABLE  = "container_movements"
+    # Default query parameters for containers
+    DEFAULT_CONTAINER_QUERY = ["container"]
+    # Default query parameters for container movements
+    DEFAULT_MOVEMENT_QUERY  = ["container", "date"]
     
     # Default timeout for short processing, in seconds
     DEFAULT_TIMEOUT         = 30
