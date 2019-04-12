@@ -1,6 +1,6 @@
-from .config import TrackingScraperConfig
-from .exception import TrackingScraperError
-from .switcher import TrackingScraperSwitcher
+from config import TrackingScraperConfig
+from exception import TrackingScraperError
+from switcher import TrackingScraperSwitcher
 
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException, TimeoutException

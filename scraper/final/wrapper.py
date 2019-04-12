@@ -1,8 +1,8 @@
-from .config import TrackingScraperConfig
-from .exception import (TrackingScraperAssertionError, TrackingScraperSwitcherError,
+from config import TrackingScraperConfig
+from exception import (TrackingScraperAssertionError, TrackingScraperSwitcherError,
                         TrackingScraperError)
-from .scraper import TrackingScraper
-from .switcher import TrackingScraperSwitcher
+from scraper import TrackingScraper
+from switcher import TrackingScraperSwitcher
 
 from selenium.webdriver import Chrome
 from selenium.common.exceptions import WebDriverException
@@ -61,9 +61,10 @@ class TrackingScraperWrapper():
             # Check if we have containers left:
             if no_containers:
                 break
-            break
         total_end = time.time()
         print("Total time:", total_end - total_start, "seconds")
+        # Finish execution by closing driver
+        self.close()
     
     def execute_scraper(self, container):
         try:
@@ -98,6 +99,9 @@ class TrackingScraperWrapper():
     def retries(self):
         """Get the number of retries left."""
         return TrackingScraperConfig.DEFAULT_RETRIES - self.__fail_counter
-
-if __name__ == "__main__":
-    pass
+    
+    def close(self):
+        try:
+            self.__driver.close()
+        except Exception:
+            pass
