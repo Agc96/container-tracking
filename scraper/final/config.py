@@ -14,6 +14,10 @@ class TrackingScraperConfig:
     DEFAULT_CONTAINER_TABLE = "containers"
     # Default table name for container movements
     DEFAULT_MOVEMENT_TABLE  = "container_movements"
+    # Default table name for carrier configuration files
+    DEFAULT_CONFIG_TABLE    = "carriers"
+    # Default table name for container movements' status
+    DEFAULT_STATUS_TABLE    = "statuses"
     # Default query parameters for containers
     DEFAULT_CONTAINER_QUERY = ["container"]
     # Default query parameters for container movements
@@ -21,6 +25,8 @@ class TrackingScraperConfig:
     
     # Default user agent for the Nominatim geocode API service
     DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers"
+    # Default maximum quantity of geocode items to store in cache
+    DEFAULT_GEOCODE_MAX     = 64
     # Default logging level configuration
     DEFAULT_LOGGING_LEVEL   = logging.INFO
     # Default logging format configuration

@@ -2,6 +2,7 @@ from config import TrackingScraperConfig
 from exception import TrackingScraperError
 from switcher import TrackingScraperSwitcher
 
+from pymongo import MongoClient
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException, TimeoutException
 
@@ -13,15 +14,17 @@ import time
 class TrackingScraper:
     """Main class for the Tracking Web Scraper."""
     
-    def __init__(self, driver, container_table, movement_table, document):
+    def __init__(self, driver, database, container):
         self.__driver          = driver
-        self.__container_table = container_table
-        self.__movement_table  = movement_table
-        self.__document        = document
+        self.__database        = database
+        self.__container_table = database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
+        self.__movement_table  = database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
+        # self.__config_table    = database[TrackingScraperConfig.DEFAULT_CONFIG_TABLE]
+        self.__container       = container
         
         # Get configuration file
         try:
-            with open("../config/" + self.__document["carrier"] + ".json") as file:
+            with open("../config/" + self.__container["carrier"] + ".json") as file:
                 self.__configuration = json.load(file)
         except KeyError:
             raise TrackingScraperError("Carrier not found")
@@ -33,9 +36,9 @@ class TrackingScraper:
             raise TrackingScraperError("General configuration information not found")
     
     @property
-    def document(self):
+    def container(self):
         """Returns the container information."""
-        return self.__document
+        return self.__container
     
     ###############################################################################################
     
@@ -99,7 +102,7 @@ class TrackingScraper:
         
         # Go to desired URL
         try:
-            self.__driver.get(link.format(**self.__document))
+            self.__driver.get(link.format(**self.__container))
             time.sleep(TrackingScraperConfig.DEFAULT_WAIT_LONG)
         except TimeoutException:
             raise TrackingScraperError("Error loading Web page, timeout exceeded")
@@ -121,7 +124,7 @@ class TrackingScraper:
         
         # Process commands
         for command in commands:
-            result = TrackingScraperSwitcher(self.__driver, self.__document, self.__configuration,
+            result = TrackingScraperSwitcher(self.__driver, self.__container, self.__configuration,
                                              command).process()
             if result is not True:
                 return False
@@ -148,7 +151,7 @@ class TrackingScraper:
         # Create multiple document based on configuration file
         multiple_document = dict(multiple_configuration)
         for key in TrackingScraperConfig.DEFAULT_CONTAINER_QUERY:
-            multiple_document[key] = self.__document[key]
+            multiple_document[key] = self.__container[key]
         # Generate and process multiple documents
         return self.__process_multiple_elements(multiple_command, multiple_document, self.__driver)
     
@@ -208,10 +211,10 @@ class TrackingScraper:
         
         # Get processed value to save
         processed_value = single_config.get("processed", TrackingScraperConfig.DEFAULT_KEY_PROCESSED)
-        self.__document["processed"] = processed_value
+        self.__container["processed"] = processed_value
         
         # Get collection and upsert container
-        return self._insert_or_update(self.__document, self.__container_table,
+        return self._insert_or_update(self.__container, self.__container_table,
                                       TrackingScraperConfig.DEFAULT_CONTAINER_QUERY)
     
     def _insert_or_update(self, document, collection, query_keys):

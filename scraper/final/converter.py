@@ -1,9 +1,9 @@
 from config import TrackingScraperConfig
 from exception import TrackingScraperError
 
-            
 from geopy.exc import GeopyError
 from geopy.geocoders import Nominatim
+from pymongo import MongoClient
 
 import datetime
 import logging
@@ -14,6 +14,10 @@ class TrackingScraperConverter:
     # Nominatim geolocator instance
     GEOLOCATOR = Nominatim(user_agent = TrackingScraperConfig.DEFAULT_GEOCODE_AGENT)
     LOCATIONS  = {}
+
+    # MongoDB collection instance
+    DATABASE   = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
+    STATUSES   = DATABASE[TrackingScraperConfig.DEFAULT_STATUS_TABLE]
     
     def __init__(self, document, raw_text, format_type, configuration):
         self.__document      = document
@@ -107,11 +111,18 @@ class TrackingScraperConverter:
             if coordinates is None:
                 coordinates = self.GEOLOCATOR.geocode(query)
             # Save the coordinates given by the service, if they exist
-            if coordinates is not None:
+            if coordinates is None:
+                logging.warning("Service could not find geolocation, skipping...")
+            else:
                 self.__document["latitude"]  = coordinates.latitude
                 self.__document["longitude"] = coordinates.longitude
-                # Save also to location dictionary for reusing them
-                self.LOCATIONS[query] = coordinates
+                # Save also to location dictionary for reusing them, if there's space left
+                if (len(self.LOCATIONS) < TrackingScraperConfig.DEFAULT_GEOCODE_MAX):
+                    self.LOCATIONS[query] = coordinates
+                    logging.info("[TEST] saving to location cache")
+                else:
+                    self.LOCATIONS = {}
+                    logging.info("[TEST] location cache cleared")
         except GeopyError:
             logging.exception("Error while trying to query geocode")
         # Finally, go to the scraper switcher to save the location as text

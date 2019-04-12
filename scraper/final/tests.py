@@ -13,9 +13,8 @@ class TrackingScraperTestCase(unittest.TestCase):
     
     def setUp(self):
         self.driver = webdriver.Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME)
-        self.database = MongoClient()["scraper2"]
-        self.containers = self.database["containers"]
-        self.container_movements = self.database["container_movements"]
+        self.database = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
+        self.container_movements = self.database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
     
     def tearDown(self):
         self.driver.close()
@@ -124,7 +123,7 @@ class TrackingScraperTestCase(unittest.TestCase):
         assert movements[0]["location"]         == "Cogent Container Depot (M) Sdn Bhd\nPort Klang, Selangor, Malaysia"
         assert movements[0]["latitude"]         == 3.0027625
         assert movements[0]["longitude"]        == 101.3966735
-        assert movements[0]["status"]           == "Gate out"
+        assert movements[0]["status"]           == "Empty"
         assert movements[0]["transport_type"]   == "Truck"
         assert movements[0]["estimated"]        == False
         # Assert container movement #2
@@ -247,15 +246,12 @@ class TrackingScraperTestCase(unittest.TestCase):
         assert container["carrier"]     == "Maersk"
     
     def executeTest(self, container):
-        scraper = TrackingScraper(self.driver, self.containers, self.container_movements, container)
+        scraper = TrackingScraper(self.driver, self.database, container)
         assert scraper.execute() is True
     
     def getMovements(self, container):
         movements = []
         query = {
-            # "year": container["year"],
-            # "manifest": container["manifest"],
-            # "detail": container["detail"],
             "container": container["container"]
         }
         for movement in self.container_movements.find(query).sort("date", 1):

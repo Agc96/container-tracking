@@ -224,13 +224,27 @@
 								},
 								{
 									"index": 1,
-									"type": "regex",
-									"pattern": "Voyage No.(.*?)$",
-									"commands": [
+									"type": "compare",
+									"values": ["Empty"],
+									"success": [
 										{
-											"index": 0,
 											"type": "save",
-											"key": "transport_voyage"
+											"key": "status",
+											"format": "status"
+										}
+									],
+									"failure": [
+										{
+											"type": "regex",
+											"pattern": "Voyage No.(.*?)$",
+											"commands": [
+												{
+													"index": 0,
+													"type": "save",
+													"key": "transport_voyage"
+												}
+											],
+											"required": false
 										}
 									],
 									"required": false
