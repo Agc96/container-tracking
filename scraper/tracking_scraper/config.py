@@ -3,6 +3,8 @@ import logging
 class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
+    # Default retries for the scraping wrapper
+    DEFAULT_RETRIES         = 10
     # Default executable path for the Google Chrome webdriver
     DEFAULT_PATH_CHROME     = "../driver/chromedriver"
     # Default executable path for the Firefox webdriver

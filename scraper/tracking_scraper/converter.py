@@ -1,5 +1,5 @@
-from config import TrackingScraperConfig
-from exception import TrackingScraperError
+from .config import TrackingScraperConfig
+from .exception import TrackingScraperError
 
 from geopy.exc import GeopyError
 from geopy.geocoders import Nominatim

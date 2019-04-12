@@ -1,5 +1,5 @@
-from config import TrackingScraperConfig
-from exception import TrackingScraperError, TrackingScraperSwitcherError
+from .config import TrackingScraperConfig
+from .exception import TrackingScraperError, TrackingScraperSwitcherError
 
 from io import BytesIO
 from PIL import Image

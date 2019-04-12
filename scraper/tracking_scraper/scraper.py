@@ -1,8 +1,7 @@
-from config import TrackingScraperConfig
-from exception import TrackingScraperError
-from switcher import TrackingScraperSwitcher
+from .config import TrackingScraperConfig
+from .exception import TrackingScraperError
+from .switcher import TrackingScraperSwitcher
 
-from pymongo import MongoClient
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException, TimeoutException
 
@@ -19,7 +18,6 @@ class TrackingScraper:
         self.__database        = database
         self.__container_table = database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         self.__movement_table  = database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
-        # self.__config_table    = database[TrackingScraperConfig.DEFAULT_CONFIG_TABLE]
         self.__container       = container
         
         # Get configuration file
@@ -80,10 +78,9 @@ class TrackingScraper:
                 parent_result = self._finish_execution()
                 time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
                 break
-        except TrackingScraperError:
-            logging.exception("Exception ocurred")
-        except Exception:
-            logging.exception("Unknown exception ocurred")
+        except Exception as ex:
+            # Handling will be done in __init__.py, or by the user of this scraper
+            raise ex
         finally:
             return parent_result
     

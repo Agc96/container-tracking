@@ -1,5 +1,5 @@
-from config import TrackingScraperConfig
-from scraper import TrackingScraper
+from .config import TrackingScraperConfig
+from .scraper import TrackingScraper
 
 from selenium import webdriver
 from pymongo import MongoClient
