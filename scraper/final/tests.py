@@ -206,12 +206,12 @@ class TrackingScraperTestCase(unittest.TestCase):
         self.executeTest(container)
         # Assert container information
         assert container["description"]    == "40'(SH)"
-        assert container["last_status"]    == "Despatched by barge"
-        assert container["last_location"]  == "HONG KONG (HK)"
-        assert container["last_date"]      == datetime.datetime(2019, 4, 10)
+        assert container["last_status"]    == "Discharged (FCL)"
+        assert container["last_location"]  == "HUANGPU, GUANGDONG (CN)"
+        assert container["last_date"]      == datetime.datetime(2019, 4, 11)
         # Assert container movements
         movements = self.getMovements(container)
-        assert len(movements) >= 2
+        assert len(movements) >= 3
 		# Assert container movement #1
         assert movements[0]["date"]             == datetime.datetime(2019, 3, 7)
         assert movements[0]["location"]         == "CALLAO (PE)"
@@ -228,6 +228,16 @@ class TrackingScraperTestCase(unittest.TestCase):
         assert movements[1]["latitude"]         == 22.350627
         assert movements[1]["longitude"]        == 114.1849161
         assert movements[1]["status"]           == "Despatched by barge"
+        assert movements[1]["transport_ship"]   == "EVER LAMBENT"
+        assert movements[1]["transport_voyage"] == "0403-037W"
+        assert movements[1]["transport_type"]   == "Vessel"
+        assert movements[1]["estimated"]        == False
+        # Assert container movement #3
+        assert movements[2]["date"]             == datetime.datetime(2019, 4, 11)
+        assert movements[2]["location"]         == "HUANGPU, GUANGDONG (CN)"
+        assert movements[2]["location"]         == 23.1824507
+        assert movements[2]["longitude"]        == 113.4760861
+        assert movements[2]["status"]           == "Discharged (FCL)"
         assert movements[1]["transport_ship"]   == "EVER LAMBENT"
         assert movements[1]["transport_voyage"] == "0403-037W"
         assert movements[1]["transport_type"]   == "Vessel"

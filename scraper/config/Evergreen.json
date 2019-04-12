@@ -59,7 +59,7 @@
 				"length": 4,
 				"alphabet": true,
 				"numbers": false,
-				"filter": "IC",
+				"filter": "C",
 				"failure": {
 					"type": "css",
 					"selector": "a[href=\"javascript:captchaReload()\"]",
@@ -94,7 +94,8 @@
 		{
 			"type": "css",
 			"selector": "td.f12wrdb1",
-			"assert": false
+			"assert": false,
+			"assert_save": true
 		},
 		{
 			"type": "class",
@@ -156,6 +157,46 @@
 		"parents": null,
 		"single": [
 			{
+				"type": "css",
+				"selector": "td.f12wrdb2",
+				"commands": [
+					{
+						"index": 1,
+						"type": "split",
+						"delimiter": "  ",
+						"commands": [
+							{
+								"index": 0,
+								"type": "regex",
+								"pattern": "(.*) (.*?)$",
+								"commands": [
+									{
+										"index": 0,
+										"type": "save",
+										"key": "transport_ship",
+										"required": true
+									},
+									{
+										"index": 1,
+										"type": "save",
+										"key": "transport_voyage",
+										"required": false
+									},
+									{
+										"index": 0,
+										"type": "save",
+										"key": "transport_type",
+										"value": "Vessel"
+									}
+								],
+								"required": false
+							}
+						]
+					}
+				],
+				"required": false
+			},
+			{
 				"type": "class",
 				"selector": "f12rown1",
 				"commands": [
@@ -207,38 +248,6 @@
 						"required": false
 					}
 				]
-			},
-			{
-				"type": "css",
-				"selector": "td.f12wrdb2",
-				"commands": [
-					{
-						"index": 1,
-						"type": "regex",
-						"pattern": "(.*) (.*?)  \\(.*?\\)",
-						"commands": [
-							{
-								"index": 0,
-								"type": "save",
-								"key": "transport_ship",
-								"required": true
-							},
-							{
-								"index": 1,
-								"type": "save",
-								"key": "transport_voyage",
-								"required": false
-							},
-							{
-								"index": 0,
-								"type": "save",
-								"key": "transport_type",
-								"value": "Vessel"
-							}
-						]
-					}
-				],
-				"required": false
 			}
 		],
 		"multiple": null

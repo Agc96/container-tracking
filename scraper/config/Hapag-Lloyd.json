@@ -21,6 +21,7 @@
             "type": "class",
             "selector": "error",
             "assert": false,
+            "assert_save": true,
             "required": false
         },
         {

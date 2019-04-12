@@ -1,5 +1,5 @@
 from config import TrackingScraperConfig
-from exception import TrackingScraperError
+from exception import TrackingScraperAssertionError, TrackingScraperSwitcherError, TrackingScraperError
 from switcher import TrackingScraperSwitcher
 
 from selenium import webdriver
@@ -43,11 +43,9 @@ class TrackingScraper:
     def execute(self):
         """Execute commands."""
         
-        parent_result   = False
         input_result    = False
         single_result   = False
         multiple_result = False
-        
         try:
             start = self._go_to_url()
             while True:
@@ -75,14 +73,28 @@ class TrackingScraper:
                     continue
                 
                 # Finish execution and save elements
-                parent_result = self._finish_execution()
+                self._finish_execution()
                 time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
                 break
-        except Exception as ex:
-            # Handling will be done in __init__.py, or by the user of this scraper
-            raise ex
-        finally:
-            return parent_result
+            return True
+        # Check assertions
+        except TrackingScraperAssertionError as ex:
+            logging.error(str(ex))
+            if ex.assertion_type is False:
+                return self._finish_execution()
+            return False
+        # Check switcher errors
+        except TrackingScraperSwitcherError as ex:
+            logging.error("Command: %s", TrackingScraperSwitcher.print_command(ex.command))
+            logging.error(str(ex))
+            return False
+        # Check common errors
+        except TrackingScraperError as ex:
+            logging.error(str(ex))
+            return False
+        except Exception:
+            logging.exception("Unknown exception ocurred in scraper")
+            return None
     
     ###############################################################################################
     
@@ -220,8 +232,10 @@ class TrackingScraper:
         logging.info("Query document: %s", query_document)
         
         # Try to update
+        if "_id" in document:
+            document.pop("_id")
         document["updated_at"] = datetime.datetime.utcnow()
-        result = collection.update_one(query_document, {"$set": document})
+        result = collection.update_many(query_document, {"$set": document})
         
         if result.matched_count > 0:
             logging.info("Updated: %s", query_document)

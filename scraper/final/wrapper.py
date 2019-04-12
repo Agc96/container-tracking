@@ -1,6 +1,4 @@
 from config import TrackingScraperConfig
-from exception import (TrackingScraperAssertionError, TrackingScraperSwitcherError,
-                        TrackingScraperError)
 from scraper import TrackingScraper
 from switcher import TrackingScraperSwitcher
 
@@ -16,9 +14,8 @@ class TrackingScraperWrapper():
     """Wrapper for an automatic extraction using the Tracking Web Scraper for containers."""
 
     def __init__(self):
-        # Initialize today
-        today = datetime.datetime.now().strftime("%Y%m%d")
-        logging.basicConfig(filename = "../logs/scraper-" + today + ".log",
+        # Initialize logging
+        logging.basicConfig(filename = "../logs/scraper-" + datetime.datetime.now().strftime("%Y%m%d") + ".log",
                             level = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
                             format = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
         # Initialize database
@@ -33,7 +30,8 @@ class TrackingScraperWrapper():
     
     def execute(self):
         total_start = time.time()
-        while True:
+        finish_execution = False
+        while not finish_execution:
             no_containers = True
             # Check if fail counter is too much
             if self.__fail_counter >= TrackingScraperConfig.DEFAULT_RETRIES:
@@ -48,52 +46,34 @@ class TrackingScraperWrapper():
                 })
                 if container is None:
                     continue
-                else:
-                    no_containers = False
-                print("CONTAINER FOUND:", container)
                 # Execute scraper
-                container_start = time.time()
-                if not self.execute_scraper(container):
-                    break
-                container_end = time.time()
-                print("Container", container["container"], "time:", container_end - container_start,
-                      "seconds")
+                no_containers = False
+                if self.execute_scraper(container) is False:
+                    finish_execution = True
             # Check if we have containers left:
             if no_containers:
                 break
-        total_end = time.time()
+        total_end = time.time() 
         print("Total time:", total_end - total_start, "seconds")
         # Finish execution by closing driver
         self.close()
     
     def execute_scraper(self, container):
-        try:
-            result = TrackingScraper(self.__driver, self.__database, container).execute()
-            if not result:
-                logging.error("Scraper for container %s was unsuccessful", container["container"])
-            return True
-        # Check assertions
-        except TrackingScraperAssertionError as ex:
-            logging.error(str(ex))
-            if ex.assertion_type:
-                self.__fail_counter += 1
-                logging.error("Assertion for crucial elements failed! %d retrys left.", self.retries)
-            else:
-                logging.warning("Assertion for failure elements failed...")
-            return True
-        # Check switcher errors
-        except TrackingScraperSwitcherError as ex:
-            logging.error("Command: %s", TrackingScraperSwitcher.print_command(ex.command))
-            logging.error(str(ex))
-            return True
-        # Check common errors
-        except TrackingScraperError as ex:
-            self.__fail_counter += 1
-            logging.error("%s, %d retrys left.", str(ex), self.retries)
-            return True
-        except Exception:
-            logging.exception("Unknown exception ocurred in scraper, aborting...")
+        container_start = time.time()
+        result = TrackingScraper(self.__driver, self.__database, container).execute()
+        if result is None:
             return False
+        if result is False:
+            print("Scraper for container", container["container"], "was unsuccessful.",
+                  self.retries, "retries left.")
+            self.__fail_counter += 1
+        container_end = time.time()
+        while (container_end - container_start) < TrackingScraperConfig.DEFAULT_TIMEOUT:
+            time.sleep(1)
+            container_end = time.time()
+        print("Container", container["container"], "time:", container_end - container_start,
+              "seconds")
+        return True
     
     @property
     def retries(self):

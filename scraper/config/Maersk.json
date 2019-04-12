@@ -20,12 +20,7 @@
 			"type": "class",
 			"selector": "resultError",
 			"assert": false,
-			"required": false
-		},
-		{
-			"type": "class",
-			"selector": "font--display-1",
-			"assert": false,
+			"assert_save": true,
 			"required": false
 		},
 		{

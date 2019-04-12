@@ -104,12 +104,17 @@ class TrackingScraperConverter:
         """Convert text to a location with latitude and longitude geographical points."""
         # Get location (raw text) as address
         location = self.__raw_text
-        # Use last line as parent location and query it to Nominatim
+        # Use last line as parent location and check if it's in cache
+        query = location.split("\n")[-1]
+        coordinates = self.LOCATIONS.get(query)
+        if coordinates is not None:
+            self.__document["latitude"]  = coordinates.latitude
+            self.__document["longitude"] = coordinates.longitude
+            logging.info("[TEST] using cached location")
+            return location
+        # If it's not, query it to Nominatim
         try:
-            query = location.split("\n")[-1]
-            coordinates = self.LOCATIONS.get(query)
-            if coordinates is None:
-                coordinates = self.GEOLOCATOR.geocode(query)
+            coordinates = self.GEOLOCATOR.geocode(query)
             # Save the coordinates given by the service, if they exist
             if coordinates is None:
                 logging.warning("Service could not find geolocation, skipping...")

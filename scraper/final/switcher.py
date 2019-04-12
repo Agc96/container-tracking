@@ -136,7 +136,8 @@ class TrackingScraperSwitcher:
                 try:
                     waiter.until_not(conditions)
                 except TimeoutException:
-                    raise TrackingScraperAssertionError(selector_type, False)
+                    result = False if self.__parent_command.get("assert_save") else None
+                    raise TrackingScraperAssertionError(selector_type, result)
             
             # Wait a little bit and return
             time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
@@ -378,13 +379,14 @@ class TrackingScraperSwitcher:
     ###############################################################################################
     
     def _process_alert(self):
-        assertion = self.__parent_command.get("assertion")
+        assertion = self.__parent_command.get("assert")
         # TODO: Usar waits
         try:
             # Try to switch to alert
             alert = self.__driver.switch_to.alert
             if assertion is False:
-                raise TrackingScraperAssertionError("alert", False)
+                result = False if self.__parent_command.get("assert_save") else None
+                raise TrackingScraperAssertionError("alert", result)
             # Accept or dismiss action depending on command
             if self.__parent_command.get("action", TrackingScraperConfig.DEFAULT_KEY_ACTION):
                 alert.accept()
