@@ -17,13 +17,6 @@
 			"assert": true
 		},
 		{
-			"type": "class",
-			"selector": "resultError",
-			"assert": false,
-			"assert_save": true,
-			"required": false
-		},
-		{
 			"type": "id",
 			"selector": "ign-accept-cookie",
 			"command": {
@@ -31,6 +24,13 @@
 				"wait": false,
 				"required": false
 			}
+		},
+		{
+			"type": "class",
+			"selector": "resultError",
+			"assert": false,
+			"assert_save": true,
+			"required": false
 		},
 		{
 			"type": "css",

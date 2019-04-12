@@ -384,14 +384,15 @@ class TrackingScraperSwitcher:
         try:
             # Try to switch to alert
             alert = self.__driver.switch_to.alert
-            if assertion is False:
-                result = False if self.__parent_command.get("assert_save") else None
-                raise TrackingScraperAssertionError("alert", result)
             # Accept or dismiss action depending on command
             if self.__parent_command.get("action", TrackingScraperConfig.DEFAULT_KEY_ACTION):
                 alert.accept()
             else:
                 alert.dismiss()
+            # Check assertions
+            if assertion is False:
+                result = False if self.__parent_command.get("assert_save") else None
+                raise TrackingScraperAssertionError("alert", result)
         except NoAlertPresentException:
             if assertion is True:
                 raise TrackingScraperAssertionError("alert", True)

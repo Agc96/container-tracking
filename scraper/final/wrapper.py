@@ -25,6 +25,7 @@ class TrackingScraperWrapper():
         self.__carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
         # Initialize driver
         self.__driver = Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME)
+        self.__driver.set_page_load_timeout(TrackingScraperConfig.DEFAULT_TIMEOUT_LONG)
         # Initialize failure counter
         self.__fail_counter = 0
     
@@ -85,3 +86,7 @@ class TrackingScraperWrapper():
             self.__driver.close()
         except Exception:
             pass
+
+# Main execution
+if __name__ == "__main__":
+    TrackingScraperWrapper().execute()
