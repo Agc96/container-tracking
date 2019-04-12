@@ -3,11 +3,11 @@
 	"general": {
 		"url": "http://tex.textainer.com/Equipment/StatusAndSpecificationsInquiry.aspx",
 		"date_formats": ["%Y-%b-%d"],
-        "single": {
-            "table": "containers",
-            "query": ["year", "manifest", "detail", "container"],
+		"single": {
+			"table": "containers",
+			"query": ["year", "manifest", "detail", "container"],
 			"processed": false
-        },
+		},
 		"multiple": {
 			"table": "container_movements",
 			"query": ["year", "manifest", "detail", "container", "date"]
@@ -53,34 +53,6 @@
 			"type": "id",
 			"selector": "oReportDiv",
 			"assert": true
-		},
-		{
-			"type": "class",
-			"selector": "a482",
-			"commands": [
-				{
-					"index": 0,
-					"type": "save",
-					"key": "last_status",
-					"format": "status",
-					"required": false
-				}
-			],
-			"required": false
-		},
-		{
-			"type": "class",
-			"selector": "a486",
-			"commands": [
-				{
-					"index": 0,
-					"type": "save",
-					"key": "last_date",
-					"format": "date",
-					"required": false
-				}
-			],
-			"required": false
 		},
 		{
 			"type": "class",

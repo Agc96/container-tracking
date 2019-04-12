@@ -1,13 +1,22 @@
 from config import TrackingScraperConfig
 from exception import TrackingScraperError
 
+            
+from geopy.exc import GeopyError
+from geopy.geocoders import Nominatim
+
 import datetime
 import logging
 
 class TrackingScraperConverter:
     """Utility class to convert text to other Python types."""
+
+    # Nominatim geolocator instance
+    GEOLOCATOR = Nominatim(user_agent = TrackingScraperConfig.DEFAULT_GEOCODE_AGENT)
+    LOCATIONS  = {}
     
-    def __init__(self, raw_text, format_type, configuration):
+    def __init__(self, document, raw_text, format_type, configuration):
+        self.__document      = document
         self.__raw_text      = raw_text
         self.__format_type   = format_type
         self.__configuration = configuration
@@ -86,6 +95,27 @@ class TrackingScraperConverter:
         if isinstance(value, datetime.datetime):
             return value.time()
         return value
+    
+    def _convert_to_location(self):
+        """Convert text to a location with latitude and longitude geographical points."""
+        # Get location (raw text) as address
+        location = self.__raw_text
+        # Use last line as parent location and query it to Nominatim
+        try:
+            query = location.split("\n")[-1]
+            coordinates = self.LOCATIONS.get(query)
+            if coordinates is None:
+                coordinates = self.GEOLOCATOR.geocode(query)
+            # Save the coordinates given by the service, if they exist
+            if coordinates is not None:
+                self.__document["latitude"]  = coordinates.latitude
+                self.__document["longitude"] = coordinates.longitude
+                # Save also to location dictionary for reusing them
+                self.LOCATIONS[query] = coordinates
+        except GeopyError:
+            logging.exception("Error while trying to query geocode")
+        # Finally, go to the scraper switcher to save the location as text
+        return location
     
     def _convert_to_status(self):
         """Convert text to a tracking status based on the configuration for translation."""

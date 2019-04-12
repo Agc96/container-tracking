@@ -3,12 +3,12 @@
 	"general": {
 		"url": "https://www.maersk.com/tracking/#tracking/{container}",
 		"date_formats": ["%d %b %Y", "%H:%M", "%d %b %Y %H:%M"],
-        "single": {
+		"single": {
 			"processed": true
-        },
-        "multiple": {
+		},
+		"multiple": {
 			"estimated": true
-        }
+		}
 	},
 	"input": [
 		{
@@ -114,13 +114,14 @@
 									"index": 0,
 									"type": "save",
 									"key": "last_status",
-									"translate": true,
+									"format": "status",
 									"required": true
 								},
 								{
 									"index": 1,
 									"type": "save",
 									"key": "last_location",
+									"format": "location",
 									"required": true
 								},
 								{
@@ -135,7 +136,7 @@
 					]
 				}
 			]
-		}		
+		}
 	],
 	"multiple": {
 		"parents": {
@@ -151,6 +152,7 @@
 						"index": 0,
 						"type": "save",
 						"key": "location",
+						"format": "location",
 						"required": true
 					}
 				]
@@ -259,8 +261,6 @@
 				}
 			],
 			"multiple": null
-		},
-		"overwrite": true
+		}
 	}
 }
-

@@ -60,6 +60,7 @@
                             "index": 2,
                             "type": "save",
                             "key": "last_location",
+                            "format": "location",
                             "required": true
                         },
                         {
@@ -97,6 +98,7 @@
                         "index": 1,
                         "type": "save",
                         "key": "location",
+                        "format": "location",
                         "required": true
                     },
                     {

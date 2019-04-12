@@ -10,3 +10,7 @@ __pycache__
 # MongoDB dumps
 dumps
 
+# Environment variables
+.env
+env.py
+

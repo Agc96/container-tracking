@@ -262,7 +262,8 @@ class TrackingScraperSwitcher:
         # Format type if necessary
         format_type = self.__parent_command.get("format")
         if format_type is not None:
-            value = TrackingScraperConverter(value, format_type, self.__configuration).convert()
+            value = TrackingScraperConverter(self.__document, value, format_type,
+                                             self.__configuration).convert()
             # If a value already exists in the attribute and it's a datetime object, join them
             if self.__join_datetimes_if_possible(attribute, value):
                 return True

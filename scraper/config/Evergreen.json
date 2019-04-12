@@ -3,13 +3,13 @@
 	"general": {
 		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
 		"date_formats": ["%b-%d-%Y"],
-        "single": {
-            "processed": true
-        },
-        "multiple": {
-            "transport_type": "Truck",
-            "estimated": false
-        }
+		"single": {
+			"processed": true
+		},
+		"multiple": {
+			"transport_type": "Truck",
+			"estimated": false
+		}
 	},
 	"input": [
 		{
@@ -124,6 +124,7 @@
 					"index": 5,
 					"type": "save",
 					"key": "last_location",
+					"format": "location",
 					"required": true
 				}
 			]
@@ -176,6 +177,7 @@
 						"index": 5,
 						"type": "save",
 						"key": "location",
+						"format": "location",
 						"required": true
 					},
 					{

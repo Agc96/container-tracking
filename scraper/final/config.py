@@ -1,3 +1,5 @@
+import logging
+
 class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
@@ -5,6 +7,7 @@ class TrackingScraperConfig:
     DEFAULT_PATH_CHROME     = "../driver/chromedriver"
     # Default executable path for the Firefox webdriver
     DEFAULT_PATH_FIREFOX    = "../driver/geckodriver"
+    
     # Default database name
     DEFAULT_DATABASE_NAME   = "scraper2"
     # Default table name for containers
@@ -15,6 +18,13 @@ class TrackingScraperConfig:
     DEFAULT_CONTAINER_QUERY = ["container"]
     # Default query parameters for container movements
     DEFAULT_MOVEMENT_QUERY  = ["container", "date"]
+    
+    # Default user agent for the Nominatim geocode API service
+    DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers"
+    # Default logging level configuration
+    DEFAULT_LOGGING_LEVEL   = logging.INFO
+    # Default logging format configuration
+    DEFAULT_LOGGING_FORMAT  = "[%(levelname)s %(asctime)s] %(message)s"
     
     # Default timeout for short processing, in seconds
     DEFAULT_TIMEOUT         = 30

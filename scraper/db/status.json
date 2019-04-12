@@ -1,0 +1,52 @@
+[
+	{
+		"code": 1,
+        "Scharff": "Retiro de vacío",
+		"Maersk": "Empty",
+		"Hapag-Lloyd": "Gate out empty",
+		"Evergreen": "Empty pick-up by merchant haulage"
+	},
+	{
+		"code": 2,
+		"Scharff": "Llegada de contenedor a puerto",
+		"Maersk": "Gate in",
+		"Hapag-Lloyd": "Arrival in",
+		"Evergreen": "Received (FCL)"
+	},
+	{
+		"code": 3,
+		"Scharff": "Contenedor cargado en barco",
+		"Maersk": "Load",
+		"Hapag-Lloyd": "Loaded",
+		"Evergreen": "Loaded (FCL) on vessel"
+	},
+	{
+		"code": 4,
+		"Scharff": "Salida de barco",
+		"Hapag-Lloyd": "Vessel departed"
+	},
+	{
+		"code": 5,
+        "Scharff": "Transbordo",
+        "Hapag-Lloyd": "Vessel arrived"
+    },
+    {
+        "code": 6,
+        "Scharff": "Llegada de barco"
+    },
+	{
+		"code": 7,
+        "Scharff": "Descarga del barco",
+        "Maersk": "Discharge",
+        "Hapag-Lloyd": "Discharged",
+		"Evergreen": "Discharged (FCL)"
+	},
+	{
+		"code": 8,
+		"Maersk": "Gate out"
+	},
+	{
+		"code": 9,
+		"Evergreen": "Despatched by barge"
+	}
+]
