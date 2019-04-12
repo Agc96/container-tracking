@@ -1,0 +1,346 @@
+[
+	{
+		"prefix": "AZLU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "CASU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "CMUU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "CPSU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "CSQU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "CSVU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "FANU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "HAMU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "HLBU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "HLCU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "HLXU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "ITAU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "IVLU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "LBIU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "LNXU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "LYKU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "MOMU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "QIBU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "QNNU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "TLEU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "TMMU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "UACU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "UAEU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "UASU",
+		"carrier": "Hapag-Lloyd"
+	},
+	{
+		"prefix": "APMU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "COZU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "FAAU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "FRLU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "KNLU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "LOTU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MAEU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MALU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MCAU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MCHU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MCRU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MHHU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MIEU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MMAU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MNBU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MRKU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MRSU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MSAU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MSFU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MSKU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MSWU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MVIU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MWCU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "MWMU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "OCLU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "POCU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "PONU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "SCMU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "TORU",
+		"carrier": "Maersk"
+	},
+	{
+		"prefix": "EGHU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "EGSU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "EISU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "EMCU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "HMCU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "IMTU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "LTIU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "UGMU",
+		"carrier": "Evergreen"
+	},
+	{
+		"prefix": "AMFU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "AMZU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "AXIU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "CEOU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "CHIU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "CLHU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "GAEU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "GATU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "GAZU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "HCIU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "KWCU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "LLTU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "MAGU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "MAXU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "MGLU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "MLCU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "PRSU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "TEMU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "TENU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "TEXU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "TGBU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "TGHU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "TXGU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "WCIU",
+		"carrier": "Textainer"
+	},
+	{
+		"prefix": "XINU",
+		"carrier": "Textainer"
+	}	
+]

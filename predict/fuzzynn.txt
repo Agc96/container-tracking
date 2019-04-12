@@ -1,0 +1,3 @@
+https://scholar.google.com.pe/scholar?q=fuzzy+neural+network+prediction&hl=es&as_sdt=0&as_vis=1&oi=scholart
+https://www.researchgate.net/publication/328822075_Using_Fuzzy_Neural_Networks_to_the_Prediction_of_Improvement_in_Expert_Systems_for_Treatment_of_Immunotherapy
+https://medium.com/@apbetahouse45/understanding-fuzzy-neural-network-with-code-and-graphs-263d1091d773
