@@ -135,5 +135,5 @@ class TrackingScraperConverter:
     
     def _convert_to_status(self):
         """Convert text to a tracking status based on the configuration for translation."""
-        # TO-DO
+        # TODO
         return self.__raw_text

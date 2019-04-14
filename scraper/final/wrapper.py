@@ -15,44 +15,49 @@ class TrackingScraperWrapper():
 
     def __init__(self):
         # Initialize logging
-        logging.basicConfig(filename = "../logs/scraper-" + datetime.datetime.now().strftime("%Y%m%d") + ".log",
-                            level = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
-                            format = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
+        logging.basicConfig(filename = TrackingScraperConfig.DEFAULT_LOGGING_FILE,
+                            level    = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
+                            format   = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
         # Initialize database
-        self.__database = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
-        self.__containers_table = self.__database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
+        self.database = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
+        self.containers_table = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # TODO: Replace this with reading from config collection
-        self.__carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
+        self.carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
+        # Initialize failure counters
+        self.failures = [0] * len(self.carriers)
+        self.fail_counter = 0
         # Initialize driver
-        self.__driver = Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME)
-        self.__driver.set_page_load_timeout(TrackingScraperConfig.DEFAULT_TIMEOUT_LONG)
-        # Initialize failure counter
-        self.__fail_counter = 0
+        self.driver = Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME)
+        self.driver.set_page_load_timeout(TrackingScraperConfig.DEFAULT_TIMEOUT_LONG)
     
     def execute(self):
         total_start = time.time()
         finish_execution = False
         while not finish_execution:
             no_containers = True
-            # Check if fail counter is too much
-            if self.__fail_counter >= TrackingScraperConfig.DEFAULT_RETRIES:
-                logging.error("Too much failures, aborting")
+            # Check if total failure counter is too much
+            if self.fail_counter >= TrackingScraperConfig.DEFAULT_RETRIES_ALL:
+                logging.error("Too much failures in total, aborting...")
                 break
             # Extract one container for every carrier
-            for carrier in self.__carriers:
+            for index, carrier in enumerate(self.carriers):
+                # Check if failure counter for this carrier is too much
+                if self.failures[index] >= TrackingScraperConfig.DEFAULT_RETRIES_SINGLE:
+                    logging.warning("Too much failures in carrier %s, skipping...", carrier)
+                    continue
                 # Get container
-                container = self.__containers_table.find_one({
+                container = self.containers_table.find_one({
                     "carrier": carrier,
                     "processed": False
                 })
-                if container is None:
-                    continue
+                if container is None: continue
                 # Execute scraper
                 no_containers = False
                 if self.execute_scraper(container) is False:
                     finish_execution = True
             # Check if we have containers left:
             if no_containers:
+                logging.info("Finished scraping!")
                 break
         total_end = time.time() 
         print("Total time:", total_end - total_start, "seconds")
@@ -61,13 +66,13 @@ class TrackingScraperWrapper():
     
     def execute_scraper(self, container):
         container_start = time.time()
-        result = TrackingScraper(self.__driver, self.__database, container).execute()
+        result = TrackingScraper(self.driver, self.database, container).execute()
         if result is None:
             return False
         if result is False:
             print("Scraper for container", container["container"], "was unsuccessful.",
-                  self.retries, "retries left.")
-            self.__fail_counter += 1
+                  self.retries(), "retries left.")
+            self.fail_counter += 1
         container_end = time.time()
         while (container_end - container_start) < TrackingScraperConfig.DEFAULT_TIMEOUT:
             time.sleep(1)
@@ -76,14 +81,13 @@ class TrackingScraperWrapper():
               "seconds")
         return True
     
-    @property
     def retries(self):
         """Get the number of retries left."""
-        return TrackingScraperConfig.DEFAULT_RETRIES - self.__fail_counter
+        return TrackingScraperConfig.DEFAULT_RETRIES_ALL - self.fail_counter
     
     def close(self):
         try:
-            self.__driver.close()
+            self.driver.close()
         except Exception:
             pass
 

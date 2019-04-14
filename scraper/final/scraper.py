@@ -79,7 +79,7 @@ class TrackingScraper:
             return True
         # Check assertions
         except TrackingScraperAssertionError as ex:
-            logging.error(str(ex))
+            logging.warning(str(ex))
             if ex.assertion_type is False:
                 return self._finish_execution()
             return False
@@ -177,7 +177,9 @@ class TrackingScraper:
         else:
             multiple_elements = TrackingScraperSwitcher(self.__driver, {}, self.__configuration,
                                                         multiple_parents, previous_element).process()
-            if not isinstance(multiple_elements, list):
+            if multiple_elements is False:
+                return True # No elements found
+            if multiple_elements is True:
                 raise TrackingScraperError("Parent elements must be a list of web elements")
         
         # Get multiple subcomamnd
