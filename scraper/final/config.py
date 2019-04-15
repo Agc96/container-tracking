@@ -6,7 +6,7 @@ class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
     # Default retries for the scraping wrapper
-    DEFAULT_RETRIES_SINGLE  = 5
+    DEFAULT_RETRIES_SINGLE  = 8
     DEFAULT_RETRIES_ALL     = 20
     # Default executable path for the Google Chrome webdriver
     DEFAULT_PATH_CHROME     = "../driver/chromedriver"

@@ -1,6 +1,6 @@
 from config import TrackingScraperConfig
-from exception import (TrackingScraperAssertionError, TrackingScraperTimeoutError,
-                       TrackingScraperSwitcherError, TrackingScraperError)
+from errors import (TrackingScraperAssertionError, TrackingScraperTimeoutError,
+                    TrackingScraperSwitcherError, TrackingScraperError)
 from switcher import TrackingScraperSwitcher
 
 from selenium import webdriver
