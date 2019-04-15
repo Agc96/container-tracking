@@ -13,3 +13,4 @@ dumps
 
 # Environment variables
 .env
+env.*
