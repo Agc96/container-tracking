@@ -1,5 +1,6 @@
 from config import TrackingScraperConfig
-from exception import TrackingScraperAssertionError, TrackingScraperSwitcherError, TrackingScraperError
+from exception import (TrackingScraperAssertionError, TrackingScraperTimeoutError,
+                       TrackingScraperSwitcherError, TrackingScraperError)
 from switcher import TrackingScraperSwitcher
 
 from selenium import webdriver
@@ -52,7 +53,7 @@ class TrackingScraper:
                 # Check if we're still on time
                 end = time.time()
                 if (end - start) > TrackingScraperConfig.DEFAULT_TIMEOUT_LONG:
-                    raise TrackingScraperError("Timeout exceeded, scraping was unsuccessful")
+                    raise TrackingScraperTimeoutError
                 
                 # Execute input
                 input_result = self._execute_commands(input_result, "input")
@@ -114,7 +115,7 @@ class TrackingScraper:
             self.__driver.get(link.format(**self.__container))
             time.sleep(TrackingScraperConfig.DEFAULT_WAIT_LONG)
         except TimeoutException:
-            raise TrackingScraperError("Error loading Web page, timeout exceeded")
+            raise TrackingScraperTimeoutError
         
         # Start time counting
         return time.time()

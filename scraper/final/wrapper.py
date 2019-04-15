@@ -24,7 +24,7 @@ class TrackingScraperWrapper():
         # TODO: Replace this with reading from config collection
         self.carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
         # Initialize failure counters
-        self.failures = [0] * len(self.carriers)
+        # self.failures = [0] * len(self.carriers)
         self.fail_counter = 0
         # Initialize driver
         self.driver = Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME)
@@ -42,9 +42,9 @@ class TrackingScraperWrapper():
             # Extract one container for every carrier
             for index, carrier in enumerate(self.carriers):
                 # Check if failure counter for this carrier is too much
-                if self.failures[index] >= TrackingScraperConfig.DEFAULT_RETRIES_SINGLE:
-                    logging.warning("Too much failures in carrier %s, skipping...", carrier)
-                    continue
+                # if self.failures[index] >= TrackingScraperConfig.DEFAULT_RETRIES_SINGLE:
+                #     logging.warning("Too much failures in carrier %s, skipping...", carrier)
+                #     continue
                 # Get container
                 container = self.containers_table.find_one({
                     "carrier": carrier,
@@ -53,7 +53,7 @@ class TrackingScraperWrapper():
                 if container is None: continue
                 # Execute scraper
                 no_containers = False
-                if self.execute_scraper(container) is False:
+                if self.execute_scraper(container, index) is False:
                     finish_execution = True
             # Check if we have containers left:
             if no_containers:
@@ -64,7 +64,7 @@ class TrackingScraperWrapper():
         # Finish execution by closing driver
         self.close()
     
-    def execute_scraper(self, container):
+    def execute_scraper(self, container, index):
         container_start = time.time()
         result = TrackingScraper(self.driver, self.database, container).execute()
         if result is None:

@@ -1,6 +1,7 @@
 from converter import TrackingScraperConverter
 from config import TrackingScraperConfig
-from exception import TrackingScraperSwitcherError, TrackingScraperAssertionError
+from exception import (TrackingScraperSwitcherError, TrackingScraperAssertionError,
+                       TrackingScraperTimeoutError)
 from image import TrackingScraperImageProcessor
 
 from selenium.common.exceptions import (TimeoutException, ElementNotInteractableException,
@@ -425,6 +426,8 @@ class TrackingScraperSwitcher:
             return True
         except ElementNotInteractableException:
             return not required
+        except TimeoutException:
+            raise TrackingScraperTimeoutError
     
     ###############################################################################################
     

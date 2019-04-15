@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import logging
 
 class TrackingScraperConfig:
@@ -32,7 +34,7 @@ class TrackingScraperConfig:
     DEFAULT_GEOCODE_MAX     = 64
 
     # Default logging filename configuration
-    DEFAULT_LOGGING_FILE    = "../logs/tracking-scraper.log"
+    DEFAULT_LOGGING_FILE    = "../logs/scraper-" + datetime.now().strftime("%Y%m%d") + ".log"
     # Default logging level configuration
     DEFAULT_LOGGING_LEVEL   = logging.INFO
     # Default logging format configuration
