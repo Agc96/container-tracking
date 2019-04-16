@@ -19,6 +19,13 @@ Hola {user},
 Te informamos que la aplicacion lleva {counter} errores y es posible que no este ejecutandose correctamente.
 Saludos,
 El equipo de Tracking Scraper"""
+    HAPAG_MESSAGE = """Subject: Hapag-Lloyd tuvo un error
+
+Hola {user},
+Te informamos que la aplicacion no ha podido conectarse con Hapag-Lloyd.
+Seria bueno revisar la posible causa de esto en los logs, la captura del error o el HTML generado.
+Saludos,
+El equipo de TrackingScraper"""
     def __init__(self, counter = None):
         self.date    = datetime.now().strftime("%d/%m/%Y a las %H:%M")
         self.counter = counter

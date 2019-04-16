@@ -1,5 +1,5 @@
 # WebDrivers from Chrome and Firefox
 driver
 
-# PNG files
-*.png
+# Error-related files
+errors

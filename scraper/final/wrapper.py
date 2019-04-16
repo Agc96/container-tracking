@@ -4,7 +4,7 @@ from scraper import TrackingScraper
 from switcher import TrackingScraperSwitcher
 
 from selenium.webdriver import Chrome
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import WebDriverException, NoSuchElementException
 from pymongo import MongoClient
 
 import datetime
@@ -24,6 +24,7 @@ class TrackingScraperWrapper():
         self.containers_table = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # TODO: Replace this with reading from config collection
         self.carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
+        self.no_hapag = False
         # Initialize failure counters
         # self.failures = [0] * len(self.carriers)
         self.fail_counter = 0
@@ -37,6 +38,8 @@ class TrackingScraperWrapper():
             no_containers = True
             # Extract one container for every carrier
             for index, carrier in enumerate(self.carriers):
+                if index == 1 and self.no_hapag:
+                    continue
                 # Check if failure counter is too much
                 if self.fail_counter >= TrackingScraperConfig.DEFAULT_RETRIES_ALL:
                     logging.error("Too much failures in total, aborting...")
@@ -75,6 +78,19 @@ class TrackingScraperWrapper():
             self.fail_counter += 1
             print("Scraper for container", container["container"], "was unsuccessful.",
                   "Total failure count:", self.fail_counter)
+            # TODO: Dejar de hardcodear esto
+            if index == 1:
+                try:
+                    document = self.driver.find_element_by_tag_name("html")
+                    with open("hapag.html", "w") as file:
+                        file.write(document.get_attribute("innerHTML"))
+                except NoSuchElementException:
+                    print("No HTML in Hapag-Lloyd error (what?)")
+                except Exception as ex:
+                    print("Could not generate HTML file:", str(ex))
+                # Send Hapag-Lloyd mail
+                self.send_mail(TrackingScraperEmail.HAPAG_MESSAGE)
+                self.no_hapag = True
             # Create new driver
             self.create_driver(True)
         # Calculate time
