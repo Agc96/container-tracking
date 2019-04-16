@@ -26,7 +26,7 @@ class TrackingScraperConfig:
     # Default query parameters for containers
     DEFAULT_CONTAINER_QUERY = ["container"]
     # Default query parameters for container movements
-    DEFAULT_MOVEMENT_QUERY  = ["container", "date"]
+    DEFAULT_MOVEMENT_QUERY  = ["container", "location", "status"]
     
     # Default user agent for the Nominatim geocode API service
     DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers"
