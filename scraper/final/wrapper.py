@@ -23,7 +23,7 @@ class TrackingScraperWrapper():
         self.database = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
         self.containers_table = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # TODO: Replace this with reading from config collection
-        self.carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
+        self.carriers = ["Maersk", "Evergreen", "Textainer"] #"Hapag-Lloyd",
         # Initialize failure counters
         # self.failures = [0] * len(self.carriers)
         self.fail_counter = 0
@@ -75,12 +75,12 @@ class TrackingScraperWrapper():
             return False
         # Error scraping a container, restart driver
         if result is False:
-            print("Scraper for container", container["container"], "was unsuccessful.",
-                  "Total failure count:", self.fail_counter)
             # Create new driver
             self.create_driver(True)
             # Add to failure count
             self.fail_counter += 1
+            print("Scraper for container", container["container"], "was unsuccessful.",
+                  "Total failure count:", self.fail_counter)
         # Calculate time
         container_end = time.time()
         while (container_end - container_start) < TrackingScraperConfig.DEFAULT_TIMEOUT:
