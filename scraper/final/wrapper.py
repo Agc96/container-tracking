@@ -23,7 +23,7 @@ class TrackingScraperWrapper():
         self.database = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
         self.containers_table = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # TODO: Replace this with reading from config collection
-        self.carriers = ["Maersk", "Evergreen", "Textainer"] #"Hapag-Lloyd",
+        self.carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
         # Initialize failure counters
         # self.failures = [0] * len(self.carriers)
         self.fail_counter = 0
@@ -42,10 +42,6 @@ class TrackingScraperWrapper():
                     logging.error("Too much failures in total, aborting...")
                     finish_execution = True
                     break
-                # Check if failure counter is suspicious
-                if self.fail_counter >= TrackingScraperConfig.DEFAULT_RETRIES_SINGLE:
-                    logging.warning("%d failures in this run...", self.fail_counter)
-                    self.send_mail(TrackingScraperEmail.ERRORS_MESSAGE)
                 # Get container
                 container = self.containers_table.find_one({
                     "carrier": carrier,
@@ -75,12 +71,12 @@ class TrackingScraperWrapper():
             return False
         # Error scraping a container, restart driver
         if result is False:
-            # Create new driver
-            self.create_driver(True)
             # Add to failure count
             self.fail_counter += 1
             print("Scraper for container", container["container"], "was unsuccessful.",
                   "Total failure count:", self.fail_counter)
+            # Create new driver
+            self.create_driver(True)
         # Calculate time
         container_end = time.time()
         while (container_end - container_start) < TrackingScraperConfig.DEFAULT_TIMEOUT:
@@ -106,6 +102,10 @@ class TrackingScraperWrapper():
         try:
             if error:
                 self.driver.save_screenshot("../errors/error_" + str(self.fail_counter) + ".png")
+                # Check if failure counter is suspicious
+                if self.fail_counter >= TrackingScraperConfig.DEFAULT_RETRIES_SINGLE:
+                    logging.warning("%d failures in this run...", self.fail_counter)
+                    self.send_mail(TrackingScraperEmail.ERRORS_MESSAGE)
             self.driver.close()
         except:
             pass
