@@ -6,8 +6,10 @@ class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
     # Default retries for the scraping wrapper
-    DEFAULT_RETRIES_SINGLE  = 2
-    DEFAULT_RETRIES_ALL     = 10
+    DEFAULT_RETRIES_CARRIER = [5, 1, 5, 5]
+    DEFAULT_RETRIES_TOTAL   = 5 * len(DEFAULT_RETRIES_CARRIER)
+    # Default extraction rounds until resetting of the scraper
+    DEFAULT_RESTART_ROUNDS  = 150
     # Default executable paths for webdrivers
     DEFAULT_PATH_CHROME     = "../driver/chromedriver"
     DEFAULT_PATH_FIREFOX    = "../driver/geckodriver"
