@@ -6,49 +6,40 @@ class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
     # Default retries for the scraping wrapper
-    DEFAULT_RETRIES_SINGLE  = 8
-    DEFAULT_RETRIES_ALL     = 20
-    # Default executable path for the Google Chrome webdriver
+    DEFAULT_RETRIES_SINGLE  = 2
+    DEFAULT_RETRIES_ALL     = 10
+    # Default executable paths for webdrivers
     DEFAULT_PATH_CHROME     = "../driver/chromedriver"
-    # Default executable path for the Firefox webdriver
     DEFAULT_PATH_FIREFOX    = "../driver/geckodriver"
     
     # Default database name
     DEFAULT_DATABASE_NAME   = "scraper2"
-    # Default table name for containers
+    # Default table names
     DEFAULT_CONTAINER_TABLE = "containers"
-    # Default table name for container movements
     DEFAULT_MOVEMENT_TABLE  = "container_movements"
-    # Default table name for carrier configuration files
     DEFAULT_CONFIG_TABLE    = "carriers"
-    # Default table name for container movements' status
     DEFAULT_STATUS_TABLE    = "statuses"
-    # Default query parameters for containers
+    # Default parameters for containers and movements
     DEFAULT_CONTAINER_QUERY = ["container"]
-    # Default query parameters for container movements
-    # TODO: Quitar DATE a la hora de ejecutar scraper3, o buscar forma de buscar por # de detalle
-    DEFAULT_MOVEMENT_QUERY  = ["container", "date", "location", "status"]
+    DEFAULT_CONTAINER_COPY  = DEFAULT_CONTAINER_QUERY + ["carrier"]
+    DEFAULT_MOVEMENT_QUERY  = DEFAULT_CONTAINER_QUERY + ["location", "status"]
     
-    # Default user agent for the Nominatim geocode API service
-    DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers"
-    # Default maximum quantity of geocode items to store in cache
-    DEFAULT_GEOCODE_MAX     = 64
-
-    # Default logging filename configuration
+    # Default configuration Nominatim geocode API service
+    DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers" # User agent
+    DEFAULT_GEOCODE_MAX     = 64 # Maximum quantity of geocode items to store in cache
+    # Default logging configuration
     DEFAULT_LOGGING_FILE    = "../logs/scraper-" + datetime.now().strftime("%Y%m%d") + ".log"
-    # Default logging level configuration
     DEFAULT_LOGGING_LEVEL   = logging.INFO
-    # Default logging format configuration
     DEFAULT_LOGGING_FORMAT  = "[%(levelname)s %(asctime)s] %(message)s"
     
-    # Default timeout for short processing, in seconds
-    DEFAULT_TIMEOUT         = 30
-    # Default timeout for long processing, in seconds
+    # Default timeouts, in seconds
+    DEFAULT_TIMEOUT_SHORT   = 30
+    DEFAULT_TIMEOUT_NORMAL  = 60
     DEFAULT_TIMEOUT_LONG    = 90
-    # Default wait for long actions, in seconds
-    DEFAULT_WAIT_LONG       = 5
-    # Default wait for short actions, in seconds
+    # Default waits, in seconds
     DEFAULT_WAIT_SHORT      = 1.5
+    DEFAULT_WAIT_NORMAL     = 3
+    DEFAULT_WAIT_LONG       = 5
     
     # Default value for the key "required" in all types
     DEFAULT_KEY_REQUIRED    = True

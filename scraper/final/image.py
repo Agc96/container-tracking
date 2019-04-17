@@ -37,13 +37,13 @@ class TrackingScraperImageProcessor:
             return None
         
         # Check for possible problems in text
-        filter_chars = self.parent_command.get("filter")
-        if isinstance(filter_chars, str):
-            for char in filter_chars:
-                if char in text:
-                    logging.info("Text has dangerous characters, retrying...")
-                    return None
-        
+        filter_words = self.parent_command.get("filters")
+        if not isinstance(filter_words, list):
+            return text
+        for word in filter_words:
+            if word in text:
+                logging.info("Text has dangerous characters, retrying...")
+                return None
         return text
     
     def _find_command(self, command):

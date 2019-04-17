@@ -4,8 +4,11 @@ class TrackingScraperError(Exception):
 
 class TrackingScraperTimeoutError(TrackingScraperError):
     """Exception for timeouts in the web browser used by the Container Tracking Scraper."""
-    def __init__(self):
-        super().__init__("Timeout exceeded, scraping was unsuccessful")
+    def __init__(self, page_loaded):
+        message = "Timeout exceeded" if page_loaded else "Could not load page"
+        super().__init__(message + ", scraping was unsuccessful")
+        # Save attributes
+        self.page_loaded = page_loaded
 
 class TrackingScraperAssertionError(TrackingScraperError):
     """Exception for assertion commands in the Container Tracking Scraper."""

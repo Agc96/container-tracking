@@ -53,26 +53,22 @@ class TrackingScraper:
                 # Check if we're still on time
                 end = time.time()
                 if (end - start) > TrackingScraperConfig.DEFAULT_TIMEOUT_LONG:
-                    raise TrackingScraperTimeoutError
-                
+                    raise TrackingScraperTimeoutError(True)
                 # Execute input
                 input_result = self._execute_commands(input_result, "input")
                 if input_result is not True:
                     logging.info("Input execution was unsuccessful, retrying...")
                     continue
-                
                 # Execute single output
                 single_result = self._execute_commands(single_result, "single")
                 if single_result is not True:
                     logging.info("Single output execution was unsuccessful, retrying...")
                     continue
-                
                 # Execute multiple output
                 multiple_result = self._execute_multiple_output(multiple_result)
                 if multiple_result is not True:
                     logging.info("Multiple output execution was unsuccessful, retrying...")
                     continue
-                
                 # Finish execution and save elements
                 self._finish_execution()
                 time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
@@ -83,6 +79,10 @@ class TrackingScraper:
             logging.warning(str(ex))
             if ex.assertion_type is False:
                 return self._finish_execution()
+            return False
+        # Check timeout errors
+        except TrackingScraperTimeoutError as ex:
+            logging.error(str(ex))
             return False
         # Check switcher errors
         except TrackingScraperSwitcherError as ex:
@@ -115,7 +115,7 @@ class TrackingScraper:
             self.__driver.get(link.format(**self.__container))
             time.sleep(TrackingScraperConfig.DEFAULT_WAIT_LONG)
         except TimeoutException:
-            raise TrackingScraperTimeoutError
+            raise TrackingScraperTimeoutError(False)
         
         # Start time counting
         return time.time()
@@ -160,8 +160,9 @@ class TrackingScraper:
         
         # Create multiple document based on configuration file
         multiple_document = dict(multiple_configuration)
-        for key in TrackingScraperConfig.DEFAULT_CONTAINER_QUERY:
+        for key in TrackingScraperConfig.DEFAULT_CONTAINER_COPY:
             multiple_document[key] = self.__container[key]
+        
         # Generate and process multiple documents
         return self.__process_multiple_elements(multiple_command, multiple_document, self.__driver)
     

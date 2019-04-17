@@ -124,7 +124,7 @@ class TrackingScraperSwitcher:
                 conditions = EC.presence_of_all_elements_located((selector_type, selector))
             
             # Prepare waiter
-            waiter = WebDriverWait(self.__driver, TrackingScraperConfig.DEFAULT_TIMEOUT)
+            waiter = WebDriverWait(self.__driver, TrackingScraperConfig.DEFAULT_TIMEOUT_SHORT)
             
             if assertion:
                 # Assert at least one element found
@@ -427,7 +427,7 @@ class TrackingScraperSwitcher:
         except ElementNotInteractableException:
             return not required
         except TimeoutException:
-            raise TrackingScraperTimeoutError
+            raise TrackingScraperTimeoutError(False)
     
     ###############################################################################################
     
@@ -436,16 +436,32 @@ class TrackingScraperSwitcher:
         self.__set_element_attribute("width")
         self.__set_element_attribute("height")
         
-        # Take screenshot of element and process it
-        image_bytes = self.__parent_element.screenshot_as_png
-        text = TrackingScraperImageProcessor(self.__parent_command, image_bytes).execute()
-        
-        # If image processing failed, execute failure commands if they exist
-        if text is None:
+        # Get required
+        required = self.__parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+
+        start_time = time.time()
+        while True:
+            # Take screenshot of element and process it
+            image_bytes = self.__parent_element.screenshot_as_png
+            text = TrackingScraperImageProcessor(self.__parent_command, image_bytes).execute()
+            if text is not None:
+                break
+            
+            # If image processing failed, search for failure commands
             failure_command = self.__parent_command.get("failure")
-            if failure_command is not None:
-                self.__generate_child_process(failure_command, self.__driver)
-            return False
+            if failure_command is None:
+                logging.warning("Process OCR failed, using required")
+                return not required
+            # If they exist, execute them and wait a bit
+            result = self.__generate_child_process(failure_command, self.__driver)
+            if result is not True:
+                logging.warning("Process OCR failure commands failed, using required")
+                return not required
+            time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
+
+            # Check if we're out of time
+            if (time.time() - start_time) > TrackingScraperConfig.DEFAULT_TIMEOUT_NORMAL:
+                raise TrackingScraperTimeoutError(True)
         
         # Find element to write image text to
         element_command = self.__parent_command.get("write")
