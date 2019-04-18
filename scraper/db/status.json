@@ -27,12 +27,12 @@
 	},
 	{
 		"code": 5,
-        "Scharff": "Transbordo",
-        "Hapag-Lloyd": "Vessel arrived"
+        "Scharff": "Transbordo"
     },
     {
         "code": 6,
-        "Scharff": "Llegada de barco"
+        "Scharff": "Llegada de barco",
+        "Hapag-Lloyd": "Vessel arrived"
     },
 	{
 		"code": 7,
@@ -43,7 +43,8 @@
 	},
 	{
 		"code": 8,
-		"Maersk": "Gate out"
+		"Maersk": "Gate out",
+		"Hapag-Lloyd": "Departure from"
 	},
 	{
 		"code": 9,

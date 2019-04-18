@@ -7,7 +7,8 @@
             "processed": true
         },
         "multiple": {
-            "transport_type": "Truck",
+            "vehicle": "Unknown",
+            "vehicle_code": 0,
             "estimated": true
         }
     },
@@ -119,17 +120,25 @@
                     {
                         "index": 4,
                         "type": "compare",
-                        "values": "Truck",
-                        "success": null,
+                        "value": "Truck",
+                        "success": [
+                            {
+                                "type": "save",
+                                "key": "vehicle",
+                                "value": "Truck",
+                                "format": "vehicle"
+                            }
+                        ],
                         "failure": [
                             {
                                 "type": "save",
-                                "key": "transport_type",
-                                "value": "Vessel"
+                                "key": "vehicle",
+                                "value": "Vessel",
+                                "format": "vehicle"
                             },
                             {
                                 "type": "save",
-                                "key": "transport_ship",
+                                "key": "vessel",
                                 "required": false
                             }
                         ]
@@ -137,7 +146,7 @@
                     {
                         "index": 5,
                         "type": "save",
-                        "key": "transport_voyage",
+                        "key": "voyage",
                         "required": false
                     }
                 ]

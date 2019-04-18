@@ -61,7 +61,7 @@
 				{
 					"index": 0,
 					"type": "compare",
-					"values": ["HAPAG LLOYD", "HAPAG"],
+					"values": ["HAPAG LLOYD", "HAPAG", "HAPAG-UASCO PLB", "UASC"],
 					"success": [
 						{
 							"type": "save",
@@ -72,7 +72,7 @@
 					"failure": [
 						{
 							"type": "compare",
-							"values": ["EVERGREEN"],
+							"values": ["EVERGREEN", "EVERGREEN MAG"],
 							"success": [
 								{
 									"type": "save",

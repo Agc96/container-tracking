@@ -13,10 +13,10 @@ class TrackingScraperConverter:
     
     # Nominatim geolocator instance
     GEOLOCATOR = Nominatim(user_agent = TrackingScraperConfig.DEFAULT_GEOCODE_AGENT)
-    LOCATIONS  = {}
-    # MongoDB collection instance
+    # MongoDB collection instances
     DATABASE   = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
     STATUSES   = DATABASE[TrackingScraperConfig.DEFAULT_STATUS_TABLE]
+    LOCATIONS  = DATABASE[TrackingScraperConfig.DEFAULT_LOCATIONS_TABLE]
     
     def __init__(self, document, raw_text, format_type, configuration):
         self.document      = document
@@ -103,34 +103,60 @@ class TrackingScraperConverter:
         """Convert text to a location with latitude and longitude geographical points."""
         # Get location (raw text) as address
         location = self.raw_text
-        # Use last line as parent location and check if it's in cache
-        query = location.split("\n")[-1]
-        coordinates = self.LOCATIONS.get(query)
-        if coordinates is not None:
-            self.document["latitude"]  = coordinates.latitude
-            self.document["longitude"] = coordinates.longitude
-            logging.info("[TEST] using cached location")
+        # Use last line as parent location and check if it's in database
+        query1 = location.split("\n")[-1]
+        if self.get_location(query1):
+            return location
+        query2 = query1.split(",", 1)[1]
+        if self.get_location(query2):
             return location
         # If it's not, query it to Nominatim
         try:
-            coordinates = self.GEOLOCATOR.geocode(query)
-            # Save the coordinates given by the service, if they exist
-            if coordinates is None:
-                logging.warning("Service could not find geolocation, skipping...")
-            else:
-                self.document["latitude"]  = coordinates.latitude
-                self.document["longitude"] = coordinates.longitude
-                # Save also to location dictionary for reusing them, if there's space left
-                if (len(self.LOCATIONS) < TrackingScraperConfig.DEFAULT_GEOCODE_MAX):
-                    self.LOCATIONS[query] = coordinates
-                    # logging.info("[TEST] saving to location cache")
-                else:
-                    self.LOCATIONS = {}
-                    # logging.info("[TEST] location cache cleared")
+            if self.save_location(query1):
+                return location
+            if self.save_location(query2):
+                return location
         except GeopyError:
             logging.exception("Error while trying to query geocode")
         # Finally, go to the scraper switcher to save the location as text
         return location
+    
+    def get_location(self, location):
+        coordinates = self.LOCATIONS.find_one({ "location": location })
+        if coordinates is None:
+            # logging.info(location, "not found in database")
+            return False
+        try:
+            self.document["latitude"]  = coordinates["latitude"]
+            self.document["longitude"] = coordinates["longitude"]
+            # logging.info(location, coordinates["latitude"], coordinates["longitude"], "in database")
+        except KeyError as ex:
+            logging.error("No %s found in database coordinate, suspicious...", str(ex))
+        return True
+    
+    def save_location(self, location):
+        coordinates = self.GEOLOCATOR.geocode(location)
+        if coordinates is None:
+            # logging.info(location, "not found by Nominatim")
+            return False
+        # Save attribute to document
+        try:
+            self.document["latitude"]  = coordinates.latitude
+            self.document["longitude"] = coordinates.longitude
+            # logging.info(location, coordinates.latitude, coordinates.longitude, "by Nominatim")
+        except AttributeError as ex:
+            logging.error("No %s found in Nominatim coordinate, suspicious...", str(ex))
+        # Save attribute to location database
+        try:
+            query = {
+                "location"  : location,
+                "latitude"  : coordinates.latitude,
+                "longitude" : coordinates.longitude
+            }
+            self.LOCATIONS.update_one({"location": location}, {"$set": query}, upsert = True)
+        except Exception as ex:
+            logging.error("Location could not be saved: %s", str(ex))
+        return True
     
     def convert_to_status(self):
         """Convert text to a tracking status based on the configuration for translation."""
@@ -140,9 +166,24 @@ class TrackingScraperConverter:
         # Get status code from database
         if carrier is not None:
             translation = self.STATUSES.find_one({ carrier: status })
-            if translation is not None:
-                self.document["status_code"] = translation["code"]
+            self.document["status_code"] = translation["code"] if translation else 0
         else:
             raise TrackingScraperError("Convert to status: carrier not found")
         # Finally, go to the scraper switcher to save the status as text
         return status
+    
+    def convert_to_vehicle(self):
+        """Convert text to a tracking vehicle type based on the common configuration."""
+        # Get vehicle (text from the DOM)
+        # TODO: Don't hardcode this
+        vehicle = self.raw_text
+        if vehicle == "Vessel":
+            self.document["vehicle_code"] = 1
+        elif vehicle == "Truck":
+            self.document["vehicle_code"] = 2
+        elif vehicle == "Train":
+            self.document["vehicle_code"] = 3
+        else:
+            self.document["vehicle_code"] = 0
+        # Finally, go to the scraper switcher to save the vehicle as text
+        return vehicle

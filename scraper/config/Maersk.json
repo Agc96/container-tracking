@@ -7,7 +7,9 @@
 			"processed": true
 		},
 		"multiple": {
-			"estimated": true
+			"vehicle": "Unknown",
+			"vehicle_code": 0,
+			"estimated": false
 		}
 	},
 	"input": [
@@ -166,12 +168,12 @@
 					"name": "data-status",
 					"command": {
 						"type": "compare",
-						"values": ["done", "current"],
+						"values": ["planned"],
 						"success": [
 							{
 								"type": "save",
 								"key": "estimated",
-								"value": false
+								"value": true
 							}
 						],
 						"failure": null,
@@ -214,7 +216,7 @@
 										{
 											"index": 1,
 											"type": "save",
-											"key": "transport_ship",
+											"key": "vessel",
 											"required": false
 										}
 									]
@@ -238,7 +240,7 @@
 												{
 													"index": 0,
 													"type": "save",
-													"key": "transport_voyage"
+													"key": "voyage"
 												}
 											],
 											"required": false
@@ -255,8 +257,9 @@
 					"selector": "icon-vessel",
 					"command": {
 						"type": "save",
-						"key": "transport_type",
-						"value": "Vessel"
+						"key": "vehicle",
+						"value": "Vessel",
+						"format": "vehicle"
 					},
 					"required": false
 				},
@@ -265,8 +268,20 @@
 					"selector": "icon-truck",
 					"command": {
 						"type": "save",
-						"key": "transport_type",
-						"value": "Truck"
+						"key": "vehicle",
+						"value": "Truck",
+						"format": "vehicle"
+					},
+					"required": false
+				},
+				{
+					"type": "class",
+					"selector": "icon-train",
+					"command": {
+						"type": "save",
+						"key": "vehicle",
+						"value": "Train",
+						"format": "vehicle"
 					},
 					"required": false
 				}

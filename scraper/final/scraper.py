@@ -23,7 +23,7 @@ class TrackingScraper:
         
         # Get configuration file
         try:
-            with open("../config/" + self.__container["carrier"] + ".json") as file:
+            with open("../config/" + self.__container["carrier"] + ".json", encoding = "UTF-8") as file:
                 self.__configuration = json.load(file)
         except KeyError:
             raise TrackingScraperError("Carrier not found")

@@ -23,7 +23,7 @@ class TrackingScraperWrapper():
         self.database   = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
         self.containers = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # TODO: Replace this with reading from config collection
-        self.carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
+        self.carriers = ["Maersk", "Evergreen", "Textainer"] # "Hapag-Lloyd"
         # Initialize counters
         self.scraper_counter_total    = 0
         self.failure_counter_total    = 0

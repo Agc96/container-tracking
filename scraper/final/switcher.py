@@ -247,16 +247,14 @@ class TrackingScraperSwitcher:
         if attribute is None:
             raise TrackingScraperSwitcherError("Save key not found", self.__parent_command)
         
-        # If a value was already defined, save it and exit
+        # Get value if it was defined, else get from DOM text
         value = self.__parent_command.get("value")
-        if value is not None:
-            self.__document[attribute] = value
-            return True
+        if value is None:
+            value = self.__get_parent_text()
         
-        # Get text to be saved, and verify if it's not empty
-        value    = self.__get_parent_text()
+        # Verify if value is an empty string
         required = self.__parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
-        if len(value) == 0:
+        if isinstance(value, str) and len(value) == 0:
             logging.info("Command: %s", self.print_command(self.__parent_command))
             logging.info("Text to save is empty, using required")
             return not required
