@@ -110,6 +110,7 @@ class TrackingScraperConverter:
         if self.save_location(query):
             return location
         # If that didn't work, try removing a comma
+        """
         try:
             query = query.split(",", 1)[1]
             if self.get_location(query):
@@ -118,7 +119,9 @@ class TrackingScraperConverter:
                 return location
         except IndexError:
             pass
+        """
         # Finally, go to the scraper switcher to save the location as text
+        logging.warning("Couldn't find information for this location")
         return location
     
     def get_location(self, location):
@@ -179,15 +182,13 @@ class TrackingScraperConverter:
     def convert_to_vehicle(self):
         """Convert text to a tracking vehicle type based on the common configuration."""
         # Get vehicle (text from the DOM)
-        # TODO: Don't hardcode this
         vehicle = self.raw_text
-        if vehicle == "Vessel":
-            self.document["vehicle_code"] = 1
-        elif vehicle == "Truck":
-            self.document["vehicle_code"] = 2
-        elif vehicle == "Train":
-            self.document["vehicle_code"] = 3
-        else:
-            self.document["vehicle_code"] = 0
+        # TODO: Don't hardcode this
+        vehicles = {
+            "Vessel" : 1,
+            "Truck"  : 2,
+            "Train"  : 3
+        }
+        self.document["vehicle_code"] = vehicles.get(vehicle, 0)
         # Finally, go to the scraper switcher to save the vehicle as text
         return vehicle
