@@ -162,7 +162,7 @@ class TrackingScraperWrapper():
             print("Screenshot could not be taken:", str(ex))
         # Save the page's HTML content
         try:
-            with open(filename + ".html", "w") as file:
+            with open(filename + ".html", "w", encoding = "UTF-8") as file:
                 file.write(self.driver.page_source)
         except Exception as ex:
             print("HTML source could not be saved:", str(ex))
