@@ -23,7 +23,7 @@ class TrackingScraperWrapper():
         self.database   = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
         self.containers = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # TODO: Replace this with reading from config collection
-        self.carriers = ["Maersk", "Evergreen", "Textainer"] # "Hapag-Lloyd"
+        self.carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
         # Initialize counters
         self.scraper_counter_total    = 0
         self.failure_counter_total    = 0
@@ -162,13 +162,10 @@ class TrackingScraperWrapper():
             print("Screenshot could not be taken:", str(ex))
         # Save the page's HTML content
         try:
-            document = self.driver.find_element_by_tag_name("html")
             with open(filename + ".html", "w") as file:
-                file.write(document.get_attribute("innerHTML"))
-        except NoSuchElementException:
-            print("No HTML in Hapag-Lloyd error (what?)")
+                file.write(self.driver.page_source)
         except Exception as ex:
-            print("HTML could not be saved:", str(ex))
+            print("HTML source could not be saved:", str(ex))
 
     def send_mail(self, message, extra = None):
         """Send an email to the administrator."""

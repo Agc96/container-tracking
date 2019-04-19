@@ -120,7 +120,7 @@
                     {
                         "index": 4,
                         "type": "compare",
-                        "value": "Truck",
+                        "values": ["Truck"],
                         "success": [
                             {
                                 "type": "save",

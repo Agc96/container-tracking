@@ -87,7 +87,6 @@ class TrackingScraperImageProcessor:
         # Process image according to whitelist
         if whitelist:
             config += " -c tessedit_char_whitelist=" + whitelist
-        print(config)
         
         # Clean whitespace and return
         text = pytesseract.image_to_string(self.image, config = config)

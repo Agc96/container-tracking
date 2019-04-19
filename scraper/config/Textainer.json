@@ -52,7 +52,7 @@
 		{
 			"type": "save",
 			"key": "carrier",
-			"value": ""
+			"value": "Unknown"
 		},
 		{
 			"type": "class",

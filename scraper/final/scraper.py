@@ -117,6 +117,12 @@ class TrackingScraper:
         except TimeoutException:
             raise TrackingScraperTimeoutError(False)
         
+        # Check if page is a Chrome error
+        chrome_error = self.__driver.find_elements_by_id("main-frame-error")
+        if len(chrome_error) > 0:
+            logging.error("Chrome error detected: %s", chrome_error[0].text)
+            raise TrackingScraperTimeoutError(False)
+        
         # Start time counting
         return time.time()
     

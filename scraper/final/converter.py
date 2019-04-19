@@ -104,20 +104,20 @@ class TrackingScraperConverter:
         # Get location (raw text) as address
         location = self.raw_text
         # Use last line as parent location and check if it's in database
-        query1 = location.split("\n")[-1]
-        if self.get_location(query1):
+        query = location.split("\n")[-1]
+        if self.get_location(query):
             return location
-        query2 = query1.split(",", 1)[1]
-        if self.get_location(query2):
+        if self.save_location(query):
             return location
-        # If it's not, query it to Nominatim
+        # If that didn't work, try removing a comma
         try:
-            if self.save_location(query1):
+            query = query.split(",", 1)[1]
+            if self.get_location(query):
                 return location
-            if self.save_location(query2):
+            if self.save_location(query):
                 return location
-        except GeopyError:
-            logging.exception("Error while trying to query geocode")
+        except IndexError:
+            pass
         # Finally, go to the scraper switcher to save the location as text
         return location
     
@@ -131,11 +131,15 @@ class TrackingScraperConverter:
             self.document["longitude"] = coordinates["longitude"]
             # logging.info(location, coordinates["latitude"], coordinates["longitude"], "in database")
         except KeyError as ex:
-            logging.error("No %s found in database coordinate, suspicious...", str(ex))
+            logging.warning("No %s found in database coordinate, suspicious...", str(ex))
         return True
     
     def save_location(self, location):
-        coordinates = self.GEOLOCATOR.geocode(location)
+        try:
+            coordinates = self.GEOLOCATOR.geocode(location)
+        except Exception:
+            logging.exception("Error while trying to query geocode")
+            return False
         if coordinates is None:
             # logging.info(location, "not found by Nominatim")
             return False
@@ -145,7 +149,7 @@ class TrackingScraperConverter:
             self.document["longitude"] = coordinates.longitude
             # logging.info(location, coordinates.latitude, coordinates.longitude, "by Nominatim")
         except AttributeError as ex:
-            logging.error("No %s found in Nominatim coordinate, suspicious...", str(ex))
+            logging.warning("No %s found in Nominatim coordinate, suspicious...", str(ex))
         # Save attribute to location database
         try:
             query = {

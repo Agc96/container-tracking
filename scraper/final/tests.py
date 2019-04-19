@@ -145,7 +145,7 @@ class TrackingScraperTestCase(unittest.TestCase):
             }
         ])
     
-    def TODAVIA_test02_HapagLloyd(self):
+    def test02_HapagLloyd(self):
         container = {
             "container"    : "FSCU5670046",
             "carrier"      : "Hapag-Lloyd",
@@ -155,14 +155,89 @@ class TrackingScraperTestCase(unittest.TestCase):
         # Assert container information
         self.assertContainer(dict(container), {
             "description"   : "REEFER CONTAINER",
-            "last_status"   : "container departed",
+            "last_status"   : "container arrived",
             "last_location" : "NORFOLK, VA",
-            "last_date"     : datetime(2019, 4, 9)
+            "last_date"     : datetime(2019, 4, 17)
         })
         # Assert container movements
-        # self.assertMovements(container)
+        self.assertMovements(container, [
+            {
+                "location"     : "NORFOLK, VA",
+                "latitude"     : 36.8462923,
+                "longitude"    : -76.2929252,
+                "date"         : datetime(2019, 4, 16, 13, 58),
+                "status"       : "Gate out empty",
+                "status_code"  : 1,
+                "vehicle"      : "Truck",
+                "vehicle_code" : 2,
+                "estimated"    : False
+            },
+            {
+                "location"     : "NORFOLK, VA",
+                "latitude"     : 36.8462923,
+                "longitude"    : -76.2929252,
+                "date"         : datetime(2019, 4, 17, 15, 51),
+                "status"       : "Arrival in",
+                "status_code"  : 2,
+                "vehicle"      : "Truck",
+                "vehicle_code" : 2,
+                "estimated"    : False
+            },
+            {
+                "location"     : "NORFOLK, VA",
+                "latitude"     : 36.8462923,
+                "longitude"    : -76.2929252,
+                "date"         : datetime(2019, 4, 23, 7, 0),
+                "status"       : "Vessel departure",
+                # "status_code"  : 4,
+                "vehicle"      : "Vessel",
+                "vehicle_code" : 1,
+                "vessel"       : "DIMITRA C",
+                "voyage"       : "304W",
+                "estimated"    : True
+            },
+            {
+                "location"     : "JEBEL ALI",
+                "latitude"     : 25.0287816,
+                "longitude"    : 55.1238225,
+                "date"         : datetime(2019, 5, 16, 11, 0),
+                "status"       : "Vessel arrival",
+                # "status_code" : 6,
+                "vehicle"      : "Vessel",
+                "vehicle_code" : 1,
+                "vessel"       : "DIMITRA C",
+                "voyage"       : "304W",
+                "estimated"    : True
+            },
+            {
+                "location"     : "JEBEL ALI",
+                "latitude"     : 25.0287816,
+                "longitude"    : 55.1238225,
+                "date"         : datetime(2019, 5, 21, 15, 0),
+                "status"       : "Vessel departure",
+                # "status_code" : 4,
+                "vehicle"      : "Vessel",
+                "vehicle_code" : 1,
+                "vessel"       : "NORTHERN DEDICATION",
+                "voyage"       : "1920E",
+                "estimated"    : True
+            },
+            {
+                "location"     : "ABU DHABI",
+                "latitude"     : 23.99764435,
+                "longitude"    : 53.6439097569213,
+                "date"         : datetime(2019, 5, 22, 12, 0),
+                "status"       : "Vessel arrival",
+                # "status_code" : 6,
+                "vehicle"      : "Vessel",
+                "vehicle_code" : 1,
+                "vessel"       : "NORTHERN DEDICATION",
+                "voyage"       : "1920E",
+                "estimated"    : True
+            }
+        ])
     
-    def LISTO_test03_Evergreen(self):
+    def test03_Evergreen(self):
         container = {
             "container"    : "EGSU9089973",
             "carrier"      : "Evergreen",
@@ -220,7 +295,7 @@ class TrackingScraperTestCase(unittest.TestCase):
             }
         ])
     
-    def TODAVIA_test04_Textainer(self):
+    def test04_Textainer(self):
         container = {
             "container":    "TEMU3806660",
             "carrier":      "Textainer",
