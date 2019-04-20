@@ -36,7 +36,7 @@ class TrackingScraperWrapper():
     def execute(self):
         total_start = time.time()
 
-        while not self.finish:
+        while True:
             no_containers = True
             # Extract one container for every carrier
             for index, carrier in enumerate(self.carriers):
@@ -44,8 +44,6 @@ class TrackingScraperWrapper():
                 check = self.check_carrier(index)
                 if check is True:
                     continue
-                if check is False:
-                    break
                 # Get container
                 container = self.containers.find_one({ "carrier": carrier, "processed": False })
                 if container is None:
@@ -55,7 +53,7 @@ class TrackingScraperWrapper():
                 self.execute_scraper(container, index, carrier)
             # Check if we have containers left:
             if no_containers:
-                self.finish = True
+                break
         
         # Print usage time
         print("Finished scraping! Will everything be OK?")
@@ -64,18 +62,13 @@ class TrackingScraperWrapper():
         print("Extracted", self.scraper_counter_total, "containers")
         
         # Finish execution by closing driver and sending mail
-        self.send_mail(TrackingScraperEmail.FINISH_MESSAGE)
+        self.send_mail(TrackingScraperEmail.FINISH_MESSAGE, self.scraper_counter_total)
         self.close()
     
     def check_carrier(self, index):
         # Check if carrier failure counter is too much
         if self.failure_counter_carriers[index] >= TrackingScraperConfig.DEFAULT_RETRIES_CARRIER[index]:
             return True
-        # Check if total failure counter is too much
-        if self.failure_counter_total >= TrackingScraperConfig.DEFAULT_RETRIES_TOTAL:
-            print("Too much failures in total, aborting...")
-            self.finish = True
-            return False
         # Check if a scraper counter for a carrier is too much
         for scraper_counter in self.scraper_counter_carriers:
             if scraper_counter >= TrackingScraperConfig.DEFAULT_RESTART_ROUNDS:
@@ -101,8 +94,9 @@ class TrackingScraperWrapper():
             print("Scraper for container", container["container"], "was unsuccessful.",
                   "Total failure count:", self.failure_counter_total)
             # Send mails
-            self.send_mail(TrackingScraperEmail.CARRIER_MESSAGE, carrier)
-            if self.failure_counter_carriers[index] >= TrackingScraperConfig.DEFAULT_RETRIES_CARRIER[index]:
+            self.send_mail(TrackingScraperEmail.CARRIER_MESSAGE, self.failure_counter_carriers[index], carrier)
+            # Send mail if total failure counter is too much
+            if self.failure_counter_total >= TrackingScraperConfig.DEFAULT_RETRIES_TOTAL:
                 self.send_mail(TrackingScraperEmail.ERRORS_MESSAGE, self.failure_counter_total)
             # Create new driver
             self.create_driver(True)
@@ -166,11 +160,11 @@ class TrackingScraperWrapper():
                 file.write(self.driver.page_source)
         except Exception as ex:
             print("HTML source could not be saved:", str(ex))
-
-    def send_mail(self, message, extra = None):
+    
+    def send_mail(self, message, counter = None, carrier = None):
         """Send an email to the administrator."""
         try:
-            TrackingScraperEmail(extra).send(message)
+            TrackingScraperEmail(counter = counter, carrier = carrier).send(message)
         except Exception as ex:
             print("Could not send mail to administrator:", str(ex))
     
