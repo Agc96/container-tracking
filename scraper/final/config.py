@@ -6,8 +6,8 @@ class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
     # Default retries for the scraping wrapper
-    DEFAULT_RETRIES_CARRIER = [5, 1, 5, 5]
-    DEFAULT_RETRIES_TOTAL   = 5 * len(DEFAULT_RETRIES_CARRIER)
+    DEFAULT_RETRIES_CARRIER = [20, 4, 20, 20]
+    DEFAULT_RETRIES_TOTAL   = 20 * len(DEFAULT_RETRIES_CARRIER)
     # Default extraction rounds until resetting of the scraper
     DEFAULT_RESTART_ROUNDS  = 150
     # Default executable paths for webdrivers
@@ -28,8 +28,7 @@ class TrackingScraperConfig:
     DEFAULT_MOVEMENT_QUERY  = DEFAULT_CONTAINER_COPY  + ["location", "status"]
     
     # Default configuration Nominatim geocode API service
-    DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers" # User agent
-    DEFAULT_GEOCODE_MAX     = 64 # Maximum quantity of geocode items to store in cache
+    DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers"
     # Default logging configuration
     DEFAULT_LOGGING_FILE    = "../logs/scraper-" + datetime.now().strftime("%Y%m%d") + ".log"
     DEFAULT_LOGGING_LEVEL   = logging.INFO

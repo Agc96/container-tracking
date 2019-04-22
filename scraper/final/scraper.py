@@ -58,16 +58,19 @@ class TrackingScraper:
                 input_result = self._execute_commands(input_result, "input")
                 if input_result is not True:
                     logging.info("Input execution was unsuccessful, retrying...")
+                    time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
                     continue
                 # Execute single output
                 single_result = self._execute_commands(single_result, "single")
                 if single_result is not True:
                     logging.info("Single output execution was unsuccessful, retrying...")
+                    time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
                     continue
                 # Execute multiple output
                 multiple_result = self._execute_multiple_output(multiple_result)
                 if multiple_result is not True:
                     logging.info("Multiple output execution was unsuccessful, retrying...")
+                    time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
                     continue
                 # Finish execution and save elements
                 self._finish_execution()

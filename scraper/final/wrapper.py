@@ -140,11 +140,9 @@ class TrackingScraperWrapper():
     def close(self):
         """Closes the web browser and the WebDriver."""
         try:
-            self.driver.close()
-        except AttributeError:
-            pass # WebDriver did not exist
-        except Exception as ex:
-            print("WebDriver could not be closed:", str(ex))
+            self.driver.quit()
+        except:
+            pass # Doesn't matter
     
     def screenshot(self):
         """Take a screenshot of the current page and save its HTML content, for debugging."""
