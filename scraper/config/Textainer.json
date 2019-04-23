@@ -1,5 +1,5 @@
 {
-	"name": "Textainer",
+	"carrier": "Textainer",
 	"general": {
 		"url": "http://tex.textainer.com/Equipment/StatusAndSpecificationsInquiry.aspx",
 		"date_formats": ["%Y-%b-%d"],

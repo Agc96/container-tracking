@@ -1,18 +1,19 @@
 from datetime import datetime
 
 import logging
+import sys
 
 class TrackingScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
-    # Default retries for the scraping wrapper
-    DEFAULT_RETRIES_CARRIER = [20, 4, 20, 20]
-    DEFAULT_RETRIES_TOTAL   = 20 * len(DEFAULT_RETRIES_CARRIER)
-    # Default extraction rounds until resetting of the scraper
+    # Default values for scraper resetting and failure count
     DEFAULT_RESTART_ROUNDS  = 150
-    # Default executable paths for webdrivers
-    DEFAULT_PATH_CHROME     = "../driver/chromedriver"
-    DEFAULT_PATH_FIREFOX    = "../driver/geckodriver"
+    DEFAULT_FAILURE_WARNING = 20
+    DEFAULT_FAILURE_WAIT    = 60
+    
+    # WebDriver locations
+    DEFAULT_PATH_CHROME     = "C:/WebDriver/chromedriver" if sys.platform == "win32" else "/usr/local/bin/chromedriver"
+    DEFAULT_PATH_FIREFOX    = "C:/WebDriver/geckodriver"  if sys.platform == "win32" else "/usr/local/bin/geckodriver"
     
     # Default database name
     DEFAULT_DATABASE_NAME   = "scraper2"
@@ -30,7 +31,7 @@ class TrackingScraperConfig:
     # Default configuration Nominatim geocode API service
     DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers"
     # Default logging configuration
-    DEFAULT_LOGGING_FILE    = "../logs/scraper-" + datetime.now().strftime("%Y%m%d") + ".log"
+    DEFAULT_LOGGING_FILE    = "scraper-{}.log".format(datetime.now().strftime("%Y%m%d"))
     DEFAULT_LOGGING_LEVEL   = logging.INFO
     DEFAULT_LOGGING_FORMAT  = "[%(levelname)s %(asctime)s] %(message)s"
     

@@ -1,7 +1,7 @@
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
-# Python cache
+# Python cache files
 __pycache__
 *.pyc
 
@@ -14,3 +14,6 @@ dumps
 # Environment variables
 .env
 env.*
+
+# Visual Studio Code folder
+.vscode

@@ -7,28 +7,19 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException, TimeoutException
 
 import datetime
-import json
 import logging
 import time
 
 class TrackingScraper:
     """Main class for the Tracking Web Scraper."""
     
-    def __init__(self, driver, database, container):
+    def __init__(self, driver, database, container, configuration):
         self.__driver          = driver
         self.__database        = database
         self.__container_table = database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         self.__movement_table  = database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
         self.__container       = container
-        
-        # Get configuration file
-        try:
-            with open("../config/" + self.__container["carrier"] + ".json", encoding = "UTF-8") as file:
-                self.__configuration = json.load(file)
-        except KeyError:
-            raise TrackingScraperError("Carrier not found")
-        except FileNotFoundError:
-            raise TrackingScraperError("Configuration file not found")
+        self.__configuration   = configuration
         
         # Check if general configuration exists
         if "general" not in self.__configuration:
@@ -47,8 +38,10 @@ class TrackingScraper:
         input_result    = False
         single_result   = False
         multiple_result = False
+        
+        start = end = time.time()
         try:
-            start = self._go_to_url()
+            self._go_to_url()
             while True:
                 # Check if we're still on time
                 end = time.time()
@@ -74,31 +67,35 @@ class TrackingScraper:
                     continue
                 # Finish execution and save elements
                 self._finish_execution()
-                time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
+                # Wait until we've reached the timeout, to avoid saturating the servers
+                end = time.time()
+                while (end - start) < TrackingScraperConfig.DEFAULT_TIMEOUT_SHORT:
+                    time.sleep(1)
+                    end = time.time()
                 break
-            return True
+            return True, end - start
         # Check assertions
         except TrackingScraperAssertionError as ex:
             logging.warning(str(ex))
             if ex.assertion_type is False:
                 return self._finish_execution()
-            return False
+            return False, end - start
         # Check timeout errors
         except TrackingScraperTimeoutError as ex:
             logging.error(str(ex))
-            return False
+            return False, end - start
         # Check switcher errors
         except TrackingScraperSwitcherError as ex:
             logging.error("Command: %s", TrackingScraperSwitcher.print_command(ex.command))
             logging.error(str(ex))
-            return False
+            return False, end - start
         # Check common errors
         except TrackingScraperError as ex:
             logging.error(str(ex))
-            return False
+            return False, end - start
         except Exception:
             logging.exception("Unknown exception ocurred in scraper")
-            return None
+            return None, end - start
     
     ###############################################################################################
     
@@ -125,9 +122,6 @@ class TrackingScraper:
         if len(chrome_error) > 0:
             logging.error("Chrome error detected: %s", chrome_error[0].text)
             raise TrackingScraperTimeoutError(False)
-        
-        # Start time counting
-        return time.time()
     
     ###############################################################################################
     

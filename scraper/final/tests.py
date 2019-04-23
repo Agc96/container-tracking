@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from pymongo import MongoClient, ASCENDING, DESCENDING
 from datetime import datetime
 
+import json
 import logging
 import unittest
 
@@ -14,9 +15,9 @@ class TrackingScraperTestCase(unittest.TestCase):
     
     def setUp(self):
         # Initialize WebDriver
-        options = Options()
-        options.add_argument("--start-maximized")
-        self.driver = WebDriver(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME, options = options)
+        chromeoptions = Options()
+        chromeoptions.add_argument("--start-maximized")
+        self.driver = WebDriver(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME, options = chromeoptions)
         # Initialize database
         self.database  = MongoClient()["scrapertests"]
         self.movements = self.database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
@@ -307,8 +308,11 @@ class TrackingScraperTestCase(unittest.TestCase):
         })
     
     def assertContainer(self, container, expected):
+        # Get configuration file
+        with open("../config/{}.json".format(container["carrier"]), "w", encoding = "UTF-8") as file:
+            configuration = json.load(file)
         # Execute scraper and assert result
-        scraper = TrackingScraper(self.driver, self.database, dict(container))
+        scraper = TrackingScraper(self.driver, self.database, dict(container), configuration)
         if scraper.execute() is not True:
             self.fail("Scraper execution failed, check log for details.")
         # Assert from expected container items
