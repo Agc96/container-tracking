@@ -1,0 +1,533 @@
+container,first_date,first_location,first_status,last_date,last_location,last_status
+EGSU5007719,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU5010630,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU5015972,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU5016752,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage
+EGSU5017743,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGSU5019284,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU5023258,2019-04-10 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU5023725,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU5678583,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5687688,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5689675,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5691498,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5692149,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU5692344,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5279873,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5279997,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5282286,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5285691,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-17 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5287349,2019-04-10 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-19 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5289911,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5290105,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5292875,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5295956,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5312800,2019-04-10 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5313371,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5314681,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5314995,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage
+EMCU5324720,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5326466,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5328828,2019-04-10 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5330907,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5340844,2019-04-10 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5342153,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-17 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5345189,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5360711,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5362735,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5396669,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5404297,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5408327,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5698506,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5699293,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU5700429,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5701169,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5704240,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5704424,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned
+EISU5705708,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-17 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU5706089,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5241034,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage
+EMCU5244537,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5248656,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5253159,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5253441,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5254480,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5255634,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5260538,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-17 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage
+EMCU5262124,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5262546,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5262741,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5263310,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5264209,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5266182,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5268246,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5268740,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5274064,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5274341,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5421695,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+TEMU9075979,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU5003495,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGHU5006278,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGHU5006982,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU5009235,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU5010920,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGSU5004793,2019-04-02 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGSU5005172,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+TGBU5996240,2019-04-12 00:00:00,CALLAO (PE),Received,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2253749,2019-04-10 00:00:00,CALLAO (PE),Empty container returned,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+HMCU3092084,2019-04-10 00:00:00,CALLAO (PE),Received,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU3267190,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-16 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage
+EGHU3294160,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-15 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage
+EGHU3634167,2019-04-10 00:00:00,CALLAO (PE),Empty container returned,2019-04-16 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage
+EGHU3662359,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-18 00:00:00,CALLAO (PE),Received
+EGHU3683433,2019-04-12 00:00:00,CALLAO (PE),Empty container returned,2019-04-18 00:00:00,CALLAO (PE),Received
+HMCU3051803,2019-04-09 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2211888,2019-04-04 00:00:00,CALLAO (PE),Received,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EMCU3903002,2019-04-08 00:00:00,CALLAO (PE),Received,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EMCU3935680,2019-04-11 00:00:00,CALLAO (PE),Empty container returned under damaged condition,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EGHU9245352,2019-04-12 00:00:00,CALLAO (PE),Received (FCL),2019-04-15 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+TGBU5823774,2019-04-05 00:00:00,CALLAO (PE),Empty container returned,2019-04-16 00:00:00,CALLAO (PE),Received (FCL)
+HMCU3087724,2019-04-09 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+TEMU4845589,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EMCU9764630,2019-03-30 00:00:00,CALLAO (PE),Empty container returned under damaged condition,2019-04-13 00:00:00,CALLAO (PE),Empty container returned
+TEMU8931849,2019-04-13 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-15 00:00:00,CALLAO (PE),Received
+EGHU9356675,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-16 00:00:00,CALLAO (PE),Received
+TGBU6279449,2019-04-12 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EGHU3225410,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-20 00:00:00,CALLAO (PE),Despatched by truck
+EGHU3657054,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-19 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage
+TEMU4295271,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-16 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage
+EISU9160967,2019-03-28 00:00:00,CALLAO (PE),Full import container received at inland depot,2019-04-13 00:00:00,CALLAO (PE),Empty container returned
+EMCU3865031,2019-04-12 00:00:00,CALLAO (PE),Empty container returned,2019-04-20 00:00:00,CALLAO (PE),Received (FCL)
+EMCU3635189,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+EISU9155209,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+LTIU8007438,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+TGHU6487589,2019-03-27 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+EGHU9052332,2019-04-05 00:00:00,CALLAO (PE),Despatched by truck,2019-04-13 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+EISU9459937,2019-04-03 00:00:00,CALLAO (PE),Empty container returned,2019-04-14 00:00:00,CALLAO (PE),Received
+EGHU3345884,2019-04-11 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGSU1014561,2019-04-12 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EISU2049817,2019-04-12 00:00:00,CALLAO (PE),Received (FCL),2019-04-15 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU1886151,2019-04-04 00:00:00,CALLAO (PE),Empty container returned under damaged condition,2019-04-13 00:00:00,CALLAO (PE),Empty container returned
+EGHU3169445,2019-04-10 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+HMCU9138881,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+HMCU9064198,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EMCU9741906,2019-04-12 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage
+EMCU1437760,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-17 00:00:00,ARICA (CL),Pick-up by merchant haulage
+TEMU2860516,2019-04-11 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition,2019-04-17 00:00:00,IQUIQUE (CL),Received (FCL)
+HMCU9180053,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EGHU3419312,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-17 00:00:00,ARICA (CL),Pick-up by merchant haulage
+EGHU9017455,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-16 00:00:00,ARICA (CL),Empty container returned under damaged condition
+TEMU6633995,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-16 00:00:00,ARICA (CL),Empty container returned
+EGHU9138523,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU3346303,2019-04-03 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGHU3601435,2019-04-04 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EISU2116957,2019-04-10 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+TGHU9065458,2019-04-04 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+TEMU4129558,2019-04-12 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU9243763,2019-04-10 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU9270231,2019-04-11 00:00:00,LIRQUEN (CL),Discharged (FCL),2019-04-16 00:00:00,LIRQUEN (CL),Pick-up by merchant haulage
+TGBU6281868,2019-04-11 00:00:00,LIRQUEN (CL),Discharged (FCL),2019-04-18 00:00:00,LIRQUEN (CL),Empty container returned
+EGHU3190925,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-20 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU2142318,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned
+TGBU6898079,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage
+EGHU5012310,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGSU5024439,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EISU5678222,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU5249879,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU5264493,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU5276215,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU5276914,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU5310460,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU5376045,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+TGBU6935505,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-15 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage
+TGBU6726589,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-15 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage
+EGHU3427046,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EGSU3051883,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EISU3843945,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EGHU9017054,2019-04-11 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EGHU9025419,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned,2019-04-17 00:00:00,IQUIQUE (CL),Received (FCL)
+EGSU9163880,2019-04-11 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EGSU9183260,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EISU9166991,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EMCU9718721,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EMCU9863186,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+IMTU9020750,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+LTIU8003957,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+TEMU7124230,2019-04-12 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+TEMU7151914,2019-04-08 00:00:00,IQUIQUE (CL),Empty container returned,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+TGBU6896693,2019-04-12 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+TGBU6898119,2019-04-12 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+TGBU6938783,2019-04-12 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EGHU9369950,2019-04-04 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+EISU9400029,2019-04-04 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-16 00:00:00,CALLAO (PE),Empty container returned
+TEMU6178850,2019-04-04 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+TEMU6412438,2019-04-04 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+TEMU8961571,2019-04-12 00:00:00,CALLAO (PE),Empty container returned,2019-04-16 00:00:00,CALLAO (PE),Received
+EGSU9175644,2019-04-08 00:00:00,CALLAO (PE),Empty container returned,2019-04-17 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage
+TEMU6540022,2019-04-08 00:00:00,CALLAO (PE),Empty container returned,2019-04-17 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage
+EGHU1059480,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+LTIU8037181,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+MAGU5294854,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-16 00:00:00,CALLAO (PE),Empty container returned
+EGHU9181730,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-20 00:00:00,CALLAO (PE),Received (FCL)
+TGBU6934284,2019-04-13 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-15 00:00:00,CALLAO (PE),Received
+EGSU9047176,2019-04-02 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-16 00:00:00,CALLAO (PE),Received (FCL)
+TGHU6493149,2019-04-02 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-15 00:00:00,CALLAO (PE),Received (FCL)
+TEMU7763587,2019-04-02 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-16 00:00:00,CALLAO (PE),Received (FCL)
+TGHU9004128,2019-04-02 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-16 00:00:00,CALLAO (PE),Received (FCL)
+TEMU8920778,2019-04-02 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-15 00:00:00,CALLAO (PE),Received (FCL)
+EGHU3055859,2019-04-10 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned
+TGBU6529152,2019-04-06 00:00:00,IQUIQUE (CL),Discharged (FCL),2019-04-16 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition
+EGHU9100528,2019-04-11 00:00:00,SAN ANTONIO (CL),Full import container received at inland depot,2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+HMCU9194191,2019-04-11 00:00:00,SAN ANTONIO (CL),Full import container received at inland depot,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU9475350,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage
+EISU3935065,2019-04-12 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+XINU8205440,2019-04-09 00:00:00,IQUIQUE (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition
+HMCU9096087,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty container returned
+EMCU3903893,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned
+TGHU6966909,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-15 00:00:00,SAN ANTONIO (CL),Empty container returned
+EGSU9119065,2019-04-12 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+TEMU8921943,2019-04-02 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-20 00:00:00,CALLAO (PE),Empty container returned
+EISU9330641,2019-04-12 00:00:00,CALLAO (PE),Empty container returned,2019-04-15 00:00:00,CALLAO (PE),Received
+EMCU3717590,2019-04-10 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU9184806,2019-04-12 00:00:00,CALLAO (PE),Received (FCL),2019-04-15 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU1035350,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-20 00:00:00,CALLAO (PE),Empty container returned
+EGSU9124400,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-15 00:00:00,CALLAO (PE),Empty container returned
+EGSU9124668,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-15 00:00:00,CALLAO (PE),Empty container returned
+EISU9252560,2019-04-02 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-15 00:00:00,CALLAO (PE),Empty container returned
+EISU9346123,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-16 00:00:00,CALLAO (PE),Empty container returned
+EISU9347480,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-16 00:00:00,CALLAO (PE),Empty container returned
+EISU9350102,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-20 00:00:00,CALLAO (PE),Empty container returned
+EISU9482855,2019-04-03 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-16 00:00:00,CALLAO (PE),Empty container returned
+EMCU5316426,2019-04-02 00:00:00,CALLAO (PE),Full import container received at inland depot,2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+EGHU3283967,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-18 00:00:00,CALLAO (PE),Received
+EGHU3343290,2019-04-09 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU3462561,2019-04-09 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2046823,2019-04-10 00:00:00,CALLAO (PE),Empty container returned,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EISU2222516,2019-04-09 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EMCU3895036,2019-04-02 00:00:00,CALLAO (PE),Full import container received at inland depot,2019-04-20 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+TEMU6246790,2019-04-12 00:00:00,CALLAO (PE),Received,2019-04-20 00:00:00,CALLAO (PE),Received (FCL)
+EGHU3236923,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+TEMU3850092,2019-04-13 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU9486797,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EISU9897738,2019-04-12 00:00:00,IQUIQUE (CL),Received (FCL),2019-04-13 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+EGHU5002708,2019-04-06 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-06 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5292031,2019-04-06 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5376364,2019-04-06 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-19 00:00:00,GUAYAQUIL (EC),Empty pick-up by merchant haulage
+EISU9459541,2019-03-31 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-16 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+EGHU9097569,2019-03-31 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-16 00:00:00,CALLAO (PE),Received (FCL)
+TGBU6917630,2019-04-01 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-15 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+EMCU1354752,2019-04-01 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-13 00:00:00,CALLAO (PE),Empty container returned
+EISU3939646,2019-04-09 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EMCU5287483,2019-04-10 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage,2019-04-15 00:00:00,BUENAVENTURA (CO),Empty container returned
+EISU5679419,2019-04-05 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-18 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU9112977,2019-04-05 00:00:00,BUENAVENTURA (CO),Discharged (FCL),2019-04-16 00:00:00,BUENAVENTURA (CO),Empty container returned
+TGHU6972603,2019-04-10 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGHU3401479,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGHU3454479,2019-04-05 00:00:00,BUENAVENTURA (CO),Discharged (FCL),2019-04-18 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage
+TGBU6925575,2019-04-13 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage,2019-04-16 00:00:00,BUENAVENTURA (CO),Empty container returned
+HMCU9093405,2019-04-12 00:00:00,BALBOA (PA),Pick-up by merchant haulage,2019-04-17 00:00:00,BALBOA (PA),Empty container returned
+EGSU9006304,2019-04-05 00:00:00,BUENAVENTURA (CO),Discharged (FCL),2019-04-20 00:00:00,BUENAVENTURA (CO),Empty container returned
+EGSU9188786,2019-04-05 00:00:00,BUENAVENTURA (CO),Discharged (FCL),2019-04-17 00:00:00,BUENAVENTURA (CO),Empty container returned
+TGBU7153619,2019-04-16 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage,2019-04-20 00:00:00,BUENAVENTURA (CO),Empty container returned
+HMCU9213115,2019-03-31 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-17 00:00:00,CALLAO (PE),Empty container returned
+EISU9461847,2019-04-09 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-18 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5327890,2019-04-13 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-21 00:00:00,CALLAO (PE),Received (FCL)
+EISU1838770,2019-03-30 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-20 00:00:00,CALLAO (PE),Empty container returned
+EGSU9106200,2019-04-11 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-13 00:00:00,CALLAO (PE),Received
+EGSU5016032,2019-03-30 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-20 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+EGSU5007581,2019-03-30 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-17 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+EISU9483893,2019-03-30 00:00:00,CALLAO (PE),Discharged (FCL),2019-04-15 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+EMCU3907630,2019-04-13 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-20 00:00:00,CALLAO (PE),Received (FCL)
+TEMU4272363,2019-04-15 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EGHU9053642,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9064930,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9111374,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9131410,2019-04-11 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9141039,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9146447,2019-04-12 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-18 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9172153,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-18 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9248691,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9251519,2019-04-11 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9331039,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9350126,2019-04-10 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9353228,2019-04-10 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9368640,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGSU9002504,2019-04-13 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGSU9085812,2019-04-10 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGSU9164911,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TEMU6206463,2019-04-16 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TEMU7147093,2019-04-10 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TEMU8380387,2019-04-14 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TEMU8682330,2019-04-16 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TEMU8814673,2019-04-10 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TEMU8951296,2019-04-12 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU5826691,2019-04-10 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6019020,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-18 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6529002,2019-04-04 00:00:00,LIRQUEN (CL),Empty container returned,2019-04-17 00:00:00,LIRQUEN (CL),Received (FCL)
+TGBU6534349,2019-04-10 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6534755,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6585156,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6624530,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6774988,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6882998,2019-04-16 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6890720,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU6891686,2019-04-15 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGBU7029526,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGHU8990627,2019-04-16 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+TGHU9020047,2019-04-15 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+MAGU5367436,2019-04-11 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-18 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EISU9249036,2019-04-13 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EISU9292325,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EISU9088224,2019-04-12 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EMCU9614558,2019-04-06 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EMCU9710572,2019-04-12 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EMCU9727111,2019-04-12 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EMCU9765894,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EMCU9868505,2019-04-04 00:00:00,LIRQUEN (CL),Empty container returned,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+HMCU9037947,2019-04-11 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+HMCU9077019,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+HMCU9083937,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+HMCU9124980,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+HMCU9134042,2019-04-12 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+HMCU9182061,2019-04-12 00:00:00,LIRQUEN (CL),Received (FCL),2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+IMTU9058247,2019-04-13 00:00:00,LIRQUEN (CL),Empty pick-up by merchant haulage,2019-04-19 00:00:00,LIRQUEN (CL),Loaded (FCL) on vessel
+EGHU9233304,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-14 00:00:00,ARICA (CL),Pick-up by merchant haulage
+TEMU3937802,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-18 00:00:00,ARICA (CL),Pick-up by merchant haulage
+EMCU6054418,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-18 00:00:00,ARICA (CL),Pick-up by merchant haulage
+EGHU3014443,2019-04-13 00:00:00,ARICA (CL),Pick-up by merchant haulage,2019-04-13 00:00:00,ARICA (CL),Empty container returned
+EISU2108648,2019-04-13 00:00:00,ARICA (CL),Pick-up by merchant haulage,2019-04-13 00:00:00,ARICA (CL),Empty container returned under damaged condition
+EMCU3478069,2019-04-13 00:00:00,ARICA (CL),Pick-up by merchant haulage,2019-04-13 00:00:00,ARICA (CL),Empty container returned under damaged condition
+TEMU6539090,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-17 00:00:00,ARICA (CL),Pick-up by merchant haulage
+EISU9355995,2019-04-05 00:00:00,ARICA (CL),Discharged (FCL),2019-04-18 00:00:00,ARICA (CL),Empty container returned
+EISU9234308,2019-04-10 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage
+TEMU6206648,2019-04-12 00:00:00,IQUIQUE (CL),Empty pick-up by merchant haulage,2019-04-20 00:00:00,IQUIQUE (CL),Loaded (FCL) on vessel
+TEMU4295836,2019-04-16 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EGHU3235676,2019-04-10 00:00:00,CALLAO (PE),Received,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU3524513,2019-04-12 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2267737,2019-04-13 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-21 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU3597649,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-18 00:00:00,CALLAO (PE),Received
+EGHU3601883,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU3679644,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU9816760,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned
+TEMU6225421,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGSU9138363,2019-04-09 00:00:00,SAN ANTONIO (CL),Full import container received at inland depot,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGHU3082094,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU3489325,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGHU3611731,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU9345770,2019-04-02 00:00:00,CALLAO (PE),Empty container returned,2019-04-21 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+IMTU3041150,2019-04-12 00:00:00,CALLAO (PE),Received (FCL),2019-04-15 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2002975,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+HMCU9017149,2019-04-12 00:00:00,GUAYAQUIL (EC),Received (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EISU2060333,2019-04-13 00:00:00,GUAYAQUIL (EC),Empty pick-up by merchant haulage,2019-04-18 00:00:00,GUAYAQUIL (EC),Received (FCL)
+HMCU1006723,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGHU3566252,2019-04-06 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU9675682,2019-04-03 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EISU2241990,2019-04-09 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EMCU3933244,2019-04-09 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU9346674,2019-04-12 00:00:00,GUAYAQUIL (EC),Received (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGSU9039972,2019-04-03 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3014757,2019-04-09 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+AXIU8486873,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+IMTU3004562,2019-04-13 00:00:00,GUAYAQUIL (EC),Received (FCL),2019-04-18 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGHU3246264,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3552639,2019-04-10 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-19 00:00:00,GUAYAQUIL (EC),Received (FCL)
+EISU3851299,2019-04-10 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU3796136,2019-04-08 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EGHU3174077,2019-04-05 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-19 00:00:00,GUAYAQUIL (EC),Received (FCL)
+EGHU3560932,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3583901,2019-04-05 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3324080,2019-04-10 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3549487,2019-04-09 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3586053,2019-04-09 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3636154,2019-04-09 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGSU9127775,2019-04-11 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EMCU9885441,2019-04-02 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-21 00:00:00,GUAYAQUIL (EC),Empty container returned
+HMCU9003931,2019-04-03 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-15 00:00:00,GUAYAQUIL (EC),Empty container returned
+TGHU9002866,2019-04-17 00:00:00,GUAYAQUIL (EC),Received (FCL),2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+HMCU3025609,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-14 00:00:00,GUAYAQUIL (EC),Empty pick-up by merchant haulage
+EGHU3312176,2019-04-09 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU3383312,2019-04-12 00:00:00,CALLAO (PE),Received (FCL),2019-04-15 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EMCU5347221,2019-04-04 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-04 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5352300,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5357235,2019-04-04 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5391970,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-18 00:00:00,GUAYAQUIL (EC),Received (FCL)
+EMCU5414530,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EMCU5430681,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EMCU5432658,2019-04-04 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5433438,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-18 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+TEMU9077349,2019-04-04 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU5005749,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EISU5672672,2019-04-04 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-04 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5291035,2019-04-08 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned
+EISU9123346,2019-04-12 00:00:00,BUENAVENTURA (CO),Discharged (FCL),2019-04-18 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage
+EISU3999990,2019-04-09 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU9244353,2019-04-14 00:00:00,CALLAO (PE),Received (FCL),2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+TGBU6607907,2019-04-13 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-21 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2174254,2019-04-13 00:00:00,CALLAO (PE),Received (FCL),2019-04-15 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU3430477,2019-04-10 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU3206786,2019-04-10 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU9177535,2019-04-12 00:00:00,BUENAVENTURA (CO),Discharged (FCL),2019-04-17 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage
+EGHU9351400,2019-04-12 00:00:00,BUENAVENTURA (CO),Discharged (FCL),2019-04-20 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage
+TGBU5827595,2019-04-17 00:00:00,BUENAVENTURA (CO),Pick-up by merchant haulage,2019-04-20 00:00:00,BUENAVENTURA (CO),Empty container returned
+EISU3942995,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU9348300,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGSU9106031,2019-04-04 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EISU9211745,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EMCU9698224,2019-04-08 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU2030447,2019-04-14 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5369663,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5377000,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU9388271,2019-04-10 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU9388440,2019-04-10 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU1342659,2019-04-04 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned
+HMCU1039223,2019-04-04 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGHU3538857,2019-04-11 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU3933062,2019-04-10 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty container returned
+EGHU9240129,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+MAGU5321271,2019-04-05 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EGHU9311900,2019-04-06 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EMCU9841973,2019-04-03 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU9768656,2019-04-03 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned
+EGSU1001796,2019-04-03 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+HMCU1070569,2019-04-03 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EISU2005700,2019-04-04 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGHU3430498,2019-04-11 00:00:00,CALLAO (PE),Empty container returned,2019-04-18 00:00:00,CALLAO (PE),Received
+IMTU3079495,2019-04-07 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EGHU5007021,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5378557,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5390038,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU5423316,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU9278443,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU9346044,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-18 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage
+HMCU3066697,2019-04-11 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty pick-up by merchant haulage
+HMCU3051439,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU3948840,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-18 00:00:00,GUAYAQUIL (EC),Received (FCL)
+EGHU3083296,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-18 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage
+EGHU9384764,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-15 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU9384928,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+LTIU8032111,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-22 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EGHU3298782,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+HMCU9161599,2019-04-13 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+LTIU8041535,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU2131463,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-19 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage
+EGHU9163470,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+LTIU6064906,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGHU9328734,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EISU1768729,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-22 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU9190521,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-18 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU9328185,2019-04-12 00:00:00,GUAYAQUIL (EC),Empty container returned,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGSU3076027,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU2248146,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-18 00:00:00,GUAYAQUIL (EC),Empty container returned
+IMTU1085800,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-20 00:00:00,GUAYAQUIL (EC),Empty container returned
+EMCU1361978,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+IMTU1095856,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EGSU3070749,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EGHU3406110,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EGHU3208984,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-22 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage
+EGHU3236230,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-22 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage
+EGHU3308659,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-22 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage
+EGHU3488782,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-22 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage
+EGHU3257510,2019-04-15 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+HMCU3075106,2019-04-11 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EGSU9053327,2019-04-11 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-22 00:00:00,GUAYAQUIL (EC),Empty container returned
+HMCU1078488,2019-04-10 00:00:00,GUAYAQUIL (EC),Discharged (FCL),2019-04-17 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU5680256,2019-04-14 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition,2019-04-20 00:00:00,GUAYAQUIL (EC),Loaded (FCL) on vessel
+EISU5688848,2019-04-11 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-15 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU5702611,2019-04-11 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU5703388,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EMCU5426906,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EMCU5428508,2019-04-12 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU2181145,2019-04-11 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned
+IMTU3039147,2019-04-15 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-15 00:00:00,GUAYAQUIL (EC),Empty container returned
+EGHU5000201,2019-04-14 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-15 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EGSU5017487,2019-04-14 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-15 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EISU5696210,2019-04-14 00:00:00,GUAYAQUIL (EC),Pick-up by merchant haulage,2019-04-16 00:00:00,GUAYAQUIL (EC),Empty container returned under damaged condition
+EGHU3229668,2019-04-15 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EISU9108758,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned
+EMCU9895413,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EMCU9586456,2019-04-15 00:00:00,IQUIQUE (CL),Pick-up by merchant haulage,2019-04-17 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition
+EMCU3904333,2019-04-12 00:00:00,ARICA (CL),Discharged (FCL),2019-04-18 00:00:00,ARICA (CL),Empty container returned
+EMCU9831656,2019-04-12 00:00:00,ARICA (CL),Discharged (FCL),2019-04-18 00:00:00,ARICA (CL),Pick-up by merchant haulage
+EMCU3860019,2019-04-12 00:00:00,ARICA (CL),Discharged (FCL),2019-04-22 00:00:00,ARICA (CL),Empty container returned
+EGHU3184516,2019-04-12 00:00:00,ARICA (CL),Discharged (FCL),2019-04-18 00:00:00,ARICA (CL),Empty container returned under damaged condition
+EGHU9103635,2019-04-13 00:00:00,ARICA (CL),Pick-up by merchant haulage,2019-04-15 00:00:00,ARICA (CL),Empty container returned
+EISU9139846,2019-04-13 00:00:00,IQUIQUE (CL),Discharged (FCL),2019-04-16 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition
+EISU9376920,2019-04-13 00:00:00,IQUIQUE (CL),Discharged (FCL),2019-04-16 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition
+HMCU9163781,2019-04-13 00:00:00,IQUIQUE (CL),Discharged (FCL),2019-04-16 00:00:00,IQUIQUE (CL),Empty container returned under damaged condition
+EGHU5006637,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU5010560,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-19 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGHU5014632,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU5003858,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU5005038,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGSU5014805,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5680467,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5685052,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU5685160,2019-04-14 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5690444,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5697201,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EISU5699360,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EISU5699502,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU5708029,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5238920,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5243309,2019-04-14 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5254812,2019-04-10 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5267661,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-19 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5274233,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5275327,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5282959,2019-04-14 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5283868,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5288113,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-20 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5296757,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5304554,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5312312,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5314064,2019-04-15 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5321823,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5322727,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-19 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5333547,2019-04-14 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5338852,2019-04-09 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EMCU5370999,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5377484,2019-04-15 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5409426,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5413196,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EMCU5417479,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGSU3018720,2019-04-15 00:00:00,CALLAO (PE),Received (FCL),2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2173350,2019-04-15 00:00:00,CALLAO (PE),Empty container returned,2019-04-19 00:00:00,CALLAO (PE),Received (FCL)
+EISU2005043,2019-04-15 00:00:00,CALLAO (PE),Empty container returned,2019-04-22 00:00:00,CALLAO (PE),Received (FCL)
+EISU2255227,2019-04-09 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-22 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage
+EGHU3265937,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGHU3279606,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGHU3396074,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGHU3640977,2019-04-15 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage,2019-04-21 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU2067868,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EISU3946429,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+HMCU3034323,2019-04-13 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+HMCU3057210,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGHU3447485,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-21 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EISU9151142,2019-04-16 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-20 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU3550127,2019-04-13 00:00:00,SAN ANTONIO (CL),Received (FCL),2019-04-17 00:00:00,SAN ANTONIO (CL),Loaded (FCL) on vessel
+EGHU9044229,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EISU2011534,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned
+EISU2042617,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned
+EISU2043763,2019-04-12 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+HMCU3020910,2019-04-12 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned
+IMTU3035270,2019-04-12 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EMCU9827580,2019-04-15 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EMCU9457063,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-16 00:00:00,SAN ANTONIO (CL),Empty container returned
+IMTU9045888,2019-04-12 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EGSU3123453,2019-04-11 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-17 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+EGSU9098770,2019-04-11 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty container returned
+EISU1848212,2019-04-10 00:00:00,SAN ANTONIO (CL),Full import container received at inland depot,2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned
+EMCU9892610,2019-04-08 00:00:00,SAN ANTONIO (CL),Discharged (FCL),2019-04-18 00:00:00,SAN ANTONIO (CL),Empty container returned under damaged condition
+IMTU3088835,2019-04-15 00:00:00,SAN ANTONIO (CL),Empty container returned,2019-04-22 00:00:00,SAN ANTONIO (CL),Empty pick-up by merchant haulage
+EMCU9782736,2019-04-10 00:00:00,SAN ANTONIO (CL),Pick-up by merchant haulage,2019-04-18 00:00:00,SAN ANTONIO (CL),Received (FCL)
+EGHU9167270,2019-04-11 00:00:00,CALLAO (PE),Received,2019-04-20 00:00:00,CALLAO (PE),Received (FCL)
+EMCU6093688,2019-04-15 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-21 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGSU9125052,2019-04-15 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-22 00:00:00,CALLAO (PE),Received (FCL)
+EISU9333722,2019-04-12 00:00:00,CALLAO (PE),Empty container returned under damaged condition,2019-04-23 00:00:00,CALLAO (PE),Empty container returned
+EISU3996815,2019-04-06 00:00:00,CALLAO (PE),Pick-up by merchant haulage,2019-04-20 00:00:00,CALLAO (PE),Empty container returned
+EGHU3189930,2019-04-16 00:00:00,CALLAO (PE),Received (FCL),2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU3344168,2019-04-15 00:00:00,CALLAO (PE),Received (FCL),2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGSU3103415,2019-04-15 00:00:00,CALLAO (PE),Received (FCL),2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EISU2132752,2019-04-08 00:00:00,CALLAO (PE),Empty pick-up by merchant haulage,2019-04-17 00:00:00,CALLAO (PE),Empty container returned under damaged condition
+EMCU3926780,2019-04-15 00:00:00,CALLAO (PE),Received (FCL),2019-04-17 00:00:00,CALLAO (PE),Loaded (FCL) on vessel
+EGHU1062756,2019-04-08 00:00:00,CALLAO (PE),Empty container returned under damaged condition,2019-04-22 00:00:00,CALLAO (PE),Empty container returned
