@@ -5,7 +5,7 @@ import csv
 import os
 
 class TrackingPreprocessor:
-    """Preprocessor for intermodal container tracking-and-tracing information."""
+    """Class that preprocesses the intermodal container tracking-and-tracing information in database."""
     
     # TODO: No hardcodear esto
     CARRIERS = {
@@ -26,6 +26,18 @@ class TrackingPreprocessor:
         self.scraper_statuses   = self.scraper_database["container_statuses"]
     
     def evaluate_carrier(self, carrier):
+        """
+        Preprocess all the containers for a specified carrier, and separate those in these categories:
+        - Containers with no estimated movements, suitable for training with machine learning (finished)
+        - Containers with finished movements, but first and last movements have the same locations (repeated_locations)
+        - Containers with finished movements, but first and last movements have the same statuses (repeated_statuses)
+        - Containers with finished movements, but first or last movements don't have location geocode information (missing)
+        - Containers with estimated movements (estimated)
+        - Containers with only one movement (single)
+        - Containers with no movements (empty)
+        - Containers with real movements before estimated movements (incoherent), this case should never happen.
+        All those categories will be individually saved as files if there's at least one container that fits into that category.
+        """
         finished, repeated_locations, repeated_statuses, missing = [], [], [], []
         estimated, single, empty, incoherent = [], [], [], []
         
@@ -92,6 +104,9 @@ class TrackingPreprocessor:
             self.save_to_csv(incoherent, directory, carrier, "incoherent", "incoherent containers found!")
     
     def query_containers(self, carrier):
+        """
+        Prepare the query for containers from the specified carrier.
+        """
         query = {
             "carrier"   : carrier,
             "processed" : True
@@ -99,6 +114,9 @@ class TrackingPreprocessor:
         return self.scraper_containers.distinct("container", query)
     
     def query_movements(self, container):
+        """
+        Prepare the query for movements from the specified container.
+        """
         query = {
             "container" : container
         }
