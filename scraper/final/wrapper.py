@@ -62,10 +62,9 @@ class TrackingScraperProcess():
         
         # In case there was an error scraping a container, restart the driver
         if result is False:
-            # Add to failure count and send mail
+            # Add to failure count
             print("Scraper for container", container["container"], "was unsuccessful")
             self.fail_counter += 1
-            self.send_mail(TrackingScraperEmail.ERROR_MESSAGE, self.fail_counter)
             # Create new driver
             self.create_driver(True)
             self.fail_backoff *= 2
@@ -75,17 +74,17 @@ class TrackingScraperProcess():
         # In case no error was found, add to scraper count and restart failure backoff
         self.fail_backoff = 1
         self.total_counter += 1
+        self.round_counter += 1
         if self.round_counter >= TrackingScraperConfig.DEFAULT_RESTART_ROUNDS:
             self.create_driver(False)
             self.round_counter = 0
-        else:
-            self.round_counter += 1
         return True
     
     def create_driver(self, error = None):
         """Create or recreate the WebDriver. If error = True, take a screenshot of the page for debugging."""
-        # Take screenshot if an error was found
+        # Send mail and take screenshot if an error was found
         if error is True:
+            self.send_mail(TrackingScraperEmail.ERROR_MESSAGE, self.fail_counter)
             self.screenshot()
         # Close driver if there was one open
         if error is not None:
