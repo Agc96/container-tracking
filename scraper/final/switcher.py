@@ -46,7 +46,7 @@ class TrackingScraperSwitcher:
         
         # Execute process based on process type
         try:
-            method = getattr(self, "_process_" + process_type)
+            method = getattr(self, "process_" + process_type)
             return method()
         except AttributeError:
             raise TrackingScraperSwitcherError("Process type " + process_type + " is not valid",

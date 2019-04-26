@@ -69,29 +69,29 @@ class TrackingScraper:
                     time.sleep(1)
                     end = time.time()
                 break
-            return True, end - start
+            return (True, end - start)
         # Check assertions
         except TrackingScraperAssertionError as ex:
             self.logger.warning(str(ex))
             if ex.assertion_type is False:
-                return self.finish_execution()
-            return False, end - start
+                return (self.finish_execution(), end - start)
+            return (False, end - start)
         # Check timeout errors
         except TrackingScraperTimeoutError as ex:
             self.logger.warning(str(ex))
-            return False, end - start
+            return (False, end - start)
         # Check switcher errors
         except TrackingScraperSwitcherError as ex:
             self.logger.error("Command: %s", TrackingScraperSwitcher.print_command(ex.command))
             self.logger.error(str(ex))
-            return False, end - start
+            return (False, end - start)
         # Check common errors
         except TrackingScraperError as ex:
             self.logger.error(str(ex))
-            return False, end - start
+            return (False, end - start)
         except Exception:
             self.logger.exception("Unknown exception ocurred in scraper")
-            return None, end - start
+            return (None, end - start)
     
     ###############################################################################################
     
