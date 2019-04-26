@@ -5,7 +5,9 @@ import csv
 import os
 
 class TrackingPreprocessor:
-    """Class that preprocesses the intermodal container tracking-and-tracing information in database."""
+    """
+    Class that preprocesses the intermodal container tracking-and-tracing information in database.
+    """
     
     # TODO: No hardcodear esto
     CARRIERS = {
@@ -158,11 +160,11 @@ class TrackingPreprocessor:
                              first_movement, last_movement, movement_count):
         # Check if both movements are in the same location
         if first_movement["location"] == last_movement["location"]:
-            self.save_movements(repeated_locations, container, first_movement, last_movement, movement_count)
+            self.save_many_movements(repeated_locations, container, carrier, first_movement, last_movement, movement_count)
             return
         # Check if both movements have the same status
         if first_movement["status"] == last_movement["status"]:
-            self.save_movements(repeated_statuses, container, first_movement, last_movement, movement_count)
+            self.save_many_movements(repeated_statuses, container, carrier, first_movement, last_movement, movement_count)
             return
         
         # Check if both movements have geocodes
@@ -173,9 +175,12 @@ class TrackingPreprocessor:
             self.save_one_movement(missing, container, last_movement)
             return
         
+        self.save_many_movements(finished, container, carrier, first_movement, last_movement, movement_count)
+    
+    def save_many_movements(self, movements, container, carrier, first_movement, last_movement, movement_count):
         # Write header
-        if len(finished) == 0:
-            finished.append(["container",
+        if len(movements) == 0:
+            movements.append(["container",
                              "carrier",
                              "timedelta",
                              "movement_count",
@@ -194,7 +199,7 @@ class TrackingPreprocessor:
                              "last_longitude",
                              "last_vehicle"])
         # Write content
-        finished.append([
+        movements.append([
             # General information
             container,
             self.get_carrier_code(carrier),
