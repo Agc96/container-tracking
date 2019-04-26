@@ -1,3 +1,4 @@
+from errors import TrackingScraperError
 from config import TrackingScraperConfig
 from mail import TrackingScraperEmail
 from scraper import TrackingScraper
@@ -15,13 +16,13 @@ import time
 class TrackingScraperProcess():
     """Process wrapper for an automatic extraction using the Tracking Web Scraper for containers."""
     
-    def __init__(self, database, carrier):
+    def __init__(self, carrier):
         # Initialize database
-        self.database   = database
+        self.database   = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
         self.containers = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # Get carrier configuration
-        self.carrier = carrier.split(".")[0]
-        with open(carrier, "w", encoding = "UTF-8") as file:
+        self.carrier = carrier
+        with open("../config/{}.json".format(carrier), encoding = "UTF-8") as file:
             self.configuration = json.load(file)
         # Initialize counters
         self.total_counter = 0
@@ -53,21 +54,23 @@ class TrackingScraperProcess():
         print("Total time: {} seconds. Extracted {} containers".format(end - start, self.total_counter))
     
     def execute_scraper(self, container):
-        result, time = TrackingScraper(self.driver, self.database, container, self.configuration).execute()
-        print("Container", container["container"], "time:", time, "seconds")
+        result = TrackingScraper(self.driver, self.database, container, self.configuration).execute()
+        print("Container", container["container"], "time:", result[1], "seconds")
 
         # In case an unknown exception ocurred, finish execution
-        if result is None:
+        if result[0] is None:
             return False
         
         # In case there was an error scraping a container, restart the driver
-        if result is False:
+        if result[0] is False:
             # Add to failure count
             print("Scraper for container", container["container"], "was unsuccessful")
             self.fail_counter += 1
             # Create new driver
             self.create_driver(True)
             self.fail_backoff *= 2
+            if self.fail_backoff >= 4:
+                return False # A modo de prueba
             # Continue execution
             return True
         
@@ -136,25 +139,23 @@ This is the main process of the Tracking Scraper for Containers.
 It creates a list of processes, each one scraping a container from an assigned carrier every 30 seconds.
 """
 
-def execute_process(database, carrier):
-    TrackingScraperProcess(database, carrier).execute()
+def execute_process(carrier):
+    TrackingScraperProcess(carrier).execute()
 
 if __name__ == "__main__":
     # Initialize logging
     logging.basicConfig(filename = TrackingScraperConfig.DEFAULT_LOGGING_FILE,
                         level    = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
                         format   = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
-    # Get database
-    database = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
-    # TODO: Get carriers from the database instead of the config folder
-    carriers = os.listdir()
+    # Get carrier names
+    carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
     # Open a process for every carrier
     processes = []
     for carrier in carriers:
-        p = Process(target = execute_process, args = (database, carrier))
+        p = Process(target = execute_process, args = (carrier,))
         processes.append(p)
         p.start()
-    # Wait until all processes
+    # Wait until all processes finish
     for p in processes:
         p.join()
     print("Finished execution!")

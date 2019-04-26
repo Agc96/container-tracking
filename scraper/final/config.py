@@ -16,7 +16,7 @@ class TrackingScraperConfig:
     DEFAULT_PATH_FIREFOX    = "C:/WebDriver/geckodriver"  if sys.platform == "win32" else "/usr/local/bin/geckodriver"
     
     # Default database name
-    DEFAULT_DATABASE_NAME   = "scraper2"
+    DEFAULT_DATABASE_NAME   = "scraper3"
     # Default table names
     DEFAULT_CONTAINER_TABLE = "containers"
     DEFAULT_MOVEMENT_TABLE  = "container_movements"
