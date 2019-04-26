@@ -3,11 +3,11 @@ from config import TrackingScraperConfig
 from mail import TrackingScraperEmail
 from scraper import TrackingScraper
 
+from datetime import datetime
 from multiprocessing import Process
 from selenium.webdriver import Chrome, ChromeOptions
 from pymongo import MongoClient
 
-import datetime
 import json
 import logging
 import os
@@ -22,8 +22,11 @@ class TrackingScraperProcess():
         self.containers = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # Get carrier configuration
         self.carrier = carrier
+        # TODO: USAR DATOS EN BASE DE DATOS, PERO DEBEN ESTAR BIEN FORMADOS (SE LEÍAN COMO DOUBLES)
         with open("../config/{}.json".format(carrier), encoding = "UTF-8") as file:
             self.configuration = json.load(file)
+        # Initialize logger
+        self.logger = TrackingScraperConfig.get_logging_configuration(carrier)
         # Initialize counters
         self.total_counter = 0
         self.round_counter = 0
@@ -54,9 +57,16 @@ class TrackingScraperProcess():
         print("Total time: {} seconds. Extracted {} containers".format(end - start, self.total_counter))
     
     def execute_scraper(self, container):
-        result = TrackingScraper(self.driver, self.database, container, self.configuration).execute()
+        try:
+            scraper = TrackingScraper(self.driver, self.database, container, self.configuration, self.logger)
+            result  = scraper.execute()
+            if not isinstance(result, tuple):
+                raise TrackingScraperError("Scraper result is not a tuple but a {}: {}", type(result), result)
+        except:
+            self.logger.exception("Unknown exception ocurred in scraper")
+            return False
         print("Container", container["container"], "time:", result[1], "seconds")
-
+        
         # In case an unknown exception ocurred, finish execution
         if result[0] is None:
             return False
@@ -69,8 +79,9 @@ class TrackingScraperProcess():
             # Create new driver
             self.create_driver(True)
             self.fail_backoff *= 2
-            if self.fail_backoff >= 4:
-                return False # A modo de prueba
+            # A MODO DE PRUEBA. TODO: DEJAR DE HARDCODEAR ESTO
+            if self.carrier == "Hapag-Lloyd":
+                return False
             # Continue execution
             return True
         
@@ -97,7 +108,7 @@ class TrackingScraperProcess():
         # Create new webdriver
         # chromeoptions = ChromeOptions()
         # chromeoptions.headless = True
-        self.driver = Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME) # Chrome(options = chromeoptions)
+        self.driver = Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME) #options = chromeoptions
         self.driver.maximize_window()
         self.driver.set_page_load_timeout(TrackingScraperConfig.DEFAULT_TIMEOUT_LONG)
     
@@ -144,9 +155,9 @@ def execute_process(carrier):
 
 if __name__ == "__main__":
     # Initialize logging
-    logging.basicConfig(filename = TrackingScraperConfig.DEFAULT_LOGGING_FILE,
-                        level    = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
-                        format   = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
+    # logging.basicConfig(filename = TrackingScraperConfig.DEFAULT_LOGGING_FILE,
+    #                     level    = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
+    #                     format   = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
     # Get carrier names
     carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
     # Open a process for every carrier
@@ -156,6 +167,10 @@ if __name__ == "__main__":
         processes.append(p)
         p.start()
     # Wait until all processes finish
-    for p in processes:
-        p.join()
+    try:
+        for p in processes:
+            p.join()
+    except:
+        for p in processes:
+            p.terminate()
     print("Finished execution!")

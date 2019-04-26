@@ -21,6 +21,8 @@ class TrackingScraperTestCase(unittest.TestCase):
         # Initialize database
         self.database  = MongoClient()["scrapertests"]
         self.movements = self.database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
+        # Initialize logger
+        self.logger = TrackingScraperConfig.get_logging_configuration()
     
     def tearDown(self):
         self.driver.close()
@@ -80,7 +82,7 @@ class TrackingScraperTestCase(unittest.TestCase):
                 "location"     : "Balboa Port Terminal\nBalboa, Panama",
                 "latitude"     : 8.3479957,
                 "longitude"    : -78.8971729791261,
-                "date"         : datetime(2019, 4, 18),
+                "date"         : datetime(2019, 4, 19, 1, 30),
                 "status"       : "Discharge",
                 "status_code"  : 7,
                 "vehicle"      : "Vessel",
@@ -312,7 +314,7 @@ class TrackingScraperTestCase(unittest.TestCase):
         with open("../config/{}.json".format(container["carrier"]), "w", encoding = "UTF-8") as file:
             configuration = json.load(file)
         # Execute scraper and assert result
-        scraper = TrackingScraper(self.driver, self.database, dict(container), configuration)
+        scraper = TrackingScraper(self.driver, self.database, dict(container), configuration, self.logger)
         if scraper.execute() is not True:
             self.fail("Scraper execution failed, check log for details.")
         # Assert from expected container items
@@ -320,8 +322,13 @@ class TrackingScraperTestCase(unittest.TestCase):
     
     def assertMovements(self, container, expected):
         # Query movements
-        query_container = { "container": container["container"]}
-        query_sorting   = [("date", ASCENDING), ("_id", ASCENDING)]
+        query_container = {
+            "container": container["container"]
+        }
+        query_sorting = [
+            ("_id", ASCENDING),
+            ("date", ASCENDING)
+        ]
         cursor = list(self.movements.find(query_container).sort(query_sorting))
         # Assert movement count is at least the size of the expected movement list
         if len(cursor) < len(expected):
@@ -346,7 +353,4 @@ class TrackingScraperTestCase(unittest.TestCase):
                 self.fail(message.format(key, value, dictionary[key], index))
 
 if __name__ == "__main__":
-    logging.basicConfig(filename = "tests-" + datetime.now().strftime("%Y%m%d") + ".log",
-                        level = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
-                        format = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
     unittest.main()

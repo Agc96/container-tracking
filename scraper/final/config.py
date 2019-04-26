@@ -29,11 +29,33 @@ class TrackingScraperConfig:
     DEFAULT_MOVEMENT_QUERY  = DEFAULT_CONTAINER_COPY  + ["location", "status"]
     
     # Default configuration Nominatim geocode API service
-    DEFAULT_GEOCODE_AGENT   = "Tracking Scraper for Containers"
+    GEOCODING_USER_AGENT    = "Tracking Scraper for Containers"
+
     # Default logging configuration
-    DEFAULT_LOGGING_FILE    = "scraper-{}.log".format(datetime.now().strftime("%Y%m%d"))
-    DEFAULT_LOGGING_LEVEL   = logging.INFO
-    DEFAULT_LOGGING_FORMAT  = "[%(levelname)s %(asctime)s] %(message)s"
+    @staticmethod
+    def get_logging_configuration(carrier = None):
+        """
+        Get logging configuration for the Tracking Scraper. If carrier is not None, return a logger for the
+        specified carrier, else, return a logger for testing purposes.
+        """
+        # Prepare formatter
+        formatter = logging.Formatter("[%(levelname)s %(asctime)s] %(message)s")
+        # Prepare handler filename and logger name
+        today = datetime.now().strftime("%Y%m%d")
+        if carrier:
+            filename = "scraper-{}-{}.log".format(carrier, today)
+            logname  = "scraper-{}".format(carrier)
+        else:
+            filename = "scraper-tests-{}.log".format(today)
+            logname  = "scraper-tests"
+        # Prepare handler
+        handler = logging.FileHandler(filename)
+        handler.setFormatter(formatter)
+        # Prepare logger
+        logger = logging.getLogger(logname)
+        logger.setLevel(logging.DEBUG)
+        logger.addHandler(handler)
+        return logger
     
     # Default timeouts, in seconds
     DEFAULT_TIMEOUT_SHORT   = 30

@@ -4,13 +4,13 @@ from errors import TrackingScraperError, TrackingScraperSwitcherError
 from io import BytesIO
 from PIL import Image
 
-import logging
 import pytesseract
 
 class TrackingScraperImageProcessor:
     """Image processor for the Tracking Scraper."""
     
-    def __init__(self, parent_command, image_data):
+    def __init__(self, logger, parent_command, image_data):
+        self.logger = logger
         self.parent_command = parent_command
         try:
             self.image = Image.open(BytesIO(image_data))
@@ -33,7 +33,7 @@ class TrackingScraperImageProcessor:
         # Check if it has the desired length
         length = self.parent_command.get("length", TrackingScraperConfig.DEFAULT_KEY_LENGTH)
         if len(text) != length:
-            logging.info("Text does not have desired length, retrying...")
+            self.logger.debug("Text does not have desired length, retrying...")
             return None
         
         # Check for possible problems in text
@@ -42,7 +42,7 @@ class TrackingScraperImageProcessor:
             return text
         for word in filter_words:
             if word in text:
-                logging.info("Text has dangerous characters, retrying...")
+                self.logger.debug("Text has dangerous characters, retrying...")
                 return None
         return text
     

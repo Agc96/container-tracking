@@ -3,26 +3,24 @@ from errors import TrackingScraperError
 
 from geopy.exc import GeopyError
 from geopy.geocoders import Nominatim
-from pymongo import MongoClient
 
 import datetime
-import logging
 
 class TrackingScraperConverter:
     """Utility class to convert text to other Python types."""
     
-    # Nominatim geolocator instance
-    GEOLOCATOR = Nominatim(user_agent = TrackingScraperConfig.DEFAULT_GEOCODE_AGENT)
-    # MongoDB collection instances
-    DATABASE   = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
-    STATUSES   = DATABASE[TrackingScraperConfig.DEFAULT_STATUS_TABLE]
-    LOCATIONS  = DATABASE[TrackingScraperConfig.DEFAULT_LOCATIONS_TABLE]
+    # OpenStreetMap Nominatim API service for geocoding
+    GEOCODER = Nominatim(user_agent = TrackingScraperConfig.GEOCODING_USER_AGENT)
     
-    def __init__(self, document, raw_text, format_type, configuration):
-        self.document      = document
-        self.raw_text      = raw_text
-        self.format_type   = format_type
-        self.configuration = configuration
+    def __init__(self, database, document, configuration, logger, raw_text, format_type):
+        self.database        = database
+        self.statuses_table  = database[TrackingScraperConfig.DEFAULT_STATUS_TABLE]
+        self.locations_table = database[TrackingScraperConfig.DEFAULT_LOCATIONS_TABLE]
+        self.document        = document
+        self.configuration   = configuration
+        self.logger          = logger
+        self.raw_text        = raw_text
+        self.format_type     = format_type
     
     def convert(self):
         """Try to convert to the desired type, if none found, return text as-is."""
@@ -30,7 +28,7 @@ class TrackingScraperConverter:
             method = getattr(self, "convert_to_" + self.format_type)
             return method()
         except AttributeError:
-            logging.info("Convertion to " + self.format_type + " not supported, resorting to text")
+            self.logger.debug("Convertion to " + self.format_type + " not supported, resorting to text")
             return self.raw_text
         except TypeError:
             raise TrackingScraperError("Convertion to " + self.format_type + " cannot be invoked")
@@ -40,7 +38,7 @@ class TrackingScraperConverter:
         try:
             return int(self.raw_text.replace(TrackingScraperConfig.DEFAULT_THOUSAND_SYMBOL, ""))
         except ValueError:
-            logging.info("Convertion to integer failed, resorting to text")
+            self.logger.debug("Convertion to integer failed, resorting to text")
             return self.raw_text
     
     def convert_to_float(self):
@@ -48,7 +46,7 @@ class TrackingScraperConverter:
         try:
             return float(self.raw_text.replace(TrackingScraperConfig.DEFAULT_THOUSAND_SYMBOL, ""))
         except ValueError:
-            logging.info("Convertion to float failed, resorting to text")
+            self.logger.debug("Convertion to float failed, resorting to text")
             return self.raw_text
     
     def convert_to_double(self):
@@ -61,7 +59,7 @@ class TrackingScraperConverter:
         try:
             patterns = self.configuration["general"]["date_formats"]
         except KeyError:
-            logging.info("Datetime patterns not found, resorting to text")
+            self.logger.debug("Datetime patterns not found, resorting to text")
             return self.raw_text
         
         # Try each pattern until it matches one
@@ -72,7 +70,7 @@ class TrackingScraperConverter:
                 continue
         
         # If none of the patterns matched, return text as-is
-        logging.info("None of the patterns matched, resorting to text")
+        self.logger.debug("None of the patterns matched, resorting to text")
         return self.raw_text
     
     def convert_to_datetime(self):
@@ -101,69 +99,51 @@ class TrackingScraperConverter:
     
     def convert_to_location(self):
         """Convert text to a location with latitude and longitude geographical points."""
-        # Get location (raw text) as address
-        location = self.raw_text
         # Use last line as parent location and check if it's in database
-        query = location.split("\n")[-1]
-        if self.get_location(query):
-            return location
-        if self.save_location(query):
-            return location
-        # If that didn't work, try removing a comma
-        """
+        location = self.raw_text.split("\n")[-1]
+        coordinates = self.locations_table.find_one({
+            "location" : location
+        })
+        if coordinates is not None:
+            self.save_cached_location(coordinates)
+            return self.raw_text
+        # If it's not, query location to Nominatim and save coordinates to document and the database
         try:
-            query = query.split(",", 1)[1]
-            if self.get_location(query):
-                return location
-            if self.save_location(query):
-                return location
-        except IndexError:
-            pass
-        """
-        # Finally, go to the scraper switcher to save the location as text
-        logging.warning("Couldn't find information for this location")
-        return location
+            coordinates = self.GEOCODER.geocode(location)
+            if coordinates is not None:
+                self.save_queried_location(coordinates, location)
+                return self.raw_text
+        except Exception:
+            self.logger.exception("Error while trying to query geocode")
+        # Go to the scraper switcher to save the location as text
+        self.logger.warning("Couldn't find information for this location")
+        return self.raw_text
     
-    def get_location(self, location):
-        coordinates = self.LOCATIONS.find_one({ "location": location })
-        if coordinates is None:
-            # logging.info(location, "not found in database")
-            return False
+    def save_cached_location(self, coordinates):
         try:
             self.document["latitude"]  = coordinates["latitude"]
             self.document["longitude"] = coordinates["longitude"]
-            # logging.info(location, coordinates["latitude"], coordinates["longitude"], "in database")
+            # self.logger.debug(location, coordinates["latitude"], coordinates["longitude"], "in database")
         except KeyError as ex:
-            logging.warning("No %s found in database coordinate, suspicious...", str(ex))
-        return True
+            self.logger.warning("No %s found in database coordinate, suspicious...", str(ex))
     
-    def save_location(self, location):
-        try:
-            coordinates = self.GEOLOCATOR.geocode(location)
-        except Exception:
-            logging.exception("Error while trying to query geocode")
-            return False
-        if coordinates is None:
-            # logging.info(location, "not found by Nominatim")
-            return False
+    def save_queried_location(self, coordinates, location):
         # Save attribute to document
         try:
             self.document["latitude"]  = coordinates.latitude
             self.document["longitude"] = coordinates.longitude
-            # logging.info(location, coordinates.latitude, coordinates.longitude, "by Nominatim")
+            # self.logger.debug(location, coordinates.latitude, coordinates.longitude, "by Nominatim")
         except AttributeError as ex:
-            logging.warning("No %s found in Nominatim coordinate, suspicious...", str(ex))
+            self.logger.warning("No %s found in Nominatim coordinate, suspicious...", str(ex))
         # Save attribute to location database
         try:
-            query = {
+            self.locations_table.insert_one({
                 "location"  : location,
                 "latitude"  : coordinates.latitude,
                 "longitude" : coordinates.longitude
-            }
-            self.LOCATIONS.update_one({"location": location}, {"$set": query}, upsert = True)
+            })
         except Exception as ex:
-            logging.error("Location could not be saved: %s", str(ex))
-        return True
+            self.logger.error("Location could not be saved: %s", str(ex))
     
     def convert_to_status(self):
         """Convert text to a tracking status based on the configuration for translation."""
@@ -172,7 +152,9 @@ class TrackingScraperConverter:
         status  = self.raw_text
         # Get status code from database
         if carrier is not None:
-            translation = self.STATUSES.find_one({ carrier: status })
+            translation = self.statuses_table.find_one({
+                carrier: status
+            })
             self.document["status_code"] = translation["code"] if translation else 0
         else:
             raise TrackingScraperError("Convert to status: carrier not found")
@@ -181,14 +163,12 @@ class TrackingScraperConverter:
     
     def convert_to_vehicle(self):
         """Convert text to a tracking vehicle type based on the common configuration."""
-        # Get vehicle (text from the DOM)
-        vehicle = self.raw_text
         # TODO: Don't hardcode this
         vehicles = {
             "Vessel" : 1,
             "Truck"  : 2,
             "Train"  : 3
         }
-        self.document["vehicle_code"] = vehicles.get(vehicle, 0)
+        self.document["vehicle_code"] = vehicles.get(self.raw_text, 0)
         # Finally, go to the scraper switcher to save the vehicle as text
-        return vehicle
+        return self.raw_text
