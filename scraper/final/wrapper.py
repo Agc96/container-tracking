@@ -58,10 +58,8 @@ class TrackingScraperProcess():
     
     def execute_scraper(self, container):
         try:
-            scraper = TrackingScraper(self.driver, self.database, container, self.configuration, self.logger)
-            result  = scraper.execute()
-            if not isinstance(result, tuple):
-                raise TrackingScraperError("Scraper result is not a tuple but a {}: {}", type(result), result)
+            result = TrackingScraper(self.driver, self.database, container, self.configuration,
+                                     self.logger).execute()
         except:
             self.logger.exception("Unknown exception ocurred in scraper")
             return False

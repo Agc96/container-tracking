@@ -21,7 +21,6 @@ class TrackingScraper:
         self.container       = container
         self.configuration   = configuration
         self.logger          = logger
-        
         # Check if general configuration exists
         if "general" not in self.configuration:
             raise TrackingScraperError("General configuration information not found")
@@ -29,74 +28,80 @@ class TrackingScraper:
     ###############################################################################################
     
     def execute(self):
-        """Execute commands."""
-        
-        input_result    = False
-        single_result   = False
-        multiple_result = False
-        
-        start = end = time.time()
+        """
+        Execute a series of commands based on the configuration file specified in the initializer.
+        """
+        self.input_result    = False
+        self.single_result   = False
+        self.multiple_result = False
+        self.start_time      = time.time()
+        self.elapsed_time    = 0
         try:
             self.go_to_carrier_url()
             while True:
                 # Check if we're still on time
-                end = time.time()
-                if (end - start) > TrackingScraperConfig.DEFAULT_TIMEOUT_LONG:
+                self.elapsed_time = time.time() - self.start_time
+                if self.elapsed_time > TrackingScraperConfig.DEFAULT_TIMEOUT_LONG:
                     raise TrackingScraperTimeoutError(True)
-                # Execute input
-                input_result = self.execute_commands(input_result, "input")
-                if input_result is not True:
-                    self.logger.info("Input execution was unsuccessful, retrying...")
-                    time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
+                # Execute input commands
+                self.input_result = self.execute_commands(self.input_result, "input")
+                if self.input_result is not True:
+                    self.log_retry("Input execution was unsuccessful, retrying...")
                     continue
                 # Execute single output
-                single_result = self.execute_commands(single_result, "single")
-                if single_result is not True:
-                    self.logger.info("Single output execution was unsuccessful, retrying...")
-                    time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
+                self.single_result = self.execute_commands(self.single_result, "single")
+                if self.single_result is not True:
+                    self.log_retry("Single output execution was unsuccessful, retrying...")
                     continue
                 # Execute multiple output
-                multiple_result = self.execute_multiple_output(multiple_result)
-                if multiple_result is not True:
-                    self.logger.info("Multiple output execution was unsuccessful, retrying...")
-                    time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
+                self.multiple_result = self.execute_multiple_output(self.multiple_result)
+                if self.multiple_result is not True:
+                    self.log_retry("Multiple output execution was unsuccessful, retrying...")
                     continue
-                # Finish execution and save elements
+                # Finish execution, save elements and wait
                 self.finish_execution()
-                # Wait until we've reached the timeout, to avoid saturating the servers
-                end = time.time()
-                while (end - start) < TrackingScraperConfig.DEFAULT_TIMEOUT_SHORT:
-                    time.sleep(1)
-                    end = time.time()
-                break
-            return (True, end - start)
+                return self.wait_until_timeout()
+        except Exception as ex:
+            return self.process_exceptions(ex)
+    
+    def log_retry(self, logging_message):
+        self.logger.info(logging_message)
+        time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
+    
+    def wait_until_timeout(self):
+        """
+        Wait until we've reached the default timeout, to avoid saturating the servers.
+        """
+        self.elapsed_time = time.time() - self.start_time
+        while (self.elapsed_time < TrackingScraperConfig.DEFAULT_TIMEOUT_SHORT):
+            time.sleep(1)
+            self.elapsed_time = time.time() - self.start_time
+        # Return the benchmark
+        return (True, self.elapsed_time)
+        
+    def process_exceptions(self, ex):
+        self.elapsed_time = time.time() - self.start_time
         # Check assertions
-        except TrackingScraperAssertionError as ex:
-            end = time.time()
+        if isinstance(ex, TrackingScraperAssertionError):
             self.logger.warning(str(ex))
-            if ex.assertion_type is False:
-                return (self.finish_execution(), end - start)
-            return (False, end - start)
+            value = self.finish_execution() if ex.assertion_type is False else False
+            return (value, self.elapsed_time)
         # Check timeout errors
-        except TrackingScraperTimeoutError as ex:
-            end = time.time()
+        if isinstance(ex, TrackingScraperTimeoutError):
             self.logger.warning(str(ex))
-            return (False, end - start)
-        # Check switcher errors
-        except TrackingScraperSwitcherError as ex:
-            end = time.time()
+            return (False, self.elapsed_time)
+        # Check scraper switcher errors
+        if isinstance(ex, TrackingScraperSwitcherError):
             self.logger.error("Command: %s", TrackingScraperSwitcher.print_command(ex.command))
             self.logger.error(str(ex))
-            return (False, end - start)
+            return (False, self.elapsed_time)
         # Check common errors
-        except TrackingScraperError as ex:
-            end = time.time()
+        if isinstance(ex, TrackingScraperError):
             self.logger.error(str(ex))
-            return (False, end - start)
-        except Exception:
-            end = time.time()
-            self.logger.exception("Unknown exception ocurred in scraper")
-            return (None, end - start)
+            return (False, self.elapsed_time)
+        # Check unknown errors
+        self.logger.exception("Unknown exception ocurred in scraper")
+        return (None, self.elapsed_time)
     
     ###############################################################################################
     
@@ -233,7 +238,7 @@ class TrackingScraper:
         
         # Get collection and upsert container
         return self.insert_or_update(self.container, self.container_table,
-                                      TrackingScraperConfig.DEFAULT_CONTAINER_QUERY)
+                                     TrackingScraperConfig.DEFAULT_CONTAINER_QUERY)
     
     def insert_or_update(self, document, collection, query_keys):
         # Create shallow copy of document, with specified keys, for query

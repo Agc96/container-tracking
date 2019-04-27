@@ -433,12 +433,16 @@ class TrackingScraperSwitcher:
         
         # Get required
         required = self.parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
-
+        # Get filename
+        filename = "image-{}.png".format(self.configuration.get("carrier"))
+        
         start_time = time.time()
         while True:
             # Take screenshot of element and process it
-            image_bytes = self.parent_element.screenshot_as_png
-            text = TrackingScraperImageProcessor(self.logger, self.parent_command, image_bytes).execute()
+            if not self.parent_element.screenshot():
+                raise TrackingScraperSwitcherError("Process OCR failed, could not take screenshot",
+                                                   self.parent_command)
+            text = TrackingScraperImageProcessor(self.logger, self.parent_command, filename).execute()
             if text is not None:
                 break
             

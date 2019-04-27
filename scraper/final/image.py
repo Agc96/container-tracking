@@ -9,11 +9,11 @@ import pytesseract
 class TrackingScraperImageProcessor:
     """Image processor for the Tracking Scraper."""
     
-    def __init__(self, logger, parent_command, image_data):
+    def __init__(self, logger, parent_command, filename):
         self.logger = logger
         self.parent_command = parent_command
         try:
-            self.image = Image.open(BytesIO(image_data))
+            self.image = Image.open(filename)
         except Exception as ex:
             raise TrackingScraperSwitcherError("Image could not be opened: " + str(ex),
                                                self.parent_command)
