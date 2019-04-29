@@ -62,11 +62,11 @@ class TrackingPreprocessor:
             last_movement  = movements[-1]
             # Case last movement is estimated
             if last_movement["estimated"] == True:
-                self.save_movements(estimated, container, first_movement, last_movement, movement_count)
+                self.save_movements(estimated, container, carrier, first_movement, last_movement, movement_count)
                 continue
             # This case should never happen
             if first_movement["estimated"] == True:
-                self.save_movements(incoherent, container, first_movement, last_movement, movement_count)
+                self.save_movements(incoherent, container, carrier, first_movement, last_movement, movement_count)
                 continue
             # Case both movements contain real data
             self.preprocess_movements(finished, repeated_locations, repeated_statuses, missing, container,
@@ -135,36 +135,15 @@ class TrackingPreprocessor:
         # Write content
         movements.append([container, movement["date"], movement["status"], movement["location"]])
     
-    def save_movements(self, movements, container, first_movement, last_movement, movement_count):
-        # Write header
-        if len(movements) == 0:
-            movements.append(["container",
-                              "movement_count",
-                              "first_date",
-                              "first_location",
-                              "first_status",
-                              "last_date",
-                              "last_location",
-                              "last_status"])
-        # Write content
-        movements.append([container,
-                          movement_count,
-                          first_movement["date"],
-                          first_movement["location"],
-                          first_movement["status"],
-                          last_movement["date"],
-                          last_movement["location"],
-                          last_movement["status"]])
-    
     def preprocess_movements(self, finished, repeated_locations, repeated_statuses, missing, container, carrier,
                              first_movement, last_movement, movement_count):
         # Check if both movements are in the same location
         if first_movement["location"] == last_movement["location"]:
-            self.save_many_movements(repeated_locations, container, carrier, first_movement, last_movement, movement_count)
+            self.save_movements(repeated_locations, container, carrier, first_movement, last_movement, movement_count)
             return
         # Check if both movements have the same status
         if first_movement["status"] == last_movement["status"]:
-            self.save_many_movements(repeated_statuses, container, carrier, first_movement, last_movement, movement_count)
+            self.save_movements(repeated_statuses, container, carrier, first_movement, last_movement, movement_count)
             return
         
         # Check if both movements have geocodes
@@ -175,9 +154,9 @@ class TrackingPreprocessor:
             self.save_one_movement(missing, container, last_movement)
             return
         
-        self.save_many_movements(finished, container, carrier, first_movement, last_movement, movement_count)
+        self.save_movements(finished, container, carrier, first_movement, last_movement, movement_count)
     
-    def save_many_movements(self, movements, container, carrier, first_movement, last_movement, movement_count):
+    def save_movements(self, movements, container, carrier, first_movement, last_movement, movement_count):
         # Write header
         if len(movements) == 0:
             movements.append(["container",
@@ -206,20 +185,20 @@ class TrackingPreprocessor:
             self.get_elapsed_days(first_movement, last_movement),
             movement_count,
             # First container information
-            first_movement["date"],
-            first_movement["status"],
+            first_movement.get("date"),
+            first_movement.get("status"),
             self.get_status_code(first_movement, carrier),
-            first_movement["location"],
-            first_movement["latitude"],
-            first_movement["longitude"],
+            first_movement.get("location"),
+            first_movement.get("latitude"),
+            first_movement.get("longitude"),
             self.get_vehicle_code(first_movement),
             # Last container information
-            last_movement["date"],
-            last_movement["status"],
+            last_movement.get("date"),
+            last_movement.get("status"),
             self.get_status_code(last_movement, carrier),
-            last_movement["location"],
-            last_movement["latitude"],
-            last_movement["longitude"],
+            last_movement.get("location"),
+            last_movement.get("latitude"),
+            last_movement.get("longitude"),
             self.get_vehicle_code(last_movement)
         ])
     
