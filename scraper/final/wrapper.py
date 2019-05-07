@@ -11,6 +11,7 @@ from pymongo import MongoClient
 import json
 import logging
 import os
+import shutil
 import time
 
 class TrackingScraperProcess():
@@ -23,10 +24,10 @@ class TrackingScraperProcess():
         # Get carrier configuration
         self.carrier = carrier
         # TODO: USAR DATOS EN BASE DE DATOS, PERO DEBEN ESTAR BIEN FORMADOS (SE LEÍAN COMO DOUBLES)
-        with open("../config/{}.json".format(carrier), encoding = "UTF-8") as file:
+        with open("../config/{}.json".format(self.carrier), encoding = "UTF-8") as file:
             self.configuration = json.load(file)
         # Initialize logger
-        self.logger = TrackingScraperConfig.get_logging_configuration(carrier)
+        self.get_logging_configuration()
         # Initialize counters
         self.total_counter = 0
         self.round_counter = 0
@@ -34,6 +35,24 @@ class TrackingScraperProcess():
         self.fail_backoff  = 1
         # Initialize driver
         self.create_driver()
+    
+    def get_logging_configuration(self):
+        """
+        Get logging configuration for the Tracking Scraper.
+        """
+        # Prepare formatter
+        formatter = logging.Formatter(TrackingScraperConfig.LOGGING_PRINT_FORMAT)
+        # Prepare handler filename and logger name
+        today    = datetime.now().strftime(TrackingScraperConfig.LOGGING_DATE_FORMAT)
+        filename = TrackingScraperConfig.LOGGING_FILENAME_FORMAT.format(carrier = self.carrier, date = today)
+        logname  = TrackingScraperConfig.LOGGING_LOGNAME_FORMAT.format(carrier = self.carrier)
+        # Prepare handler
+        handler = logging.FileHandler(filename)
+        handler.setFormatter(formatter)
+        # Prepare logger
+        self.logger = logging.getLogger(logname)
+        self.logger.setLevel(TrackingScraperConfig.LOGGING_MIN_LEVEL)
+        self.logger.addHandler(handler)
     
     def execute(self):
         # Get container until no containers are found or there's an unknown exception
@@ -45,7 +64,7 @@ class TrackingScraperProcess():
                 "processed" : False
             })
             if container is None:
-                self.send_mail(TrackingScraperEmail.FINISH_MESSAGE, self.total_counter)
+                # self.send_mail(TrackingScraperEmail.FINISH_MESSAGE, self.total_counter)
                 break
             # Extract container information with the Tracking Scraper
             if not self.execute_scraper(container):
@@ -55,6 +74,8 @@ class TrackingScraperProcess():
         # Print usage time
         print("Finished scraping carrier {}!".format(self.carrier))
         print("Total time: {} seconds. Extracted {} containers".format(end - start, self.total_counter))
+        # Send message
+        self.send_mail(TrackingScraperEmail.FINISH_MESSAGE, self.total_counter)
     
     def execute_scraper(self, container):
         try:
@@ -98,6 +119,7 @@ class TrackingScraperProcess():
         if error is True:
             self.send_mail(TrackingScraperEmail.ERROR_MESSAGE, self.fail_counter)
             self.screenshot()
+            self.save_ocr_image()
         # Close driver if there was one open
         if error is not None:
             self.close_driver()
@@ -138,6 +160,12 @@ class TrackingScraperProcess():
             TrackingScraperEmail(counter = counter, carrier = self.carrier).send(message)
         except Exception as ex:
             print("Could not send mail to administrator:", str(ex))
+    
+    def save_ocr_image(self):
+        source = "image-{}.png".format(self.carrier)
+        dest   = "../errors/error-{}-{}-ocr.png".format(self.carrier, self.fail_counter)
+        if os.path.exists(source):
+            shutil.copyfile(source, dest)
     
     def __del__(self):
         self.close_driver()

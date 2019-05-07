@@ -439,7 +439,7 @@ class TrackingScraperSwitcher:
         start_time = time.time()
         while True:
             # Take screenshot of element and process it
-            if not self.parent_element.screenshot():
+            if not self.parent_element.screenshot(filename):
                 raise TrackingScraperSwitcherError("Process OCR failed, could not take screenshot",
                                                    self.parent_command)
             text = TrackingScraperImageProcessor(self.logger, self.parent_command, filename).execute()
