@@ -64,6 +64,9 @@ class TrackingScraperProcess():
                 "processed" : False
             })
             if container is None:
+                # Wait 5 minutes
+                # time.sleep(300)
+                # continue
                 # self.send_mail(TrackingScraperEmail.FINISH_MESSAGE, self.total_counter)
                 break
             # Extract container information with the Tracking Scraper
@@ -98,9 +101,6 @@ class TrackingScraperProcess():
             # Create new driver
             self.create_driver(True)
             self.fail_backoff *= 2
-            # A MODO DE PRUEBA. TODO: DEJAR DE HARDCODEAR ESTO
-            if self.carrier == "Hapag-Lloyd":
-                return False
             # Continue execution
             return True
         

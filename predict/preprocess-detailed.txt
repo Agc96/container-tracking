@@ -1,0 +1,23 @@
+>>> a.evaluate_carrier("Evergreen")
+- 47 finished movement deltas
+- 589 finished movement deltas but with same locations
+- 12 finished movement deltas but with same statuses
+- 32 repeated finished movement deltas
+- 1434 containers with only one movement
+>>> a.evaluate_carrier("Maersk")
+- 2594 finished movement deltas
+- 3299 finished movement deltas but with same locations
+- 5 finished movement deltas but with same statuses
+- 204 repeated finished movement deltas
+- 1961 estimated movement deltas
+- 7629 containers with no movements
+- 94 incoherent containers found!
+>>> a.evaluate_carrier("Hapag-Lloyd")
+- 3216 finished movement deltas
+- 37595 finished movement deltas but with same locations
+- 34 finished movement deltas but with same statuses
+- 5917 repeated finished movement deltas
+- 7216 estimated movement deltas
+- 250 containers with no movements
+- 81 incoherent containers found!
+>>>
