@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Scharff - Log&iacute;stica Integral</title>
+    <!-- Meta tag para moviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Estilos incluyendo: Bootstrap, Font Icons, Plugins, etc.-->
+    <link rel="stylesheet" media="screen" href="css/vendor.min.css">
+    <link id="mainStyles" rel="stylesheet" media="screen" href="css/styles.min.css">
+    <link id="customStyles" rel="stylesheet" media="screen" href="css/custom.css">
+    <!-- Modernizr -->
+    <script type="text/javascript" src="js/third-party/modernizr.min.js"></script>
+  </head>
+  <body class="body-login">
+    <!-- Header -->
+    <header class="navbar navbar-login">
+      <div class="site-branding">
+        <!-- Site Logo-->
+        <div class="inner"><div class="site-logo"><img src="img/logo_white.png" alt="Scharff" title="Scharff"></div></div>
+      </div>
+    </header>
+    <!-- Contenido -->
+    <div class="container-fluid container-login">
+      <!-- Formulario de inicio de sesion -->
+      <form class="login-box" method="post">
+        <h4 class="mb-3">Inicio de sesión</h4>
+        <!-- Usuario y contraseña -->
+        <div class="form-group input-group">
+          <input class="form-control" type="text" placeholder="Usuario" required />
+          <span class="input-group-addon"><i class="icon-head"></i></span>
+        </div>
+        <div class="form-group input-group">
+          <input class="form-control" type="password" placeholder="Contrase&ntilde;a" required />
+          <span class="input-group-addon"><i class="icon-lock"></i></span>
+        </div>
+        <!-- Kaptcha -->
+        <div class="row">
+          <div class="col-sm-auto mb-sm-0 mb-3 text-center">
+            <img src="http://demos.qtcteam.com/gestionarbitraje/kaptcha.jpg" class="kaptcha"/>
+          </div>
+          <div class="col">
+            <div class="form-group input-group">
+              <input class="form-control" type="kaptcha" placeholder="Ingrese el c&oacute;digo" required />
+              <span class="input-group-addon"><i class="icon-circle-check"></i></span>
+            </div>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-info m-0" data-toggle="tooltip" data-placement="top" data-original-title="Recargar la imagen">
+              <i class="icon-repeat mb-1"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Ingresar y otras opciones -->
+        <div class="d-flex flex-wrap justify-content-between">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" id="recuerdame" checked>
+            <label class="custom-control-label" for="recuerdame">Recu&eacute;rdame</label>
+          </div>
+          <a class="navi-link" href="password.html"><strong>&iquest;Olvidaste la contrase&ntilde;a?</strong></a>
+        </div>
+        <div class="text-center">
+          <a class="btn btn-primary" href="containers.html">Ingresar</a>
+          <!--button type="submit" class="btn btn-primary">Ingresar</button-->
+        </div>
+      </form>
+    </div>
+    <!-- Boton para volver arriba -->
+    <a class="scroll-to-top-btn" href="#">
+      <i class="icon-arrow-up"></i>
+    </a>
+    <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
+    <script type="text/javascript" src="js/third-party/vendor.min.js"></script>
+    <script type="text/javascript" src="js/third-party/scripts.min.js"></script>
+  </body>
+</html>

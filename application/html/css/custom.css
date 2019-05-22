@@ -1,0 +1,110 @@
+/***** Inicio de sesion *****/
+
+.navbar-login {
+  background-color: #ff525a;
+}
+body {
+  background-color: #fbfbfb;
+}
+.login-box {
+  width: 100%;
+  background-color: white;
+}
+@media (min-width: 580px) {
+  body {
+    background: #fbfbfb url('../img/slider.png') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+  }
+  .login-box {
+    max-width: 550px;
+    margin-left: auto;
+  } 
+}
+
+.kaptcha {
+  width: 175px;
+  height: 44px;
+} 
+
+/***** Contenedores *****/
+
+.offcanvas-wrapper {
+  min-height: calc(100vh - 84px); /* Interaccion del contenido con el menu desplegable */
+}
+.container, .container-fluid {
+  padding: 1rem;
+}
+
+/***** Toolbar de usuario *****/
+
+.toolbar .account {
+  width: auto;
+  padding: 0 16px;
+  border-radius: 22px;
+}
+.toolbar .account > .account-label {
+  display: inline-block;
+  margin-top: 2px;
+  margin-left: 3px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.toolbar .account > .toolbar-dropdown {
+  left: auto;
+  right: 0;
+  width: 260px;
+}
+@media screen and (max-width: 767.98px) {
+  .toolbar .account > .account-label {
+    display: none;
+  }
+}
+
+/***** Tarjetas de registro de usuarios *****/
+
+.card-header {
+  text-align: center;
+  padding: 0.5rem 1rem;
+}
+.card-body {
+  padding: 1rem;
+}
+.card-body .btn {
+  margin-top: 8px;
+  margin-bottom: 0px;
+}
+.card-body .text-lg {
+  font-size: 21px;
+}
+
+/***** Tarjetas de resultados de la busqueda *****/
+
+.results, .results-2 {
+  background-color: #f5f5f5;
+  padding: 0.5rem;
+}
+.results-2 {
+  padding-bottom: 0rem;
+}
+.results-col-2 {
+  margin-bottom: 0.5rem;
+}
+.results-col-2:nth-child(odd) {
+  padding-right: 0.25rem;
+}
+.results-col-2:nth-child(even) {
+  padding-left: 0.25rem;
+}
+.results-card {
+  padding: 0.5rem;
+}
+
+/***** Selects con placeholders *****/
+
+select.placeholder {
+  color: #9da9b9;
+}
+option[value=""] {
+  color: #9da9b9;
+}
