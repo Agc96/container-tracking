@@ -27,7 +27,9 @@ CREATE TABLE tracking.users (
     username varchar(32) NOT NULL,
     password varchar(64) NOT NULL
 );
-COMMENT ON TABLE tracking.locations IS 'List of users for the Container Tracking application.';
+COMMENT ON TABLE tracking.users IS 'List of users for the Container Tracking application.';
+COMMENT ON COLUMN users.user_id IS '';
+COMMENT ON COLUMN users.role IS 'Role of the user.\n1: Administrator\n2: Logistic area user\n3: Systems area user';
 
 -- Table: Carriers
 
