@@ -17,3 +17,7 @@ env.*
 
 # Visual Studio Code folder
 .vscode
+
+# Windows system files
+Thumbs.db
+desktop.ini
