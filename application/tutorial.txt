@@ -1,0 +1,6 @@
+https://docs.djangoproject.com/en/2.2/intro/tutorial02/    (Models + DB)
+https://docs.djangoproject.com/en/2.2/intro/tutorial03/    (Views)
+https://docs.djangoproject.com/en/2.2/intro/tutorial04/    (Forms)
+https://docs.djangoproject.com/en/2.2/intro/tutorial05/    (Tests)
+https://docs.djangoproject.com/en/2.2/intro/tutorial06/    (Static)
+https://docs.djangoproject.com/en/2.2/ref/templates/language/    (Template)
