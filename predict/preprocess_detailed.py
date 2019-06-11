@@ -23,8 +23,9 @@ class TrackingDetailedPreprocessor:
         "Train"  : 3
     }
     
-    def __init__(self):
-        self.scraper_database   = MongoClient()["scraper2"]
+    def __init__(self, database_name):
+        self.scraper_db_name    = database_name
+        self.scraper_database   = MongoClient()[database_name]
         self.scraper_containers = self.scraper_database["containers"]
         self.scraper_movements  = self.scraper_database["container_movements"]
         self.scraper_statuses   = self.scraper_database["container_statuses"]
@@ -234,6 +235,7 @@ class TrackingDetailedPreprocessor:
     
     def save_information(self, carrier, configuration):
         directory = self.create_parent_directory()
+        print("{} information:".format(carrier))
         for category, movement_list, message, is_csv in configuration:
             # Get movement list count
             count = len(movement_list)
@@ -274,13 +276,7 @@ class TrackingDetailedPreprocessor:
                 file.write(container + "\n")
 
 if __name__ == "__main__":
-    preprocessor = TrackingDetailedPreprocessor()
-    # Evergreen
-    print("Evergreen information:")
+    preprocessor = TrackingDetailedPreprocessor("scraper2")
     preprocessor.evaluate_carrier("Evergreen")
-    # Maersk
-    print("Maersk information:")
     preprocessor.evaluate_carrier("Maersk")
-    # Hapag-Lloyd
-    print("Hapag-Lloyd information:")
     preprocessor.evaluate_carrier("Hapag-Lloyd")

@@ -2,6 +2,7 @@
 
 .navbar-login {
   background-color: #ff525a;
+  height: 84px;
 }
 .scharff-login {
   background-color: #fbfbfb;
@@ -11,15 +12,15 @@
   width: 100%;
   background-color: white;
 }
-@media (min-width: 768px) {
+@media (min-width: 432px) {
   .login-box {
-    max-width: 544px;
+    max-width: 400px;
     margin-left: auto;
     margin-right: auto;
   } 
 }
-@media (min-width: 992px) {
-  .container-login {
+@media (min-width: 768px) {
+  .scharff-login {
     background: #fbfbfb url('../img/slider.png') /* no-repeat center center fixed */;
     background-size: cover;
   }
@@ -27,11 +28,6 @@
     margin-right: 0;
   }
 }
-
-.kaptcha {
-  width: 175px;
-  height: 44px;
-} 
 
 /***** Contenedores *****/
 

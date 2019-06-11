@@ -21,8 +21,9 @@ class TrackingPreprocessor:
         "Train"  : 3
     }
     
-    def __init__(self):
-        self.scraper_database   = MongoClient()["scraper2"]
+    def __init__(self, database_name):
+        self.scraper_db_name    = database_name
+        self.scraper_database   = MongoClient()[database_name]
         self.scraper_containers = self.scraper_database["containers"]
         self.scraper_movements  = self.scraper_database["container_movements"]
         self.scraper_statuses   = self.scraper_database["container_statuses"]
@@ -74,7 +75,7 @@ class TrackingPreprocessor:
         
         # Create directory
         directory = self.create_parent_directory()
-        
+        print("{} information:".format(carrier))
         # Save containers ready for training
         if len(finished) > 0:
             self.save_to_csv(finished, directory, carrier, "train", "containers with finished movements")
@@ -279,3 +280,9 @@ class TrackingPreprocessor:
         # Print message
         if message:
             print("-", len(containers) - 1, message)
+
+if __name__ == "__main__":
+    preprocessor = TrackingPreprocessor("scraper2")
+    preprocessor.evaluate_carrier("Evergreen")
+    preprocessor.evaluate_carrier("Maersk")
+    preprocessor.evaluate_carrier("Hapag-Lloyd")
