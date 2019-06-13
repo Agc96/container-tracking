@@ -21,3 +21,6 @@ env.*
 # Windows system files
 Thumbs.db
 desktop.ini
+
+# Files with sensitive data
+sensitive-*
