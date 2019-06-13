@@ -1,78 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Scharff - Log&iacute;stica Integral</title>
-    <!-- Meta tag para moviles -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Estilos incluyendo: Bootstrap, Font Icons, Plugins, etc.-->
-    <link rel="stylesheet" media="screen" href="css/vendor.min.css">
-    <link id="mainStyles" rel="stylesheet" media="screen" href="css/styles.min.css">
-    <link id="customStyles" rel="stylesheet" media="screen" href="css/custom.css">
-    <style type="text/css">
-    </style>
-    <!-- Modernizr -->
-    <script type="text/javascript" src="js/third-party/modernizr.min.js"></script>
-  </head>
+  {% include 'tracking/includes/header.html' %}
   <body>
-    <!--      -->
-    <!-- Menu -->
-    <!--      -->
-    <div class="offcanvas-container" id="mobile-menu">
-      <div class="account-link">
-        <div class="user-ava"><img src="img/user.jpg" alt="Nombre de usuario" title="Nombre de usuario"></div>
-        <div class="user-info">
-          <h6 class="user-name">Nombre de usuario</h6>
-          <span class="text-sm text-white opacity-60">Administrador</span>
-        </div>
-      </div>
-      <nav class="offcanvas-menu">
-        <ul class="menu">
-          <!-- Contenedores -->
-          <li class="active"><a href="containers.html">Listado de contenedores</a></li>
-          <!-- Opciones de usuario -->
-          <div class="offcanvas-header"><h3 class="offcanvas-title">Opciones de usuario</h3></div>
-          <li><a href="profile.html">Perfil</a></li>
-          <li><a href="index.html">Cerrar sesión</a></li>
-        </ul>
-      </nav>
-    </div>
-    <!--        -->
-    <!-- Header -->
-    <!--        -->
-    <div class="topbar d-none"></div>
-    <header class="navbar navbar-sticky navbar-login">
-      <div class="site-branding"><div class="inner">
-        <!-- Toggle -->
-        <a class="offcanvas-toggle text-white" href="#mobile-menu" data-toggle="offcanvas"></a>
-        <!-- Site Logo-->
-        <div class="site-logo"><img src="img/logo_white.png" alt="Scharff" title="Scharff"></div>
-      </div></div>
-      <!-- Toolbar -->
-      <div class="toolbar"><div class="inner"><div class="tools">
-        <div class="account bg-white">
-          <!-- Icono del usuario -->
-          <a href="#"></a>
-          <i class="icon-head"></i> <span class="account-label">Anthony Gutiérrez</span>
-          <ul class="toolbar-dropdown">
-            <!-- Breve info del usuario -->
-            <li class="sub-menu-user">
-              <div class="user-ava"><img src="img/user.jpg" alt="Nombre de usuario" title="Nombre de usuario"></div>
-              <div class="user-info">
-                <h6 class="user-name">Anthony Gutiérrez</h6>
-                <span class="text-xs text-muted">Administrador</span>
-              </div>
-            </li>
-            <!-- Menu del usuario -->
-            <li><a href="perfil.html"><i class="icon-cog"></i>Configurar perfil</a></li>
-            <li><a href="login.html"><i class="icon-unlock"></i>Cerrar sesi&oacute;n</a></li>
-          </ul>
-        </div>
-      </div></div></div>
-    </header>
-    <!--           -->
-    <!-- Contenido -->
-    <!--           -->
+    {# Menu #}
+    {% include 'tracking/includes/menu.html' %}
+    {# Header #}
+    {% include 'tracking/includes/navbar.html' %}
+    {# Contenido #}
     <div class="offcanvas-wrapper">
       <div class="container padding-top-1x">
         <h3 class="margin-bottom-1x">Contenedores marítimos</h3>
@@ -170,15 +104,7 @@
         </div>
       </div>
     </div>
-    <!-- Boton para volver arriba -->
-    <a class="scroll-to-top-btn" href="#">
-      <i class="icon-arrow-up"></i>
-    </a>
-    <!-- Backdrop -->
-    <div class="site-backdrop"></div>
-    <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
-    <script type="text/javascript" src="js/third-party/vendor.min.js"></script>
-    <script type="text/javascript" src="js/third-party/scripts.min.js"></script>
-    <script src="js/utilities.js"></script>
+    {# Footer #}
+    {% include 'tracking/includes/footer.html' %}
   </body>
 </html>

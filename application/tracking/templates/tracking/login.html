@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+  {% include 'tracking/includes/header.html' %}
+  <body class="body-login">
+    {# Header #}
+    {% include 'tracking/includes/navbar.html' %}
+    {# Contenido #}
+    <div class="container-fluid scharff-login">
+      {# Formulario de inicio de sesion #}
+      <form class="login-box" action="{% url 'login' %}" method="post">
+        <h4 class="mb-3">Inicio de sesión</h4>
+        {# Usuario y contraseña #}
+        <div class="form-group input-group">
+          <input type="text" name="username" class="form-control" placeholder="Nombre de usuario" required="" />
+          <span class="input-group-addon"><i class="icon-head"></i></span>
+        </div>
+        <div class="form-group input-group">
+          <input type="password" name="password" class="form-control" placeholder="Contraseña" required="" />
+          <span class="input-group-addon"><i class="icon-lock"></i></span>
+        </div>
+        {% csrf_token %}
+        {# Botón de inicio de sesión #}
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+        </div>
+      </form>
+    </div>
+    {# Footer #}
+    {% include 'tracking/includes/footer.html' %}
+    {% if message %}
+      <script>
+        alert('{{ message }}');
+      </script>
+    {% endif %}
+  </body>
+</html>

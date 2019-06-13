@@ -1,0 +1,47 @@
+{% load static %}
+{# No se usa el topbar. #}
+<div class="topbar d-none"></div>
+{# Navbar/header #}
+<header class="navbar navbar-sticky">
+  <div class="site-branding">
+    <div class="inner">
+      {# Botón del menú #}
+      {% if logged %}
+        <a class="offcanvas-toggle text-white" href="#mobile-menu" data-toggle="offcanvas"></a>
+      {% endif %}
+      {# Logo de Scharff #}
+      <div class="site-logo">
+        <img src="{% static 'tracking/img/logo_white.png' %}" alt="Scharff" title="Scharff">
+      </div>
+    </div>
+  </div>
+  {# Barra de herramientas #}
+  {% if logged %}
+    <div class="toolbar">
+      <div class="inner">
+        <div class="tools">
+          <div class="account bg-white">
+            <!-- Icono del usuario -->
+            <a href="#"></a>
+            <i class="icon-head"></i> <span class="account-label">{{ fullname }}</span>
+            <ul class="toolbar-dropdown">
+              <!-- Breve info del usuario -->
+              <li class="sub-menu-user">
+                <div class="user-ava">
+                  <img src="{% static 'tracking/img/user.jpg' %}" alt="{{ fullname }}" title="{{ fullname }}">
+                </div>
+                <div class="user-info">
+                  <h6 class="user-name">{{ fullname }}</h6>
+                  <span class="text-xs text-muted">{{ role }}</span>
+                </div>
+              </li>
+              <!-- Menu del usuario -->
+              <li><a href="{% url 'profile' %}"><i class="icon-cog"></i>Configurar perfil</a></li>
+              <li><a href="{% url 'logout' %}"><i class="icon-unlock"></i>Cerrar sesi&oacute;n</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</header>
