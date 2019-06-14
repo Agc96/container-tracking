@@ -34,20 +34,24 @@
             {# Fechas de registro #}
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
               <label for="date-since">Registrados desde:</label>
-              <input type="text" name="date-since" id="date-since" class="form-control" placeholder="Fecha de registro mínima a buscar">
+              <input type="text" name="date-since" id="date-since" class="form-control date-input"
+                placeholder="Fecha de registro mínima a buscar">
             </div>
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
               <label for="date-until">Registrados hasta:</label>
-              <input type="text" name="date-until" id="date-until" class="form-control" placeholder="Fecha de registro máxima a buscar">
+              <input type="text" name="date-until" id="date-until" class="form-control date-input"
+                placeholder="Fecha de registro máxima a buscar">
             </div>
             {# Ubicaciones #}
             <div class="col-lg-4 col-sm-6 form-group">
               <label for="origin">Ubicación de origen:</label>
-              <input type="text" name="origin" id="origin" class="form-control" placeholder="Busque una ubicación de origen...">
+              <input type="text" name="origin" id="origin" class="form-control location-input"
+                placeholder="Busque una ubicación de origen...">
             </div>
             <div class="col-lg-4 col-sm-6 form-group">
               <label for="destination">Ubicación de destino:</label>
-              <input type="text" name="destination" id="destination" class="form-control" placeholder="Busque una ubicación de destino...">
+              <input type="text" name="destination" id="destination" class="form-control location-input"
+                placeholder="Busque una ubicación de destino...">
             </div>
           </div>
           {# Botones #}
@@ -70,19 +74,48 @@
         <div class="card-container" id="results">
           {# Lista de contenedores #}
         </div>
+        {# Paginado #}
         <div class="entry-navigation">
           <div class="column text-left">
             <a class="btn btn-sm btn-outline-secondary" href="#">
               <i class="icon-arrow-left"></i> <span class="d-sm-inline d-none">Anterior</span>
             </a>
           </div>
-          <div class="column">Página <strong id="pagination-current"></strong> de <strong id="pagination-total"></strong></div>
-          <div class="column text-right"><a class="btn btn-sm btn-outline-secondary" href="#">Next&nbsp;<i class="icon-arrow-right"></i></a></div>
+          <div class="column">Página <strong id="page-current"></strong> de <strong id="page-total"></strong></div>
+          <div class="column text-right">
+            <a class="btn btn-sm btn-outline-secondary" href="#">
+              <span class="d-sm-inline d-none">Siguiente</span> <i class="icon-arrow-right"></i>
+            </a>
+          </div>
         </div>
         {# Fin resultados de la búsqueda #}
       </div>
     </div>
     {# Footer #}
     {% include 'tracking/includes/footer.html' %}
+    <script>
+      jQuery(document).ready(function ($) {
+
+        /* Autocompletado de ubicaciones */
+
+        $('.location-input').autocomplete({
+          source: function (request, response) {
+            $.get("{% url 'location-search' %}", request, function (data) {
+              response($.map(data.locations, function (item) {
+                return {
+                  value: item.name,
+                  label: item.name,
+                  id: item.id
+                };
+              }));
+            });
+          },
+          minLength: 3
+        });
+
+        /* Resultados de la búsqueda */
+
+      });
+    </script>
   </body>
 </html>

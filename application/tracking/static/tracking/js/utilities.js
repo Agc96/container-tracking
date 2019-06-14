@@ -1,7 +1,9 @@
 jQuery(document).ready(function ($) {
 
 	/* Selects con placeholders */
+
 	$('select').each(selectPlaceholder).change(selectPlaceholder);
+
 	function selectPlaceholder() {
 		if (this.value === '') {
 			$(this).addClass('placeholder');
@@ -10,30 +12,47 @@ jQuery(document).ready(function ($) {
 		}
 	}
 
+	/* Inputs tipo fecha */
+
+	if ($.fn.datepicker) {
+		$('.date-input').datepicker({
+			dateFormat: 'dd/mm/yy',
+			monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre',
+						'Octubre', 'Noviembre', 'Diciembre'],
+			monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'],
+			dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+			prevText: 'Anterior',
+			nextText: 'Siguiente',
+			showOtherMonths: true,
+			selectOtherMonths: true
+		});
+	}
+
 });
 
 /* Métodos auxiliares */
-var Utilities = {
-	showMessage: function(messageType, messageContent, messageIcon, messageTitle) {
-		iziToast.show({
-			class: 'iziToast-' + (messageType || 'default'),
-			title: (messageTitle || ''),
-			message: (messageContent || ''),
-			animateInside: false,
-			position: 'topRight',
-			progressBar: false,
-			icon: (messageIcon || ''),
-			timeout: 3200,
-			transitionIn: 'fadeInLeft',
-			transitionOut: 'fadeOut',
-			transitionInMobile: 'fadeIn',
-			transitionOutMobile: 'fadeOut'
-		});
-	},
-	showErrorMessage: function(messageContent) {
-		Utilities.showMessage('danger', messageContent, 'icon-ban', 'Error');
-	},
-	showSuccessMessage: function(messageContent) {
-		Utilities.showMessage('success', messageContent, 'icon-check', 'Éxito');
-	}
+
+function showMessage(type, content, icon, title) {
+	iziToast.show({
+		class: 'iziToast-' + (type || 'default'),
+		title: (title || ''),
+		message: (content || ''),
+		animateInside: false,
+		position: 'topRight',
+		progressBar: false,
+		icon: (icon || ''),
+		timeout: 3200,
+		transitionIn: 'fadeInLeft',
+		transitionOut: 'fadeOut',
+		transitionInMobile: 'fadeIn',
+		transitionOutMobile: 'fadeOut'
+	});
+}
+
+function showErrorMessage(content) {
+	showMessage('danger', content, 'icon-ban', 'Error');
+}
+
+function showSuccessMessage(messageContent) {
+	showMessage('success', content, 'icon-check', 'Éxito');
 }

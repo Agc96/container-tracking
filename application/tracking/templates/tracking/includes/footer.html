@@ -8,6 +8,9 @@
   <div class="site-backdrop"></div>
 {% endif %}
 {# JavaScript (jQuery) libraries, plugins and custom scripts #}
-<script src="{% static 'tracking/js/third-party/vendor.min.js' %}"></script>
-<script src="{% static 'tracking/js/third-party/scripts.min.js' %}"></script>
+<script src="{% static 'tracking/js/vendor.min.js' %}"></script>
+<script src="{% static 'tracking/js/scripts.min.js' %}"></script>
+{% if user %}
+  <script src="{% static 'tracking/js/jquery-ui.min.js' %}"></script>
+{% endif %}
 <script src="{% static 'tracking/js/utilities.js' %}"></script>
