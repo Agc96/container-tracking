@@ -6,7 +6,7 @@
   <div class="site-branding">
     <div class="inner">
       {# Botón del menú #}
-      {% if logged %}
+      {% if user %}
         <a class="offcanvas-toggle text-white" href="#mobile-menu" data-toggle="offcanvas"></a>
       {% endif %}
       {# Logo de Scharff #}
@@ -16,23 +16,23 @@
     </div>
   </div>
   {# Barra de herramientas #}
-  {% if logged %}
+  {% if user %}
     <div class="toolbar">
       <div class="inner">
         <div class="tools">
           <div class="account bg-white">
             <!-- Icono del usuario -->
             <a href="#"></a>
-            <i class="icon-head"></i> <span class="account-label">{{ fullname }}</span>
+            <i class="icon-head"></i> <span class="account-label">{{ user.fullname }}</span>
             <ul class="toolbar-dropdown">
               <!-- Breve info del usuario -->
               <li class="sub-menu-user">
                 <div class="user-ava">
-                  <img src="{% static 'tracking/img/user.jpg' %}" alt="{{ fullname }}" title="{{ fullname }}">
+                  <img src="{% static 'tracking/img/user.jpg' %}" alt="{{ user.fullname }}" title="{{ user.fullname }}">
                 </div>
                 <div class="user-info">
-                  <h6 class="user-name">{{ fullname }}</h6>
-                  <span class="text-xs text-muted">{{ role }}</span>
+                  <h6 class="user-name">{{ user.fullname }}</h6>
+                  <span class="text-xs text-muted">{{ user.role }}</span>
                 </div>
               </li>
               <!-- Menu del usuario -->

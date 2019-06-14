@@ -1,4 +1,4 @@
-/***** Inicio de sesion *****/
+/* Inicio de sesión */
 
 .navbar {
   background-color: #ff525a;
@@ -21,7 +21,7 @@
 }
 @media (min-width: 768px) {
   .scharff-login {
-    background: #fbfbfb url('../img/slider.png') /* no-repeat center center fixed */;
+    background: #fbfbfb url('../img/slider.png') no-repeat;
     background-size: cover;
   }
   .login-box {
@@ -29,7 +29,7 @@
   }
 }
 
-/***** Contenedores *****/
+/* Contenedores */
 
 .offcanvas-wrapper {
   min-height: calc(100vh - 84px); /* Interaccion del contenido con el menu desplegable */
@@ -38,7 +38,7 @@
   padding: 1rem;
 }
 
-/***** Toolbar de usuario *****/
+/* Toolbar de usuario */
 
 .toolbar .account {
   width: auto;
@@ -63,7 +63,7 @@
   }
 }
 
-/***** Tarjetas de resultados de la búsqueda *****/
+/* Tarjetas de resultados de la búsqueda */
 
 .card-header {
   padding: .75rem 1rem;
@@ -105,7 +105,7 @@
   margin-top: 1rem;
 }
 
-/***** Selects con placeholders *****/
+/* Selects con placeholders */
 
 select.placeholder {
   color: #9da9b9;
@@ -114,9 +114,16 @@ option[value=""] {
   color: #9da9b9;
 }
 
-/***** Mapas *****/
+/* Mapas */
 
 .maps {
   height: 100%;
   width: 100%;
+}
+
+/* Paginado */
+
+.entry-navigation {
+  display: none; /* Inicialmente se esconde, hasta que se haga clic en Buscar */
+  border: none;
 }

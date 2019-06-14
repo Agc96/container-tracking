@@ -1,107 +1,85 @@
 <!DOCTYPE html>
 <html lang="es">
+  {# Cabecera HTML #}
   {% include 'tracking/includes/header.html' %}
   <body>
-    {# Menu #}
+    {# Modales #}
+    {% include 'tracking/container/modals/import.html' %}
+    {# Menú desplegable #}
     {% include 'tracking/includes/menu.html' %}
-    {# Header #}
+    {# Barra superior #}
     {% include 'tracking/includes/navbar.html' %}
     {# Contenido #}
     <div class="offcanvas-wrapper">
       <div class="container padding-top-1x">
         <h3 class="margin-bottom-1x">Contenedores marítimos</h3>
-        <!-- Formulario de búsqueda -->
+        {# Formulario de búsqueda #}
         <div class="bg-secondary pt-3 px-3">
           <div class="row">
-            <!-- Código del contenedor -->
+            {# Código del contenedor #}
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
-              <label for="container-code">Código del contenedor:</label>
-              <input type="text" id="container-code" class="form-control" placeholder="Máximo 11 caracteres (4 letras + 7 cifras)">
+              <label for="code">Código del contenedor:</label>
+              <input type="text" name="code" id="code" class="form-control" placeholder="Máximo 11 caracteres (4 letras + 7 cifras)">
             </div>
-            <!-- Empresa naviera -->
+            {# Empresa naviera #}
             <div class="col-lg-4 col-sm-6 form-group">
-                <label for="container-carrier">Empresa naviera:</label>
-                <select id="container-carrier" class="form-control placeholder" required="">
-                  <option value="" disabled="" selected="">Empresa que transporta el contenedor</option>
-                  <option value="1">MAERSK LINE</option>
-                  <option value="2">HAPAG-LLOYD</option>
-                  <option value="3">EVERGREEN</option>
-                </select>
+              <label for="carrier">Empresa naviera:</label>
+              <select name="carrier" id="carrier" class="form-control placeholder">
+                <option value="" disabled="" selected="">Empresa que transporta el contenedor</option>
+                {% for carrier in carriers %}
+                  <option value="{{ carrier.id }}">{{ carrier.name }}</option>
+                {% endfor %}
+              </select>
             </div>
-            <!-- Fechas de registro -->
+            {# Fechas de registro #}
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
-              <label for="container-registry-since">Registrados desde:</label>
-              <input type="text" id="container-registry-since" class="form-control" placeholder="Fecha de registro mínima a buscar">
+              <label for="date-since">Registrados desde:</label>
+              <input type="text" name="date-since" id="date-since" class="form-control" placeholder="Fecha de registro mínima a buscar">
             </div>
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
-              <label for="container-registry-until">Registrados hasta:</label>
-              <input type="text" id="container-registry-until" class="form-control" placeholder="Fecha de registro máxima a buscar">
+              <label for="date-until">Registrados hasta:</label>
+              <input type="text" name="date-until" id="date-until" class="form-control" placeholder="Fecha de registro máxima a buscar">
             </div>
-            <!-- Ubicaciones -->
+            {# Ubicaciones #}
             <div class="col-lg-4 col-sm-6 form-group">
-              <label for="container-origin">Ubicación de origen:</label>
-              <input type="text" id="container-origin" class="form-control" placeholder="Busque una ubicación de origen...">
+              <label for="origin">Ubicación de origen:</label>
+              <input type="text" name="origin" id="origin" class="form-control" placeholder="Busque una ubicación de origen...">
             </div>
             <div class="col-lg-4 col-sm-6 form-group">
-              <label for="container-destination">Ubicación de destino:</label>
-              <input type="text" id="container-destination" class="form-control" placeholder="Busque una ubicación de destino...">
+              <label for="destination">Ubicación de destino:</label>
+              <input type="text" name="destination" id="destination" class="form-control" placeholder="Busque una ubicación de destino...">
             </div>
           </div>
-          <div class="text-right pb-3">
-            <a class="btn btn-primary my-0" href="containers-new.html"><i class="icon-plus"></i> Nuevo</a>
-            <button class="btn btn-success my-0"><i class="icon-upload"></i> Importar</button>
-            <button class="btn btn-info my-0"><i class="icon-search"></i> Buscar</button>
-            <!-- button class="btn btn-secondary my-0"><i class="icon-repeat"></i> Limpiar</button -->
+          {# Botones #}
+          <div class="d-flex justify-content-end">
+            <div class="pb-3">
+              <a class="btn btn-primary my-0" href="{% url 'container-create' %}"><i class="icon-plus"></i> Nuevo contenedor</a>
+            </div>
+            <div class="pb-3">
+              <button class="btn btn-success my-0" data-toggle="modal" data-target="#import-modal"><i class="icon-upload"></i> Importar</button>
+            </div>
+            <div class="pb-3">
+              <button class="btn btn-info my-0"><i class="icon-search"></i> Buscar</button>
+            </div>
           </div>
         </div>
-        <!-- Resultados de la búsqueda -->
+        {# Resultados de la búsqueda #}
         <h4 class="margin-top-1x">Resultados de la búsqueda</h4>
         <hr class="margin-bottom-1x">
-        <p id="container-results-message">
-          <!-- Presione <strong>Buscar</strong> para iniciar el listado de contenedores. -->
-          Se encontraron <strong class="container-results-count">2</strong> contenedores.
-        </p>
-        <div class="card-container" id="container-results">
-          <!-- Contenedor 1 -->
-          <div class="card">
-            <div class="card-header"><h6>Contenedor MNBU4011497</h6></div>
-            <div class="card-body">
-              <!-- Datos del contenedor -->
-              <div class="text-left">
-                <div class="card-item"><strong>Empresa naviera:</strong> MAERSK LINE</div>
-                <div class="card-item"><strong>Ubicación de origen:</strong> Callao, Peru</div>
-                <div class="card-item"><strong>Ubicación de destino:</strong> Hamburg, Germany</div>
-                <div class="card-item"><strong>Fecha de registro:</strong> 27/05/2019</div>
-                <div class="card-item"><strong>Estado:</strong> <strong class="text-success">Procesado</strong></div>
-                <div class="card-item"><strong>Fecha estimada de llegada:</strong> 10/06/2019 (7 días)</div>
-              </div>
-              <!-- Botones -->
-              <div class="text-right mt-3">
-                <a class="btn btn-sm btn-primary my-0" href="containers-movements.html">Ver movimientos</a>
-                <button class="btn btn-sm btn-outline-secondary my-0">Ver detalles</button>
-              </div>
-            </div>
-          </div>
-          <!-- Contenedor 2 -->
-          <div class="card">
-            <div class="card-header"><h6>Contenedor MNBU3041814</h6></div>
-            <div class="card-body">
-              <!-- Datos del contenedor -->
-              <div class="text-left">
-                <div class="card-item"><strong>Empresa naviera:</strong> MAERSK LINE</div>
-                <div class="card-item"><strong>Ubicación de origen:</strong> Rotterdam, Netherlands</div>
-                <div class="card-item"><strong>Ubicación de destino:</strong> Callao, Peru</div>
-                <div class="card-item"><strong>Fecha de registro:</strong> 03/06/2019</div>
-                <div class="card-item"><strong>Estado:</strong> <strong class="text-warning">Pendiente</strong></div>
-              </div>
-              <!-- Botones -->
-              <div class="text-right mt-3">
-                <button class="btn btn-sm btn-info my-0">Editar datos</button>
-                <button class="btn btn-sm btn-outline-secondary my-0">Ver detalles</button>
-              </div>
-            </div>
-          </div>
+        <p id="results-message">Presione <strong>Buscar</strong> para ver la lista de contenedores.</p>
+        <div class="card-container" id="results">
+          {# Lista de contenedores #}
         </div>
+        <div class="entry-navigation">
+          <div class="column text-left">
+            <a class="btn btn-sm btn-outline-secondary" href="#">
+              <i class="icon-arrow-left"></i> <span class="d-sm-inline d-none">Anterior</span>
+            </a>
+          </div>
+          <div class="column">Página <strong id="pagination-current"></strong> de <strong id="pagination-total"></strong></div>
+          <div class="column text-right"><a class="btn btn-sm btn-outline-secondary" href="#">Next&nbsp;<i class="icon-arrow-right"></i></a></div>
+        </div>
+        {# Fin resultados de la búsqueda #}
       </div>
     </div>
     {# Footer #}

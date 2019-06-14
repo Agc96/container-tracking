@@ -1,0 +1,27 @@
+{% load static %}
+<div class="modal fade" id="import-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Importar lista de contenedores</h4>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Importe una lista de contenedores por medio de un archivo CSV. Descargue el modelo haciendo clic en
+          <a href="{% static 'tracking/files/container/import-example.csv' %}">este enlace</a>.
+        </p>
+        <div class="form-group">
+          <div class="custom-file">
+            <input class="custom-file-input" type="file" id="import-file" accept=".csv">
+            <label class="custom-file-label" for="import-file">Seleccione un archivo...</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-sm btn-primary" id="import-submit">Importar</button>
+      </div>
+    </div>
+  </div>
+</div>

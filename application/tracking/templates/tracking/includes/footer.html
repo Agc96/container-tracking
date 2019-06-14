@@ -4,12 +4,10 @@
   <i class="icon-arrow-up"></i>
 </a>
 {# Backdrop (bloque usado al abrir el menú principal) #}
-{% if logged %}
+{% if user %}
   <div class="site-backdrop"></div>
 {% endif %}
 {# JavaScript (jQuery) libraries, plugins and custom scripts #}
 <script src="{% static 'tracking/js/third-party/vendor.min.js' %}"></script>
 <script src="{% static 'tracking/js/third-party/scripts.min.js' %}"></script>
-{% if logged %}
-  <script src="{% static 'tracking/js/utilities.js' %}"></script>
-{% endif %}
+<script src="{% static 'tracking/js/utilities.js' %}"></script>

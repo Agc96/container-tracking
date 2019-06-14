@@ -1,102 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Scharff - Log&iacute;stica Integral</title>
-    <!-- Meta tag para moviles -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Estilos incluyendo: Bootstrap, Font Icons, Plugins, etc.-->
-    <link rel="stylesheet" media="screen" href="css/vendor.min.css">
-    <link id="mainStyles" rel="stylesheet" media="screen" href="css/styles.min.css">
-    <link id="customStyles" rel="stylesheet" media="screen" href="css/custom.css">
-    <style type="text/css">
-    </style>
-    <!-- Modernizr -->
-    <script type="text/javascript" src="js/third-party/modernizr.min.js"></script>
-  </head>
+  {# Cabecera HTML #}
+  {% include 'tracking/includes/header.html' %}
   <body>
-    <!--      -->
-    <!-- Menu -->
-    <!--      -->
-    <div class="offcanvas-container" id="mobile-menu">
-      <div class="account-link">
-        <div class="user-ava"><img src="img/user.jpg" alt="Nombre de usuario" title="Nombre de usuario"></div>
-        <div class="user-info">
-          <h6 class="user-name">Nombre de usuario</h6>
-          <span class="text-sm text-white opacity-60">Administrador</span>
-        </div>
-      </div>
-      <nav class="offcanvas-menu">
-        <ul class="menu">
-          <li class="active"><a href="inicio.html">Inicio</a></li>
-          <!-- Reportes -->
-          <li class="has-children">
-            <span><a href="#"><span>Reportes</span></a><span class="sub-menu-toggle"></span></span>
-            <ul class="offcanvas-submenu">
-              <li><a href="pedidos-pagos.html">Pedidos Pagos</a></li>
-              <li><a href="pedidos-seguimiento.html">Pedidos Seguimiento</a></li>
-            </ul>
-          </li>
-          <!-- Administracion -->
-          <li class="has-children">
-            <span><a href="#"><span>Administraci&oacute;n</span></a><span class="sub-menu-toggle"></span></span>
-            <ul class="offcanvas-submenu">
-              <li><a href="administracion-permisos.html">Permisos</a></li>
-            </ul>
-          </li>
-          <!-- Registro -->
-          <li class="has-children">
-            <span><a href="#"><span>Registro</span></a><span class="sub-menu-toggle"></span></span>
-            <ul class="offcanvas-submenu">
-              <li><a href="registro-usuarios.html">Registro de usuarios</a></li>
-              <li><a href="registro-empresas.html">Registro de empresas</a></li>
-              <li><a href="registro-proveedores.html">Registro de proveedores</a></li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <!--        -->
-    <!-- Header -->
-    <!--        -->
-    <div class="topbar d-none"></div>
-    <header class="navbar navbar-sticky navbar-login">
-      <div class="site-branding"><div class="inner">
-        <!-- Toggle -->
-        <a class="offcanvas-toggle text-white" href="#mobile-menu" data-toggle="offcanvas"></a>
-        <!-- Site Logo-->
-        <div class="site-logo"><img src="img/logo_white.png" alt="Scharff" title="Scharff"></div>
-      </div></div>
-      <!-- Toolbar -->
-      <div class="toolbar"><div class="inner"><div class="tools">
-        <div class="account bg-secondary">
-          <!-- Icono del usuario -->
-          <a href="#"></a>
-          <i class="icon-head"></i> <span class="account-label">Anthony Gutiérrez</span>
-          <ul class="toolbar-dropdown">
-            <!-- Breve info del usuario -->
-            <li class="sub-menu-user">
-              <div class="user-ava"><img src="img/user.jpg" alt="Nombre de usuario" title="Nombre de usuario"></div>
-              <div class="user-info">
-                <h6 class="user-name">Anthony Gutiérrez</h6>
-                <span class="text-xs text-muted">Administrador</span>
-              </div>
-            </li>
-            <!-- Menu del usuario -->
-            <li><a href="perfil.html"><i class="icon-cog"></i>Configurar perfil</a></li>
-            <li><a href="login.html"><i class="icon-unlock"></i>Cerrar sesi&oacute;n</a></li>
-          </ul>
-        </div>
-      </div></div></div>
-    </header>
-    <!--           -->
-    <!-- Contenido -->
-    <!--           -->
+    {# Menú desplegable #}
+    {% include 'tracking/includes/menu.html' %}
+    {# Barra superior #}
+    {% include 'tracking/includes/navbar.html' %}
+    {# Contenido #}
     <div class="offcanvas-wrapper">
       <div class="container padding-top-1x">
         <h3 class="margin-bottom-1x">Ingreso de datos de contenedores</h3>
         <div class="row">
-          <!-- Formulario de creación -->
+          {# Formulario de creación #}
           <div class="col-lg-5 col-sm-6">
             <div class="form-group">
               <label for="container-code">Código del contenedor:</label>
@@ -106,9 +22,9 @@
               <label for="container-carrier">Empresa naviera:</label>
               <select id="container-carrier" class="form-control" required="">
                 <option value="" disabled="" selected="">Empresa que transporta el contenedor</option>
-                <option value="1">MAERSK LINE</option>
-                <option value="2">HAPAG-LLOYD</option>
-                <option value="3">EVERGREEN</option>
+                {% for carrier in carriers %}
+                  <option value="{{ carrier.id }}">{{ carrier.name }}</option>
+                {% endfor %}
               </select>
             </div>
             <!-- Ubicación de origen -->
@@ -146,28 +62,20 @@
               </div>
             </div>
           </div>
-          <!-- Mapa -->
+          {# Mapa #}
           <div class="col-lg-7 col-sm-6">
             <div id="container-new-map" class="maps"></div>
           </div>
         </div>
-        <div class="text-center mt-3">
-          <a class="btn btn-primary" href="containers.html">Guardar</a>
-          <a class="btn btn-outline-secondary" href="containers.html">Cancelar</a>
+        <div class="text-center">
+          <a class="btn btn-primary mt-3 my-0" href="{% url 'container-save' %}">Guardar</a>
+          <a class="btn btn-outline-secondary mt-3 my-0" href="{% url 'container-list' %}">Cancelar</a>
         </div>
       </div>
     </div>
-    <!-- Boton para volver arriba -->
-    <a class="scroll-to-top-btn" href="#">
-      <i class="icon-arrow-up"></i>
-    </a>
-    <!-- Backdrop -->
-    <div class="site-backdrop"></div>
-    <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
-    <script type="text/javascript" src="js/third-party/vendor.min.js"></script>
-    <script type="text/javascript" src="js/third-party/scripts.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=containerMovements" async defer></script>
-    <script src="js/utilities.js"></script>
+    {# Footer #}
+    {% include 'tracking/includes/footer.html' %}
+    <!-- script src="https://maps.googleapis.com/maps/api/js?key={{maps_key}}&callback=containerMovements" async defer></script>
     <script>
       var mapContainer = document.getElementById('container-new-map');
       var mapReference;
@@ -194,6 +102,6 @@
           title: 'Callao, Peru'
         }); */
       }
-    </script>
+    </script -->
   </body>
 </html>
