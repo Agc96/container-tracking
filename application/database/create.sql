@@ -4,30 +4,13 @@ CREATE DATABASE tracking;
 COMMENT ON DATABASE tracking IS 'Undergraduate thesis project - Container tracking';
 
 GRANT ALL ON DATABASE tracking TO postgres;
+GRANT ALL ON DATABASE tracking TO webmaster;
 GRANT CONNECT ON DATABASE tracking TO webapp;
 
 -- Schema: tracking
 -- OJO: Cambiar la base de datos actual de "postgres" a "tracking" (\c tracking)
 
 COMMENT ON SCHEMA public IS 'Schema for the Container Tracking application.';
-
--- Table: Users
-
-CREATE TABLE tracking_user (
-    id serial NOT NULL PRIMARY KEY,
-    fullname varchar(128) NOT NULL,
-    email varchar(128) NOT NULL,
-    role integer NOT NULL,
-    username varchar(32) NOT NULL,
-    password varchar(256) NOT NULL
-);
-COMMENT ON TABLE tracking_user IS 'List of users for the Container Tracking application.';
-COMMENT ON COLUMN tracking_user.id IS 'ID of the user.';
-COMMENT ON COLUMN tracking_user.fullname IS 'First and last name of the user.';
-COMMENT ON COLUMN tracking_user.email IS 'Email of the user.';
-COMMENT ON COLUMN tracking_user.role IS 'Role of the user.\n1: Administrator\n2: Logistic area user\n3: Systems area user';
-COMMENT ON COLUMN tracking_user.username IS 'Short name used by the user to login.';
-COMMENT ON COLUMN tracking_user.password IS 'Encrypted bassword used by the user to login.';
 
 -- Table: Carriers
 
@@ -80,3 +63,5 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT INSERT ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT UPDATE ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT DELETE ON ALL TABLES IN SCHEMA public TO webapp;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO webmaster;

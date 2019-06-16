@@ -21,11 +21,11 @@
       <div class="inner">
         <div class="tools">
           <div class="account bg-white">
-            <!-- Icono del usuario -->
+            {# Icono del usuario #}
             <a href="#"></a>
             <i class="icon-head"></i> <span class="account-label">{{ user.fullname }}</span>
             <ul class="toolbar-dropdown">
-              <!-- Breve info del usuario -->
+              {# Breve info del usuario #}
               <li class="sub-menu-user">
                 <div class="user-ava">
                   <img src="{% static 'tracking/img/user.jpg' %}" alt="{{ user.fullname }}" title="{{ user.fullname }}">
@@ -35,9 +35,9 @@
                   <span class="text-xs text-muted">{{ user.role }}</span>
                 </div>
               </li>
-              <!-- Menu del usuario -->
+              {# Menú del usuario #}
               <li><a href="{% url 'profile' %}"><i class="icon-cog"></i>Configurar perfil</a></li>
-              <li><a href="{% url 'logout' %}"><i class="icon-unlock"></i>Cerrar sesi&oacute;n</a></li>
+              <li><a href="{% url 'logout' %}"><i class="icon-unlock"></i>Cerrar sesión</a></li>
             </ul>
           </div>
         </div>
