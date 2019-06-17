@@ -1,10 +1,9 @@
-from pymongo import MongoClient, ASCENDING, DESCENDING
+from pymongo import MongoClient, ASCENDING
 from datetime import datetime
 
-import pandas as pd
-import numpy as np
-import os
 import csv
+import os
+import sys
 
 class TrackingDetailedPreprocessor:
     """
@@ -24,7 +23,6 @@ class TrackingDetailedPreprocessor:
     }
     
     def __init__(self, database_name):
-        self.scraper_db_name    = database_name
         self.scraper_database   = MongoClient()[database_name]
         self.scraper_containers = self.scraper_database["containers"]
         self.scraper_movements  = self.scraper_database["container_movements"]
@@ -251,9 +249,9 @@ class TrackingDetailedPreprocessor:
         """
         Create a directory for the preprocessed files.
         """
-        directory = "preprocess-{}".format(datetime.now().strftime("%Y%m%d"))
+        directory = "preprocess/{}-{}-detailed".format(datetime.now().strftime("%Y%m%d"), self.scraper_database.name)
         if not os.path.exists(directory):
-            os.mkdir(directory)
+            os.makedirs(directory)
         return directory
     
     def save_to_csv(self, movement_list, directory, carrier, category):
@@ -276,7 +274,10 @@ class TrackingDetailedPreprocessor:
                 file.write(container + "\n")
 
 if __name__ == "__main__":
-    preprocessor = TrackingDetailedPreprocessor("scraper2")
+    if len(sys.argv) < 2:
+        print("Usage: {} <database_name>".format(sys.argv[0]))
+        exit(1)
+    preprocessor = TrackingDetailedPreprocessor(sys.argv[1])
     preprocessor.evaluate_carrier("Evergreen")
     preprocessor.evaluate_carrier("Maersk")
     preprocessor.evaluate_carrier("Hapag-Lloyd")

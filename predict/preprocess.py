@@ -3,6 +3,7 @@ from datetime import datetime
 
 import csv
 import os
+import sys
 
 class TrackingPreprocessor:
     """
@@ -22,7 +23,6 @@ class TrackingPreprocessor:
     }
     
     def __init__(self, database_name):
-        self.scraper_db_name    = database_name
         self.scraper_database   = MongoClient()[database_name]
         self.scraper_containers = self.scraper_database["containers"]
         self.scraper_movements  = self.scraper_database["container_movements"]
@@ -248,7 +248,7 @@ class TrackingPreprocessor:
         """
         Create a directory for the preprocessed files.
         """
-        directory = "preprocess-{}".format(datetime.now().strftime("%Y%m%d"))
+        directory = "preprocess/{}-{}".format(datetime.now().strftime("%Y%m%d"), self.scraper_database.name)
         if not os.path.exists(directory):
             os.mkdir(directory)
         return directory
@@ -282,7 +282,10 @@ class TrackingPreprocessor:
             print("-", len(containers) - 1, message)
 
 if __name__ == "__main__":
-    preprocessor = TrackingPreprocessor("scraper2")
+    if len(sys.argv) < 2:
+        print("Usage: {} <database_name>".format(sys.argv[0]))
+        exit(1)
+    preprocessor = TrackingPreprocessor(sys.argv[1])
     preprocessor.evaluate_carrier("Evergreen")
     preprocessor.evaluate_carrier("Maersk")
     preprocessor.evaluate_carrier("Hapag-Lloyd")

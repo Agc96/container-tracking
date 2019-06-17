@@ -45,7 +45,8 @@ CREATE TABLE tracking_container (
     origin_id integer NOT NULL REFERENCES tracking_location,
     destination_id integer NOT NULL REFERENCES tracking_location,
     processed boolean NOT NULL DEFAULT FALSE,
-    arrival_date timestamp DEFAULT NULL
+    arrival_date timestamp with time zone DEFAULT NULL,
+    created_at timestamp with time zone DEFAULT now()
 );
 COMMENT ON TABLE tracking_container IS 'List of intermodal containers for the Container Tracking application.';
 COMMENT ON COLUMN tracking_container.id IS 'ID of the container.';
@@ -63,5 +64,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT INSERT ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT UPDATE ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT DELETE ON ALL TABLES IN SCHEMA public TO webapp;
+
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO webapp;
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO webmaster;

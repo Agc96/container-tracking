@@ -1,5 +1,7 @@
 from django.db import models
 
+from datetime import datetime
+
 LENGTH_CONTAINER  = 11
 LENGTH_SHORT      = 32
 LENGTH_NORMAL     = 64
@@ -27,6 +29,7 @@ class Container(models.Model):
     destination  = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE, related_name="destination")
     processed    = models.BooleanField(default=False)
     arrival_date = models.DateTimeField(default=None)
+    created_at   = models.DateTimeField(default=datetime.now())
     def __str__(self):
         return self.code
 
