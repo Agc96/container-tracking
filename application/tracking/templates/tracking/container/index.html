@@ -14,7 +14,7 @@
       <div class="container padding-top-1x">
         <h3 class="margin-bottom-1x">Contenedores marítimos</h3>
         {# Formulario de búsqueda #}
-        <div class="bg-secondary pt-3 px-3">
+        <form class="bg-secondary pt-3 px-3" id="container-search">
           <div class="row">
             {# Código del contenedor #}
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
@@ -66,7 +66,7 @@
               <button class="btn btn-info my-0"><i class="icon-search"></i> Buscar</button>
             </div>
           </div>
-        </div>
+        </form>
         {# Resultados de la búsqueda #}
         <h4 class="margin-top-1x">Resultados de la búsqueda</h4>
         <hr class="margin-bottom-1x">
@@ -96,8 +96,12 @@
     <script>
       jQuery(document).ready(function ($) {
 
-        /* Autocompletado de ubicaciones */
+        {# Mostrar mensaje si es que se encuentra #}
+        {% if message %}
+          showErrorMessage({{ message }});
+        {% endif %}
 
+        {# Autocompletado de ubicaciones #}
         $('.location-input').autocomplete({
           source: function (request, response) {
             $.get("{% url 'location-search' %}", request, function (data) {
@@ -113,7 +117,27 @@
           minLength: 3
         });
 
-        /* Resultados de la búsqueda */
+        {# Resultados de la búsqueda #}
+        $('#container-search').submit(function (e) {
+          e.preventDefault();
+          // Obtener datos de búsqueda
+          var query = {
+            code: $('#code').val(),
+            carrier: $('#carrier').val(),
+            origin: $('#origin').val(),
+            destination: $('#destination').val(),
+            since: $('#date-since').val(),
+            until: $('#date-until').val(),
+          };
+          // Realizar la consulta
+          $.get("{% url 'container-search' %}", query, function (response) {
+            if (response.error) {
+              showErrorMessage(response.message);
+            } else {
+              console.log(response);
+            }
+          });
+        });
 
       });
     </script>

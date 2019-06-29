@@ -1,8 +1,8 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from ...models import Carrier, MockUser
+from ...models import Carrier, Container, MockUser
 
 import os
 
@@ -18,4 +18,14 @@ def create(request):
 
 def save(request):
     # TODO: Implementar lógica de guardado de contenedor
-    return HttpResponseRedirect(reverse('container-index'))
+    code = request.GET.get('code')
+    if not Container.validate_code(code):
+        return HttpResponse('El código del contenedor debe tener un formato de 4 letras más 7 dígitos.')
+    return HttpResponseRedirect(reverse('container-index'), {
+        'user': MockUser(),
+        'carriers': Carrier.objects.all(),
+        'message': 'Contenedor guardado correctamente.'
+    })
+
+def validate_container(request):
+    pass

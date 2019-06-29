@@ -151,12 +151,14 @@
           originMarker.setMap(null);
         }
         // Crear un marcador con la nueva ubicación de origen
-        originMarker = new google.maps.Marker({
-          position: { lat: ui.item.latitude, lng: ui.item.longitude },
-          map: map,
-          label: 'O',
-          title: ui.item.name
-        });
+        if (typeof google !== 'undefined') {
+          originMarker = new google.maps.Marker({
+            position: { lat: ui.item.latitude, lng: ui.item.longitude },
+            map: map,
+            label: 'O',
+            title: ui.item.name
+          });
+        }
       });
 
       jQuery('#destination-location').on('autocompleteselect', function (event, ui) {
@@ -165,12 +167,14 @@
           destinationMarker.setMap(null);
         }
         // Crear un marcador con la nueva ubicación de destino
-        destinationMarker = new google.maps.Marker({
-          position: { lat: ui.item.latitude, lng: ui.item.longitude },
-          map: map,
-          label: 'D',
-          title: ui.item.name
-        });
+        if (typeof google !== 'undefined') {
+          destinationMarker = new google.maps.Marker({
+            position: { lat: ui.item.latitude, lng: ui.item.longitude },
+            map: map,
+            label: 'D',
+            title: ui.item.name
+          });
+        }
       });
     </script>
     <!-- script src="https://maps.googleapis.com/maps/api/js?key={{maps}}&callback=createMap" async defer></script -->
