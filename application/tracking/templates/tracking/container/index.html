@@ -12,7 +12,7 @@
     {# Contenido #}
     <div class="offcanvas-wrapper">
       <div class="container padding-top-1x">
-        <h3 class="margin-bottom-1x">Contenedores marítimos</h3>
+        <h3 class="margin-bottom-1x">Búsqueda de contenedores marítimos</h3>
         {# Formulario de búsqueda #}
         <form class="bg-secondary pt-3 px-3" id="container-search">
           <div class="row">
@@ -35,12 +35,12 @@
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
               <label for="date-since">Registrados desde:</label>
               <input type="text" name="date-since" id="date-since" class="form-control date-input"
-                placeholder="Fecha de registro mínima a buscar">
+                placeholder="Fecha de registro mínima del contenedor">
             </div>
             <div class="col-lg-4 col-sm-6 form-group order-lg-first">
               <label for="date-until">Registrados hasta:</label>
               <input type="text" name="date-until" id="date-until" class="form-control date-input"
-                placeholder="Fecha de registro máxima a buscar">
+                placeholder="Fecha de registro máxima del contenedor">
             </div>
             {# Ubicaciones #}
             <div class="col-lg-4 col-sm-6 form-group">
@@ -55,37 +55,53 @@
             </div>
           </div>
           {# Botones #}
-          <div class="d-flex justify-content-end">
-            <div class="pb-3">
-              <a class="btn btn-primary my-0" href="{% url 'container-create' %}"><i class="icon-plus"></i> Nuevo contenedor</a>
+          <div class="row justify-content-end">
+            <div class="col-auto pb-3">
+              <a class="btn btn-primary m-0" href="{% url 'container-create' %}">
+                <i class="icon-plus"></i> Nuevo <span class="d-md-inline d-none">contenedor</span>
+              </a>
             </div>
-            <div class="pb-3">
-              <button class="btn btn-success my-0" data-toggle="modal" data-target="#import-modal"><i class="icon-upload"></i> Importar</button>
+            <div class="col-auto pb-3">
+              <button type="button" class="btn btn-success m-0" data-toggle="modal" data-target="#import-modal">
+                <i class="icon-upload"></i> Importar
+              </button>
             </div>
-            <div class="pb-3">
-              <button class="btn btn-info my-0"><i class="icon-search"></i> Buscar</button>
+            <div class="col-auto pb-3">
+              <button type="submit" class="btn btn-info m-0"><i class="icon-search"></i> Buscar</button>
             </div>
           </div>
         </form>
         {# Resultados de la búsqueda #}
         <h4 class="margin-top-1x">Resultados de la búsqueda</h4>
         <hr class="margin-bottom-1x">
-        <p id="results-message">Presione <strong>Buscar</strong> para ver la lista de contenedores.</p>
-        <div class="card-container" id="results">
-          {# Lista de contenedores #}
-        </div>
-        {# Paginado #}
-        <div class="entry-navigation">
-          <div class="column text-left">
-            <a class="btn btn-sm btn-outline-secondary" href="#">
-              <i class="icon-arrow-left"></i> <span class="d-sm-inline d-none">Anterior</span>
-            </a>
+        <div class="row align-items-center">
+          <div id="results-message" class="col">Presione <strong>Buscar</strong> para ver la lista de contenedores.</div>
+          <div class="col-auto">
+            <div class="btn-group m-0">
+              <button class="btn btn-success dropdown-toggle" id="container-export" type="button" data-toggle="dropdown" disabled="">
+                <i class="icon-download"></i> Exportar
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" id="export-all" href="{% url 'container-export' %}">Todos los resultados</a>
+                <a class="dropdown-item" id="export-page" href="{% url 'container-export' %}">Solo esta página</a>
+              </div>
+            </div>
           </div>
-          <div class="column">Página <strong id="page-current"></strong> de <strong id="page-total"></strong></div>
+        </div>
+        {# Lista de contenedores #}
+        <div id="container-results" class="card-container row"></div>
+        {# Paginado #}
+        <div class="entry-navigation d-none">
+          <div class="column text-left">
+            <button class="btn btn-sm btn-outline-secondary" id="page-previous">
+              <i class="icon-arrow-left"></i> <span class="d-sm-inline d-none">Anterior</span>
+            </button>
+          </div>
+          <div class="column">Página <strong id="page-current"></strong> de <strong id="page-count"></strong></div>
           <div class="column text-right">
-            <a class="btn btn-sm btn-outline-secondary" href="#">
+            <button class="btn btn-sm btn-outline-secondary" id="page-next">
               <span class="d-sm-inline d-none">Siguiente</span> <i class="icon-arrow-right"></i>
-            </a>
+            </button>
           </div>
         </div>
         {# Fin resultados de la búsqueda #}
@@ -93,35 +109,81 @@
     </div>
     {# Footer #}
     {% include 'tracking/includes/footer.html' %}
+    <script id="container-template" type="x-tmpl-mustache">
+      {% verbatim %}
+      <div class="col-md-6 col-12">
+        <div class="card">
+          <div class="card-header">
+            <h6>Contenedor {{code}}</h6>
+          </div>
+          <div class="card-body">
+            {{! Datos del contenedor }}
+            <div class="text-left">
+              <div class="card-item">
+                <strong>Empresa naviera:</strong> {{carrier}}
+              </div>
+              <div class="card-item">
+                <strong>Ubicación de origen:</strong> {{origin}}
+              </div>
+              <div class="card-item">
+                <strong>Ubicación de destino:</strong> {{destination}}
+              </div>
+              <div class="card-item">
+                <strong>Fecha de registro:</strong> {{created_at}}
+              </div>
+              <div class="card-item">
+                <strong>Estado:</strong>
+                {{#processed}}
+                <strong class="text-success">Procesado</strong>
+                {{/processed}}
+                {{^processed}}
+                <strong class="text-warning">Pendiente</strong>
+                {{/processed}}
+              </div>
+              {{#arrival_date}}
+              <div class="card-item">
+                <strong>Fecha estimada de llegada:</strong> {{arrival_date}} ({{arrival_time}} días)
+              </div>
+              {{/arrival_date}}
+            </div>
+            {{! Botones }}
+            <div class="text-right">
+              <a class="btn btn-sm btn-primary" href="{{url}}">Ver detalles</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endverbatim %}
+    </script>
     <script>
       jQuery(document).ready(function ($) {
 
-        {# Mostrar mensaje si es que se encuentra #}
         {% if message %}
           showErrorMessage({{ message }});
         {% endif %}
 
-        {# Autocompletado de ubicaciones #}
+        /* Autocompletado de ubicaciones */
+
         $('.location-input').autocomplete({
           source: function (request, response) {
             $.get("{% url 'location-search' %}", request, function (data) {
               response($.map(data.locations, function (item) {
-                return {
-                  value: item.name,
-                  label: item.name,
-                  id: item.id
-                };
+                return { value: item.name, label: item.name, id: item.id };
               }));
             });
           },
           minLength: 3
         });
 
-        {# Resultados de la búsqueda #}
+        /* Resultados de la búsqueda */
+
+        var query = {};
+        var template = $('#container-template').html();
+
         $('#container-search').submit(function (e) {
           e.preventDefault();
           // Obtener datos de búsqueda
-          var query = {
+          query = {
             code: $('#code').val(),
             carrier: $('#carrier').val(),
             origin: $('#origin').val(),
@@ -130,13 +192,120 @@
             until: $('#date-until').val(),
           };
           // Realizar la consulta
-          $.get("{% url 'container-search' %}", query, function (response) {
-            if (response.error) {
-              showErrorMessage(response.message);
-            } else {
-              console.log(response);
+          $.get("{% url 'container-search' %}", query, processSearchResults);
+        });
+
+        function processSearchResults(response) {
+          if (response.error) return showErrorMessage(response.message);
+          // Quitar las fichas anteriores de los contenedores
+          $('#container-results').children().remove();
+          // Mostrar mensaje dependiendo del total de contenedores encontrados
+          if (response.count > 0) {
+            $('#results-message').html('Se encontraron <strong>' + response.count + '</strong> resultados.');
+            // Colocar los datos de paginado
+            $('.entry-navigation').removeClass('d-none');
+            $('#page-current').text(response.page);
+            $('#page-count').text(response.pagecount);
+            updatePaginationButton('#page-previous', response, response.page > 1, -1);
+            updatePaginationButton('#page-next', response, response.page < response.pagecount, 1);
+            // Crear las fichas de los contenedores
+            for (var i = 0; i < response.containers.length; i++) {
+              var container = response.containers[i];
+              container.created_at = formatDate(container.created_at);
+              var rendered = Mustache.render(template, container)
+              $('#container-results').append(rendered);
             }
-          });
+            // Habilitar el botón de exportar
+            $('#container-export').prop('disabled', false);
+            modifyExportUrl('#export-all', response, true);
+            modifyExportUrl('#export-page', response, false);
+          } else {
+            $('#results-message').text('No se encontraron resultados.');
+            // Quitar los datos de paginado
+            $('.entry-navigation').addClass('d-none');
+            $('#page-previous, #page-next').attr('href', '#');
+            // Deshabilitar el botón de exportar
+            $('#container-export').prop('disabled', true);
+            $('#page-previous, #page-next').attr('href', '#');
+          }
+        }
+
+        function updatePaginationButton(selector, response, shouldUpdate, updateValue) {
+          var button = $(selector).off('click');
+          if (shouldUpdate) {
+            button.prop('disabled', false).on('click', function () {
+              query.page = response.page + updateValue;
+              $.get("{% url 'container-search' %}", query, processSearchResults);
+            });
+          } else {
+            button.prop('disabled', true);
+          }
+        }
+
+        function modifyExportUrl(selector, response, getAll) {
+          // Obtener el query
+          var tempQuery = Object.assign({}, query);
+          if (getAll) {
+            delete tempQuery.page;
+          } else {
+            tempQuery.page = response.page;
+          }
+          // Formular la cadena y reemplazarla
+          $(selector).attr('href', "{% url 'container-export' %}?" + $.param(tempQuery));
+        }
+
+        function formatDate(dateTimeString) {
+          // Obtener la fecha exacta
+          var date = new Date(dateTimeString);
+          date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+          // Colocar la fecha en el formato dd/mm/aa hh:mm
+          function twoDigits(number) {
+            return (number > 10) ? number : '0' + number;
+          }
+          return twoDigits(date.getDate()) + '/' + twoDigits(date.getMonth() + 1) + '/' + date.getFullYear()
+                  + ' ' + twoDigits(date.getHours()) + ':' + twoDigits(date.getMinutes());
+        }
+
+        /* Importar lista de contenedores */
+
+        $('#import-file').change(function (e) {
+          if (this.files && this.files.length > 0) {
+            $('label[for=import-file]').html('<i class="icon-file"></i> ' + this.files[0].name);
+          } else {
+            $('label[for=import-file]').text('Seleccione un archivo...');
+          }
+        });
+
+        $('#container-import').submit(function (e) {
+          e.preventDefault();
+          // Obtener el input del archivo
+          var fileInput = document.getElementById('import-file');
+          if (fileInput && fileInput.files && fileInput.files.length > 0) {
+            // Obtener los datos del archivo
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file, file.name);
+            // formData.append('header', $('#import-header').prop('checked'));
+            // Enviar archivo al servidor
+            $.ajax({
+              url: "{% url 'container-import' %}",
+              type: 'POST',
+              beforeSend: function (request) {
+                request.setRequestHeader('X-CsrfToken', '{{ csrf_token }}');
+              },
+              data: formData,
+              processData: false, // indicarle a jQuery que no procese los datos
+              contentType: false, // indicarle a jQuery que no coloque el contentType
+              success: function (response) {
+                if (response.error) return showErrorMessage(response.message);
+                // Mostrar mensaje y cerrar el Modal
+                showSuccessMessage(response.message);
+                $('#import-modal').modal('hide');
+              }
+            });
+          } else {
+            showErrorMessage('Debe adjuntar un archivo CSV con los datos de los contenedores.');
+          }
         });
 
       });

@@ -24,6 +24,3 @@ desktop.ini
 
 # Files with sensitive data
 sensitive-*
-
-# CSV files (will be loaded to Google Drive)
-*.csv

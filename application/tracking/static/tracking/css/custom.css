@@ -99,10 +99,10 @@
 }
 
 .card-container {
-  margin-bottom: 1rem;
-}
-.card-container .card:not(:first-child) {
   margin-top: 1rem;
+}
+.card-container .card {
+  margin-bottom: 1rem;
 }
 
 /* Selects con placeholders */
@@ -124,6 +124,14 @@ option[value=""] {
 /* Paginado */
 
 .entry-navigation {
-  display: none; /* Inicialmente se esconde, hasta que se haga clic en Buscar */
   border: none;
+}
+.entry-navigation .column {
+  padding-top: 0;
+}
+
+/* Inputs tipo archivo */
+
+.custom-file-label [class^=icon-] {
+  vertical-align: text-top;
 }

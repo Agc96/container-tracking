@@ -34,7 +34,7 @@
               <div class="row">
                 <div class="col-12 form-group">
                   <label for="origin">Ubicación de origen:</label>
-                  <input type="text" id="origin-location" name="origin-location" class="form-control location-input"
+                  <input type="text" id="origin-name" name="origin-name" class="form-control location-input"
                     placeholder="Busque una ubicación de origen...">
                 </div>
                 <div class="col pr-2 form-group">
@@ -58,7 +58,7 @@
               <div class="row">
                 <div class="col-12 form-group">
                   <label for="destination">Ubicación de destino:</label>
-                  <input type="text" id="destination-location" name="destination-location" class="form-control location-input"
+                  <input type="text" id="destination-name" name="destination-name" class="form-control location-input"
                     placeholder="Busque una ubicación de destino...">
                 </div>
                 <div class="col pr-2 form-group">
@@ -145,7 +145,7 @@
         });
       }
 
-      jQuery('#origin-location').on('autocompleteselect', function (event, ui) {
+      jQuery('#origin-name').on('autocompleteselect', function (event, ui) {
         // Borrar el marcador anterior, si es que existe
         if (originMarker) {
           originMarker.setMap(null);
@@ -161,7 +161,7 @@
         }
       });
 
-      jQuery('#destination-location').on('autocompleteselect', function (event, ui) {
+      jQuery('#destination-name').on('autocompleteselect', function (event, ui) {
         // Borrar el marcador anterior, si es que existe
         if (destinationMarker) {
           destinationMarker.setMap(null);

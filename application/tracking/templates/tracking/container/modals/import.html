@@ -1,15 +1,15 @@
 {% load static %}
 <div class="modal fade" id="import-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <form id="container-import" class="modal-content" method="post" action="{% url 'container-import' %}">
       <div class="modal-header">
         <h4 class="modal-title">Importar lista de contenedores</h4>
-        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <p>
           Importe una lista de contenedores por medio de un archivo CSV. Descargue el modelo haciendo clic en
-          <a href="{% static 'tracking/files/container/import-example.csv' %}">este enlace</a>.
+          <a href="{% static 'tracking/files/container-import.csv' %}">este enlace</a>.
         </p>
         <div class="form-group">
           <div class="custom-file">
@@ -17,11 +17,17 @@
             <label class="custom-file-label" for="import-file">Seleccione un archivo...</label>
           </div>
         </div>
+        {% comment 'No tomaremos en cuenta' %}
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="import-header" checked="">
+          <label class="custom-control-label" for="import-header">Ignorar primera fila (cabecera)</label>
+        </div>
+        {% endcomment %}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-sm btn-primary" id="import-submit">Importar</button>
+        <button type="submit" class="btn btn-sm btn-primary" id="import-submit">Importar</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>

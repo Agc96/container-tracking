@@ -53,6 +53,6 @@ function showErrorMessage(content) {
 	showMessage('danger', content, 'icon-ban', 'Error');
 }
 
-function showSuccessMessage(messageContent) {
+function showSuccessMessage(content) {
 	showMessage('success', content, 'icon-check', 'Éxito');
 }
