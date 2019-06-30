@@ -1,8 +1,9 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
 from ...models import Carrier, Container, MockUser
+from ...utils import RestResponse
 
 import os
 
@@ -13,18 +14,19 @@ def create(request):
     return render(request, 'tracking/container/create.html', {
         'user': MockUser(),
         'carriers': Carrier.objects.all(),
-        'maps': os.getenv('GOOGLE_MAPS_KEY', '')
+        'maps': os.getenv('TRACKING_MAPS_KEY', '')
     })
 
 def save(request):
     # TODO: Implementar lógica de guardado de contenedor
-    code = request.GET.get('code')
-    if not Container.validate_code(code):
-        return HttpResponse('El código del contenedor debe tener un formato de 4 letras más 7 dígitos.')
-    return HttpResponseRedirect(reverse('container-index'), {
-        'user': MockUser(),
-        'carriers': Carrier.objects.all(),
-        'message': 'Contenedor guardado correctamente.'
+    valid, message = Container.validate_and_create(request.POST)
+    if not valid:
+        return RestResponse(True, message)
+    # reverse('container-index')
+    return JsonResponse({
+        'error': False,
+        'message': 'Contenedor guardado correctamente.',
+        'url': reverse('container-index')
     })
 
 def validate_container(request):

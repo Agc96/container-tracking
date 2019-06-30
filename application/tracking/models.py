@@ -71,17 +71,24 @@ class Container(models.Model):
         if (len(code) != LENGTH_CONTAINER) or not re.match('^[A-Za-z]{4}[0-9]{7}$', code):
             return False, 'El contenedor debe tener exactamente 4 letras y 7 cifras.'
         # Obtener la empresa naviera del contenedor
-        carrier_name = parse_query(data, 'carrier')
-        if is_empty(carrier_name):
-            return False, 'Ingrese el nombre de la empresa naviera del contenedor.'
         try:
-            carrier = Carrier.objects.get(name__icontains=carrier_name)
-        except ObjectDoesNotExist:
-            return False, 'No se encontró la empresa naviera del contenedor.'
-        except MultipleObjectsReturned:
-            return False, 'Se encontraron varias empresas navieras con el nombre especificado.'
+            carrier_id = parse_query(data, 'carrier_id', int)
+            if carrier_id is None:
+                carrier_name = parse_query(data, 'carrier')
+                if is_empty(carrier_name):
+                    return False, 'Ingrese el nombre de la empresa naviera del contenedor.'
+                try:
+                    carrier = Carrier.objects.get(name__icontains=carrier_name)
+                except ObjectDoesNotExist:
+                    return False, 'No se encontró la empresa naviera del contenedor.'
+                except MultipleObjectsReturned:
+                    return False, 'Se encontraron varias empresas navieras con el nombre especificado.'
+            else:
+                carrier = Carrier.objects.get(pk=carrier_id)
+        except ValueError:
+            return False, 'La empresa naviera ingresada no es válida.'
         # Obtener la ubicación de origen del contenedor
-        origin_name = parse_query(data, 'origin-name')
+        origin_name = parse_query(data, 'origin_name')
         if is_empty(origin_name):
             return False, 'Ingrese la ubicación de origen del contenedor.'
         try:
@@ -91,13 +98,13 @@ class Container(models.Model):
         except ObjectDoesNotExist:
             valid, origin = Location.validate_and_create({
                 'name': origin_name,
-                'latitude': data.get('origin-latitude'),
-                'longitude': data.get('origin-longitude')
+                'latitude': data.get('origin_latitude'),
+                'longitude': data.get('origin_longitude')
             })
             if not valid:
                 return False, 'Error en la ubicación de origen: ' + origin
         # Obtener la ubicación de destino del contenedor
-        destination_name = parse_query(data, 'destination-name')
+        destination_name = parse_query(data, 'destination_name')
         if is_empty(destination_name):
             return False, 'Ingrese la ubicación de destino del contenedor.'
         try:
@@ -107,8 +114,8 @@ class Container(models.Model):
         except ObjectDoesNotExist:
             valid, destination = Location.validate_and_create({
                 'name': destination_name,
-                'latitude': data.get('destination-latitude'),
-                'longitude': data.get('origin-longitude')
+                'latitude': data.get('destination_latitude'),
+                'longitude': data.get('destination_longitude')
             })
             if not valid:
                 return False, 'Error en la ubicación de destino: ' + destination

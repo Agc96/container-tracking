@@ -11,7 +11,7 @@
     <div class="offcanvas-wrapper">
       <div class="container padding-top-1x">
         <h3 class="margin-bottom-1x">Ingreso de datos de contenedores</h3>
-        <form action="{% url 'container-save' %}" method="post">
+        <form id="container-save" action="{% url 'container-save' %}" method="post">
           {% csrf_token %}
           <div class="row">
             {# Formulario de creación #}
@@ -19,7 +19,7 @@
               <div class="form-group">
                 <label for="code">Código del contenedor:</label>
                 <input type="text" id="code" name="code" class="form-control" placeholder="Use un formato de 4 letras más 7 cifras"
-                  pattern="^[A-Za-z]{4}[0-9]{7}$" title="4 letras más 7 cifras" required="">
+                  pattern="^[A-Za-z]{4}[0-9]{7}$" title="4 letras más 7 cifras. Ejemplo: ABCD1234567" required="">
               </div>
               <div class="form-group">
                 <label for="carrier">Empresa naviera:</label>
@@ -131,6 +131,43 @@
           context.find('.location-longitude').prop('disabled', !oldDisabled);
         }); */
 
+        /* Guardar ubicaciones */
+
+        $('#container-save').submit(function (e) {
+          e.preventDefault();
+          // Obtener los datos del contenedor
+          var query = {
+            code: $('#code').val(),
+            carrier_id: $('#carrier').val(),
+            origin_name: $('#origin-name').val(),
+            origin_latitude: $('#origin-latitude').val(),
+            origin_longitude: $('#origin-longitude').val(),
+            destination_name: $('#destination-name').val(),
+            destination_latitude: $('#destination-latitude').val(),
+            destination_longitude: $('#destination-longitude').val()
+          };
+          // Realizar la petición al servidor
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'container-save' %}",
+            beforeSend: function (request) {
+              request.setRequestHeader('X-CsrfToken', '{{ csrf_token }}');
+            },
+            data: query,
+            success: function (response) {
+              if (response.error) {
+                return showErrorMessage(response.message);
+              }
+              // Mostrar mensaje e ir a la pantalla principal
+              showSuccessMessage(response.message);
+              setTimeout(function () {
+                window.location = response.url;
+              }, 1000);
+            }
+          });
+
+        });
+
       });
 
       /* Google Maps */
@@ -177,6 +214,6 @@
         }
       });
     </script>
-    <!-- script src="https://maps.googleapis.com/maps/api/js?key={{maps}}&callback=createMap" async defer></script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{maps}}&callback=createMap" async defer></script>
   </body>
 </html>

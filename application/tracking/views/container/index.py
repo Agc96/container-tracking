@@ -88,12 +88,12 @@ def import_data(request):
             valid, result = Container.validate_and_create({
                 'code': container.get('Codigo'),
                 'carrier': container.get('Empresa naviera'),
-                'origin-name': container.get('Ubicacion de origen'),
-                'origin-latitude': container.get('Latitud de origen (opcional)'),
-                'origin-longitude': container.get('Longitud de origen (opcional)'),
-                'destination-name': container.get('Ubicacion de destino'),
-                'destination-latitude': container.get('Latitud de destino (opcional)'),
-                'destination-longitude': container.get('Longitud de destino (opcional)')
+                'origin_name': container.get('Ubicacion de origen'),
+                'origin_latitude': container.get('Latitud de origen (opcional)'),
+                'origin_longitude': container.get('Longitud de origen (opcional)'),
+                'destination_name': container.get('Ubicacion de destino'),
+                'destination_latitude': container.get('Latitud de destino (opcional)'),
+                'destination_longitude': container.get('Longitud de destino (opcional)')
             })
             if not valid:
                 return RestResponse(True, 'Error al guardar el contenedor {}: {}'.format(index, result))
