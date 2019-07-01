@@ -24,7 +24,7 @@ def search(request):
     # Preparar filtros, si no son válidos se mostará un mensaje de error en JSON
     valid, query = prepare_query(request.GET)
     if not valid:
-        return query
+        return RestResponse(True, query)
     # Preparar paginación
     cursor = Container.objects.filter(**query)
     paginator = Paginator(cursor, PAGE_COUNT)

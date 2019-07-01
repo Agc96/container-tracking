@@ -1,11 +1,15 @@
-from django.http import HttpResponse
+from django.contrib import messages
+from django.core.paginator import Paginator
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse
 
 from .utils import prepare_query
 from ...models import Container
-from ...utils import RestResponse
+from ...utils import RestResponse, parse_query, PAGE_COUNT
 
 import csv
+import io
 
 def import_data(request):
     """Crea varios contenedores a partir de un archivo CSV."""
@@ -43,6 +47,30 @@ def export_data(request):
     # Preparar filtros, si no son válidos se mostará un mensaje de error en JSON
     valid, query = prepare_query(request.GET)
     if not valid:
-        return reverse('container-index')
-    # TODO: Implementar lógica para exportar lista de contenedores
-    return HttpResponse('TODO: Exportar lista de contenedores')
+        messages.error(request, query)
+        return redirect('container-index')
+    # Determinar si queremos paginación
+    try:
+        page_number = parse_query(request.GET, 'page', int)
+    except ValueError:
+        messages.error(request, 'Ingrese un número de página válido.')
+        return redirect('container-index')
+    # Obtener la lista de contenedores
+    containers = Container.objects.filter(**query)
+    if page_number is not None:
+        paginator = Paginator(containers, PAGE_COUNT)
+        containers = paginator.get_page(page_number).object_list
+    # Exportar contenedores
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['Codigo', 'Empresa naviera', 'Ubicacion de origen', 'Latitud de origen',
+        'Longitud de origen', 'Ubicacion de destino', 'Latitud de destino', 'Longitud de destino',
+        'Fecha de registro', 'Estado', 'Fecha estimada de llegada'])
+    for container in containers:
+        writer.writerow([container.code, container.carrier, container.origin, container.origin.latitude,
+            container.origin.longitude, container.destination, container.destination.latitude,
+            container.destination.longitude, container.created_at, container.status, container.arrival_date])
+    # Enviar respuesta como archivo
+    response = HttpResponse(output.getvalue(), content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="container-export.csv"'
+    return response
