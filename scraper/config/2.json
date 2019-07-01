@@ -1,0 +1,162 @@
+{
+    "config": {
+        "url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
+        "date": "%Y-%m-%d",
+        "time": "%H:%M",
+        "datetime": "%Y-%m-%d %H:%M",
+        "processed": true,
+		"estimated": true
+    },
+    "input": [
+        {
+            "type": "id",
+            "selector": "tracing_by_container_f",
+            "assert": true
+        },
+        {
+            "type": "class",
+            "selector": "error",
+            "assert": false,
+            "assert_save": true,
+            "required": false
+        },
+        {
+            "type": "id",
+            "selector": "hal-cookieconsent-button",
+            "command": {
+                "type": "click",
+                "wait": false,
+                "required": false
+            }
+        }
+    ],
+    "container": [
+        {
+            "type": "class",
+            "selector": "inputNonEdit",
+            "commands": [
+                {
+                    "index": 1,
+                    "type": "save",
+                    "key": "description",
+                    "required": true
+                },
+                {
+                    "index": 5,
+                    "type": "regex",
+                    "pattern": "The (.*?) (in|from) (.*?) (at|on) (.*?) \\.",
+                    "commands": [
+                        {
+                            "index": 0,
+                            "type": "save",
+                            "key": "last_status",
+                            "format": "status",
+                            "required": true
+                        },
+                        {
+                            "index": 2,
+                            "type": "save",
+                            "key": "last_location",
+                            "format": "location",
+                            "required": true
+                        },
+                        {
+                            "index": 4,
+                            "type": "save",
+                            "key": "last_date",
+                            "format": "date",
+                            "required": true
+                        }
+                    ],
+                    "required": false
+                }
+            ],
+            "required": true
+        }
+    ],
+    "movements": {
+        "parents": {
+            "type": "css",
+            "selector": ".hal-table tbody tr"
+        },
+        "single": [
+            {
+                "type": "tag",
+                "selector": "td",
+                "commands": [
+                    {
+                        "index": 0,
+                        "type": "save",
+                        "key": "status",
+                        "format": "status",
+                        "required": true
+                    },
+                    {
+                        "index": 1,
+                        "type": "save",
+                        "key": "location",
+                        "format": "location",
+                        "required": true
+                    },
+                    {
+                        "index": 2,
+                        "type": "save",
+                        "key": "date",
+                        "format": "date",
+                        "required": true
+                    },
+                    {
+                        "index": 3,
+                        "type": "save",
+                        "key": "date",
+                        "format": "time",
+                        "required": false
+                    },
+                    {
+                        "index": 4,
+                        "type": "compare",
+                        "values": ["Truck"],
+                        "success": [
+                            {
+                                "type": "save",
+                                "key": "vehicle",
+                                "value": "Truck",
+                                "format": "vehicle"
+                            }
+                        ],
+                        "failure": [
+                            {
+                                "type": "save",
+                                "key": "vehicle",
+                                "value": "Vessel",
+                                "format": "vehicle"
+                            },
+                            {
+                                "type": "save",
+                                "key": "vessel",
+                                "required": false
+                            }
+                        ]
+                    },
+                    {
+                        "index": 5,
+                        "type": "save",
+                        "key": "voyage",
+                        "required": false
+                    }
+                ]
+            },
+            {
+                "type": "class",
+                "selector": "strong",
+                "command": {
+                    "type": "save",
+                    "key": "estimated",
+                    "value": false
+                },
+                "required": false
+            }
+        ],
+        "multiple": null
+    }
+}

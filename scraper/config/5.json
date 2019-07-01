@@ -1,0 +1,108 @@
+{
+	"config": {
+		"url": "http://tex.textainer.com/Equipment/StatusAndSpecificationsInquiry.aspx",
+		"date": "%Y-%b-%d",
+		"processed": false,
+		"estimated": null
+	},
+	"input": [
+		{
+			"type": "class",
+			"selector": "textBoxNoWidthMultipleLineStyle",
+			"command": {
+				"type": "write",
+				"attribute": "container",
+				"clear": true,
+				"required": true
+			},
+			"required": true
+		},
+		{
+			"type": "class",
+			"selector": "btn_tex_basic",
+			"command": {
+				"type": "click",
+				"wait": true,
+				"required": true
+			},
+			"required": true
+		}
+	],
+	"container": [
+		{
+			"type": "id",
+			"selector": "ReportFramectl00_bodyContent_rptViewer",
+			"assert": true,
+			"frame": true
+		},
+		{
+			"type": "id",
+			"selector": "report",
+			"assert": true,
+			"frame": true
+		},
+		{
+			"type": "id",
+			"selector": "oReportDiv",
+			"assert": true
+		},
+		{
+			"type": "save",
+			"key": "carrier",
+			"value": "Unknown"
+		},
+		{
+			"type": "class",
+			"selector": "a494",
+			"commands": [
+				{
+					"index": 0,
+					"type": "compare",
+					"values": ["HAPAG LLOYD", "HAPAG", "HAPAG-UASCO PLB", "UASC"],
+					"success": [
+						{
+							"type": "save",
+							"key": "carrier",
+							"value": "Hapag-Lloyd"
+						}
+					],
+					"failure": [
+						{
+							"type": "compare",
+							"values": ["EVERGREEN", "EVERGREEN MAG"],
+							"success": [
+								{
+									"type": "save",
+									"key": "carrier",
+									"value": "Evergreen"
+								}
+							],
+							"failure": [
+								{
+									"type": "compare",
+									"values": ["MAERSK", "MAERSK LINE"],
+									"success": [
+										{
+											"type": "save",
+											"key": "carrier",
+											"value": "Maersk"
+										}
+									],
+									"failure": [
+										{
+											"type": "save",
+											"key": "carrier",
+											"required": false
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			],
+			"required": false
+		}
+	],
+	"movements": null
+}

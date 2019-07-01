@@ -93,6 +93,7 @@
     </div>
     {# Footer #}
     {% include 'tracking/includes/footer.html' %}
+    {% load static %}
     <script>
       jQuery(document).ready(function ($) {
 
@@ -158,11 +159,8 @@
               if (response.error) {
                 return showErrorMessage(response.message);
               }
-              // Mostrar mensaje e ir a la pantalla principal
-              showSuccessMessage(response.message);
-              setTimeout(function () {
-                window.location = response.url;
-              }, 1000);
+              // Ir a la pantalla principal, donde se mostrará el mensaje
+              window.location = "{% url 'container-index' %}";
             }
           });
 
@@ -175,7 +173,7 @@
       var mapContainer = document.getElementById('create-map');
       var map, originMarker, destinationMarker;
 
-      function createMap () {
+      function createMap() {
         map = new google.maps.Map(mapContainer, {
           center: { lat: 0, lng: 0 },
           zoom: 2
@@ -192,7 +190,7 @@
           originMarker = new google.maps.Marker({
             position: { lat: ui.item.latitude, lng: ui.item.longitude },
             map: map,
-            label: 'O',
+            icon: "{% static 'tracking/img/marker-red.png' %}",
             title: ui.item.name
           });
         }
@@ -208,7 +206,7 @@
           destinationMarker = new google.maps.Marker({
             position: { lat: ui.item.latitude, lng: ui.item.longitude },
             map: map,
-            label: 'D',
+            icon: "{% static 'tracking/img/marker-blue.png' %}",
             title: ui.item.name
           });
         }

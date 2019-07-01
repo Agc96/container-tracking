@@ -25,7 +25,7 @@
             <div class="col-lg-4 col-sm-6 form-group">
               <label for="carrier">Empresa naviera:</label>
               <select name="carrier" id="carrier" class="form-control placeholder">
-                <option value="" disabled="" selected="">Empresa que transporta el contenedor</option>
+                <option value="" selected="">Seleccione una empresa naviera</option>
                 {% for carrier in carriers %}
                   <option value="{{ carrier.id }}">{{ carrier.name }}</option>
                 {% endfor %}
@@ -132,13 +132,7 @@
                 <strong>Fecha de registro:</strong> {{created_at}}
               </div>
               <div class="card-item">
-                <strong>Estado:</strong>
-                {{#processed}}
-                <strong class="text-success">Procesado</strong>
-                {{/processed}}
-                {{^processed}}
-                <strong class="text-warning">Pendiente</strong>
-                {{/processed}}
+                <strong>Estado:</strong> <strong class="text-{{status_color}}">{{status_name}}</strong>
               </div>
               {{#arrival_date}}
               <div class="card-item">
@@ -157,10 +151,6 @@
     </script>
     <script>
       jQuery(document).ready(function ($) {
-
-        {% if message %}
-          showErrorMessage({{ message }});
-        {% endif %}
 
         /* Autocompletado de ubicaciones */
 
@@ -211,8 +201,7 @@
             // Crear las fichas de los contenedores
             for (var i = 0; i < response.containers.length; i++) {
               var container = response.containers[i];
-              container.created_at = formatDate(container.created_at);
-              var rendered = Mustache.render(template, container)
+              var rendered = Mustache.render(template, beautifyContainer(container));
               $('#container-results').append(rendered);
             }
             // Habilitar el botón de exportar
@@ -252,6 +241,26 @@
           }
           // Formular la cadena y reemplazarla
           $(selector).attr('href', "{% url 'container-export' %}?" + $.param(tempQuery));
+        }
+
+        function beautifyContainer(container) {
+          // Formatear fecha de registro/creación
+          container.created_at = formatDate(container.created_at);
+          // Formatear estado del contenedor
+          switch (container.status) {
+            case 1:
+              container.status_color = 'warning';
+              break;
+            case 2:
+              container.status_color = 'success';
+              break;
+            case 3:
+              container.status_color = 'danger';
+              break;
+            default:
+              container.status_color = 'default';
+          }
+          return container;
         }
 
         function formatDate(dateTimeString) {

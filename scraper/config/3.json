@@ -1,0 +1,252 @@
+{
+	"config": {
+		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
+		"date": "%b-%d-%Y",
+        "processed": true,
+		"estimated": false
+	},
+	"input": [
+		{
+			"type": "css",
+			"selector": "#shipmentlink_lang_layer button",
+			"commands": [
+				{
+					"index": 1,
+					"type": "click",
+					"wait": true,
+					"required": false
+				}
+			]
+		},
+		{
+			"type": "css",
+			"selector": "[name=\"SEL\"][value=\"s_cntr\"]",
+			"commands": [
+				{
+					"index": 0,
+					"type": "click",
+					"required": true,
+					"wait": false
+				}
+			]
+		},
+		{
+			"type": "id",
+			"selector": "NO",
+			"command": {
+				"type": "write",
+				"attribute": "container",
+				"clean": true
+			}
+		},
+		{
+			"type": "id",
+			"selector": "captchaImg",
+			"command": {
+				"type": "ocr",
+				"commands": [
+					{
+						"type": "bnw",
+						"pivot": 32
+					}
+				],
+				"length": 4,
+				"alphabet": true,
+				"numbers": false,
+				"filters": ["C", "I"],
+				"failure": {
+					"type": "css",
+					"selector": "a[href=\"javascript:captchaReload()\"]",
+					"command": {
+						"type": "click",
+						"wait": true,
+						"required": true
+					}
+				},
+				"write": {
+					"type": "id",
+					"selector": "captcha_input"
+				}
+			}
+		},
+		{
+			"type": "css",
+			"selector": "#quick input[type=button]",
+			"command": {
+				"type": "click",
+				"wait": true,
+				"required": true
+			}
+		}
+	],
+	"container": [
+		{
+			"type": "alert",
+			"action": true,
+			"assert": false
+		},
+		{
+			"type": "css",
+			"selector": "td.f12wrdb1",
+			"assert": false,
+			"assert_save": true
+		},
+		{
+			"type": "class",
+			"selector": "f12rown1",
+			"commands": [
+				{
+					"index": 2,
+					"type": "save",
+					"key": "description",
+					"required": true
+				},
+				{
+					"index": 3,
+					"type": "save",
+					"key": "last_date",
+					"format": "date",
+					"required": true
+				},
+				{
+					"index": 4,
+					"type": "save",
+					"key": "last_status",
+					"format": "status",
+					"required": true
+				},
+				{
+					"index": 5,
+					"type": "save",
+					"key": "last_location",
+					"format": "location",
+					"required": true
+				}
+			]
+		},
+		{
+			"type": "class",
+			"selector": "f13tabb2",
+			"commands": [
+				{
+					"index": 1,
+					"type": "split",
+					"delimiter": "\n",
+					"commands": [
+						{
+							"index": 1,
+							"type": "save",
+							"key": "arrival_date",
+							"format": "date",
+							"required": false
+						}
+					],
+					"required": false
+				}
+			],
+			"required": false
+		}
+	],
+	"movements": {
+		"parents": null,
+		"single": [
+			{
+				"type": "class",
+				"selector": "f12rown1",
+				"commands": [
+					{
+						"index": 3,
+						"type": "save",
+						"key": "date",
+						"format": "date",
+						"required": true
+					},
+					{
+						"index": 4,
+						"type": "save",
+						"key": "status",
+						"format": "status",
+						"required": true
+					},
+					{
+						"index": 5,
+						"type": "save",
+						"key": "location",
+						"format": "location",
+						"required": true
+					},
+					{
+						"index": 6,
+						"type": "regex",
+						"pattern": "(.*) (.*?)$",
+						"commands": [
+							{
+								"index": 0,
+								"type": "save",
+								"key": "vessel",
+								"required": false
+							},
+							{
+								"index": 1,
+								"type": "save",
+								"key": "voyage",
+								"required": false
+							},
+							{
+								"index": 0,
+								"type": "save",
+								"key": "vehicle",
+								"value": "Vessel",
+								"format": "vehicle"
+							}
+						],
+						"required": false
+					}
+				]
+			},
+			{
+				"type": "css",
+				"selector": "td.f12wrdb2",
+				"commands": [
+					{
+						"index": 1,
+						"type": "split",
+						"delimiter": "  ",
+						"commands": [
+							{
+								"index": 0,
+								"type": "regex",
+								"pattern": "(.*) (.*?)$",
+								"commands": [
+									{
+										"index": 0,
+										"type": "save",
+										"key": "vessel",
+										"required": true
+									},
+									{
+										"index": 1,
+										"type": "save",
+										"key": "voyage",
+										"required": false
+									},
+									{
+										"index": 0,
+										"type": "save",
+										"key": "vehicle",
+										"value": "Vessel",
+										"format": "vehicle"
+									}
+								],
+								"required": false
+							}
+						],
+						"required": false
+					}
+				],
+				"required": false
+			}
+		],
+		"multiple": null
+	}
+}

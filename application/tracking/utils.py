@@ -6,6 +6,7 @@ import datetime
 PAGE_COUNT  = 10
 DATE_FORMAT = '%d/%m/%Y'
 TIME_FORMAT = '%H:%M'
+DATETIME_FORMAT = DATE_FORMAT + ' ' + TIME_FORMAT
 
 def add_to_query(request, query, request_key, filter_key, conversion=str, allow_nulls=True):
     try:
@@ -30,7 +31,7 @@ def parse_query(request, key, conversion=str, default=None):
     elif conversion == datetime.time:
         return datetime.datetime.strptime(value, TIME_FORMAT)
     elif conversion == datetime.datetime:
-        return datetime.datetime.strptime(value, DATE_FORMAT + ' ' + TIME_FORMAT)
+        return datetime.datetime.strptime(value, DATETIME_FORMAT)
     else:
         return conversion(value)
 
@@ -38,7 +39,6 @@ def is_empty(value):
     return (value is None) or (isinstance(value, str) and len(value) <= 0)
 
 def RestResponse(error, message, **kwargs):
-    return JsonResponse({
-        'error': error,
-        'message': message
-    })
+    kwargs['error'] = error
+    kwargs['message'] = message
+    return JsonResponse(kwargs)

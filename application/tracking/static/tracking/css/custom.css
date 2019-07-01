@@ -104,6 +104,9 @@
 .card-container .card {
   margin-bottom: 1rem;
 }
+.card-container:not(.row) .card:last-child {
+  margin-bottom: 0;
+}
 
 /* Selects con placeholders */
 
@@ -117,6 +120,7 @@ option[value=""] {
 /* Mapas */
 
 .maps {
+  min-height: 512px;
   height: 100%;
   width: 100%;
 }

@@ -2,30 +2,31 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db import models
 from django.utils import timezone
 
-from .utils import parse_query, is_empty
+from .utils import DATETIME_FORMAT, parse_query, is_empty
 
 import re
 
 # Constantes para tipos de dato cadena
-
 LENGTH_CONTAINER  = 11
 LENGTH_SHORT      = 32
 LENGTH_NORMAL     = 64
 LENGTH_LARGE      = 128
 DEFAULT_ON_DELETE = models.CASCADE
+DEFAULT_STATUS    = 1 # Estado del contenedor: Pendiente
 
-# Modelos de la base de datos
-
-class Carrier(models.Model):
+class Enterprise(models.Model):
+    """Empresa dedicada al transporte marítimo. Puede ser una empresa de tercer partido (empresa naviera)."""
     name       = models.CharField(max_length=LENGTH_NORMAL)
+    carrier    = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.name
 
 class Location(models.Model):
+    """Ubicación de un puerto. Incluye datos de latitud y longitud."""
     name       = models.CharField(max_length=LENGTH_LARGE)
-    latitude   = models.FloatField()
-    longitude  = models.FloatField()
+    latitude   = models.FloatField(default=None)
+    longitude  = models.FloatField(default=None)
     created_at = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.name
@@ -52,13 +53,22 @@ class Location(models.Model):
         # Devolver una nueva instancia de la ubicación
         return True, cls.objects.create(name=name, latitude=latitude, longitude=longitude)
 
+class ContainerStatus(models.Model):
+    name       = models.CharField(max_length=LENGTH_SHORT)
+    created_at = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.name
+    class Meta:
+        db_table = 'tracking_container_status'
+
 class Container(models.Model):
     code         = models.CharField(max_length=LENGTH_CONTAINER)
-    carrier      = models.ForeignKey(Carrier, on_delete=DEFAULT_ON_DELETE)
-    origin       = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE, related_name="origin")
-    destination  = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE, related_name="destination")
-    processed    = models.BooleanField(default=False)
+    carrier      = models.ForeignKey(Enterprise, on_delete=DEFAULT_ON_DELETE)
+    origin       = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE, related_name='origin')
+    destination  = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE, related_name='destination')
     arrival_date = models.DateTimeField(default=None)
+    status       = models.ForeignKey(ContainerStatus, on_delete=DEFAULT_ON_DELETE, default=DEFAULT_STATUS)
+    priority     = models.IntegerField(default=1)
     created_at   = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.code
@@ -78,13 +88,13 @@ class Container(models.Model):
                 if is_empty(carrier_name):
                     return False, 'Ingrese el nombre de la empresa naviera del contenedor.'
                 try:
-                    carrier = Carrier.objects.get(name__icontains=carrier_name)
+                    carrier = Enterprise.objects.get(name__icontains=carrier_name, carrier=True)
                 except ObjectDoesNotExist:
                     return False, 'No se encontró la empresa naviera del contenedor.'
                 except MultipleObjectsReturned:
                     return False, 'Se encontraron varias empresas navieras con el nombre especificado.'
             else:
-                carrier = Carrier.objects.get(pk=carrier_id)
+                carrier = Enterprise.objects.get(pk=carrier_id)
         except ValueError:
             return False, 'La empresa naviera ingresada no es válida.'
         # Obtener la ubicación de origen del contenedor
@@ -124,8 +134,33 @@ class Container(models.Model):
     class Meta:
         ordering = ['-id']
 
-# TODO: Borrar esto cuando se implemente el login y las sesiones
+class MovementStatus(models.Model):
+    status     = models.IntegerField()
+    name       = models.CharField(max_length=LENGTH_NORMAL)
+    enterprise = models.ForeignKey(Enterprise, on_delete=DEFAULT_ON_DELETE)
+    created_at = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.name
+    class Meta:
+        db_table = 'tracking_movement_status'
 
-class MockUser:
-    fullname = 'Anthony Gutiérrez'
-    role = 'Administrador'
+class Vehicle(models.Model):
+    name       = models.CharField(max_length=LENGTH_SHORT)
+    created_at = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.name
+
+class Movement(models.Model):
+    container  = models.ForeignKey(Container, on_delete=DEFAULT_ON_DELETE)
+    location   = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE)
+    status     = models.ForeignKey(MovementStatus, on_delete=DEFAULT_ON_DELETE)
+    date       = models.DateTimeField()
+    vehicle    = models.ForeignKey(Vehicle, on_delete=DEFAULT_ON_DELETE, default=None)
+    vessel     = models.CharField(max_length=LENGTH_NORMAL, default=None)
+    voyage     = models.CharField(max_length=LENGTH_SHORT, default=None)
+    estimated  = models.BooleanField()
+    created_at = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return '{}: {} at {}'.format(container.name, status.name, date.strftime(DATETIME_FORMAT))
+    class Meta:
+        ordering = ['id', 'date']

@@ -1,0 +1,287 @@
+{
+	"config": {
+		"url": "https://www.maersk.com/tracking/#tracking/{container}",
+		"date": "%d %b %Y",
+		"time": "%H:%M",
+		"datetime": "%d %b %Y %H:%M",
+		"processed": true,
+		"estimated": false
+	},
+	"input": [
+		{
+			"type": "id",
+			"selector": "trackShipmentSearch",
+			"assert": true
+		},
+		{
+			"type": "id",
+			"selector": "ign-accept-cookie",
+			"command": {
+				"type": "click",
+				"wait": false,
+				"required": false
+			}
+		},
+		{
+			"type": "class",
+			"selector": "resultError",
+			"assert": false,
+			"assert_save": true,
+			"required": false
+		},
+		{
+			"type": "css",
+			"selector": "a.button",
+			"commands": [
+				{
+					"index": 0,
+					"type": "click",
+					"required": true,
+					"wait": false
+				}
+			],
+			"required": false
+		}
+	],
+	"container": [
+		{
+			"type": "class",
+			"selector": "font--display-1--heavy",
+			"commands": [
+				{
+					"index": 0,
+					"type": "save",
+					"key": "origin_point",
+					"required": true
+				},
+				{
+					"index": 1,
+					"type": "save",
+					"key": "dest_point",
+					"required": true
+				}
+			]
+		},
+		{
+			"type": "css",
+			"selector": ".expandable-table__wrapper td",
+			"commands": [
+				{
+					"index": 1,
+					"type": "tag",
+					"selector": "span",
+					"commands": [
+						{
+							"index": 3,
+							"type": "save",
+							"key": "description",
+							"required": false
+						}
+					]
+				},
+				{
+					"index": 2,
+					"type": "tag",
+					"selector": "span",
+					"commands": [
+						{
+							"index": 3,
+							"type": "save",
+							"key": "arrival_date",
+							"format": "date",
+							"required": true
+						}
+					]
+				},
+				{
+					"index": 3,
+					"type": "tag",
+					"selector": "span",
+					"commands": [
+						{
+							"index": 3,
+							"type": "regex",
+							"pattern": "(.*?) • (.*?)\n(.*?)$",
+							"commands": [
+								{
+									"index": 0,
+									"type": "save",
+									"key": "last_status",
+									"format": "status",
+									"required": true
+								},
+								{
+									"index": 1,
+									"type": "save",
+									"key": "last_location",
+									"format": "location",
+									"required": true
+								},
+								{
+									"index": 2,
+									"type": "save",
+									"key": "last_date",
+									"format": "date",
+									"required": true
+								}
+							]
+						}
+					],
+					"required": false
+				}
+			]
+		}
+	],
+	"movements": {
+		"parents": {
+			"type": "class",
+			"selector": "timeline__event-table"
+		},
+		"single": [
+			{
+				"type": "class",
+				"selector": "timeline__event-table__cell--heading",
+				"commands": [
+					{
+						"index": 0,
+						"type": "save",
+						"key": "location",
+						"format": "location",
+						"required": true
+					}
+				]
+			}
+		],
+		"multiple": {
+			"parents": {
+				"type": "css",
+				"selector": ".timeline__event-table__row:not(:first-child)"
+			},
+			"single": [
+				{
+					"type": "attr",
+					"name": "data-status",
+					"command": {
+						"type": "compare",
+						"values": ["planned"],
+						"success": [
+							{
+								"type": "save",
+								"key": "estimated",
+								"value": true
+							}
+						],
+						"failure": null,
+						"required": false
+					}
+				},
+				{
+					"type": "class",
+					"selector": "timeline__event-table__cell--time",
+					"commands": [
+						{
+							"index": 0,
+							"type": "save",
+							"key": "date",
+							"format": "date"
+						}
+					]
+				},
+				{
+					"type": "class",
+					"selector": "timeline__event-table__cell--desc",
+					"commands": [
+						{
+							"index": 0,
+							"type": "split",
+							"delimiter": "\n",
+							"commands": [
+								{
+									"index": 0,
+									"type": "split",
+									"delimiter": " on ",
+									"commands": [
+										{
+											"index": 0,
+											"type": "save",
+											"key": "status",
+											"format": "status",
+											"required": true
+										},
+										{
+											"index": 1,
+											"type": "save",
+											"key": "vessel",
+											"required": false
+										}
+									]
+								},
+								{
+									"index": 1,
+									"type": "compare",
+									"values": ["Empty"],
+									"success": [
+										{
+											"type": "save",
+											"key": "status",
+											"format": "status"
+										}
+									],
+									"failure": [
+										{
+											"type": "regex",
+											"pattern": "Voyage No.(.*?)$",
+											"commands": [
+												{
+													"index": 0,
+													"type": "save",
+													"key": "voyage"
+												}
+											],
+											"required": false
+										}
+									],
+									"required": false
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "class",
+					"selector": "icon-vessel",
+					"command": {
+						"type": "save",
+						"key": "vehicle",
+						"value": "Vessel",
+						"format": "vehicle"
+					},
+					"required": false
+				},
+				{
+					"type": "class",
+					"selector": "icon-truck",
+					"command": {
+						"type": "save",
+						"key": "vehicle",
+						"value": "Truck",
+						"format": "vehicle"
+					},
+					"required": false
+				},
+				{
+					"type": "class",
+					"selector": "icon-train",
+					"command": {
+						"type": "save",
+						"key": "vehicle",
+						"value": "Train",
+						"format": "vehicle"
+					},
+					"required": false
+				}
+			],
+			"multiple": null
+		}
+	}
+}

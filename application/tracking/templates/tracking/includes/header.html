@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="{% static 'tracking/css/vendor.min.css' %}">
   <link id="mainStyles" rel="stylesheet" href="{% static 'tracking/css/styles.min.css' %}">
   <link id="customStyles" rel="stylesheet" href="{% static 'tracking/css/custom.css' %}">
-  {% if user %}
+  {% if user.is_authenticated %}
     <link rel="stylesheet" href="{% static 'tracking/css/jquery-ui.min.css' %}">
   {% endif %}
   <script type="text/javascript" src="{% static 'tracking/js/modernizr.min.js' %}"></script>
