@@ -1,9 +1,7 @@
 {
-    "config": {
+    "general": {
         "url": "https://www.hapag-lloyd.com/en/online-business/tracing/tracing-by-container.html?container={container}",
-        "date": "%Y-%m-%d",
-        "time": "%H:%M",
-        "datetime": "%Y-%m-%d %H:%M",
+        "dates": ["%Y-%m-%d", "%H:%M", "%Y-%m-%d %H:%M"],
         "processed": true,
 		"estimated": true
     },
@@ -38,37 +36,8 @@
                 {
                     "index": 1,
                     "type": "save",
-                    "key": "description",
+                    "key": "type",
                     "required": true
-                },
-                {
-                    "index": 5,
-                    "type": "regex",
-                    "pattern": "The (.*?) (in|from) (.*?) (at|on) (.*?) \\.",
-                    "commands": [
-                        {
-                            "index": 0,
-                            "type": "save",
-                            "key": "last_status",
-                            "format": "status",
-                            "required": true
-                        },
-                        {
-                            "index": 2,
-                            "type": "save",
-                            "key": "last_location",
-                            "format": "location",
-                            "required": true
-                        },
-                        {
-                            "index": 4,
-                            "type": "save",
-                            "key": "last_date",
-                            "format": "date",
-                            "required": true
-                        }
-                    ],
-                    "required": false
                 }
             ],
             "required": true

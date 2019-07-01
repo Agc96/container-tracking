@@ -1,42 +1,61 @@
 from datetime import datetime
+from psycopg2.extras import RealDictCursor
 
 import logging
+import os
 import sys
 
-class TrackingScraperConfig:
+def getenvint(key, default):
+    value = os.getenv(key)
+    if value is None:
+        return default
+    try:
+        return int(value)
+    except ValueError:
+        return default
+
+class ScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
     # Default values for scraper resetting and failure count
-    DEFAULT_RESTART_ROUNDS  = 150
-    DEFAULT_FAILURE_WARNING = 20
-    DEFAULT_FAILURE_WAIT    = 60
+    ROUNDS_RESTART         = 150
+    ROUNDS_FAILURE_WARNING = 20
+    ROUNDS_FAILURE_WAIT    = 60
     
     # WebDriver locations
-    DEFAULT_PATH_CHROME     = "C:/WebDriver/chromedriver" if sys.platform == "win32" else "/usr/local/bin/chromedriver"
-    DEFAULT_PATH_FIREFOX    = "C:/WebDriver/geckodriver"  if sys.platform == "win32" else "/usr/local/bin/geckodriver"
+    PATH_CHROME  = "C:/WebDriver/chromedriver" if sys.platform == "win32" else "/usr/local/bin/chromedriver"
+    PATH_FIREFOX = "C:/WebDriver/geckodriver"  if sys.platform == "win32" else "/usr/local/bin/geckodriver"
     
-    # Default database name
-    DEFAULT_DATABASE_NAME   = "scraper3"
-    # Default table names
-    DEFAULT_CONTAINER_TABLE = "containers"
-    DEFAULT_MOVEMENT_TABLE  = "container_movements"
-    DEFAULT_CONFIG_TABLE    = "carriers"
-    DEFAULT_STATUS_TABLE    = "container_statuses"
-    DEFAULT_LOCATIONS_TABLE = "locations"
-    # Default parameters for containers and movements
-    DEFAULT_CONTAINER_QUERY = ["container", "requested_at"]
-    DEFAULT_CONTAINER_COPY  = DEFAULT_CONTAINER_QUERY + ["carrier"]
-    DEFAULT_MOVEMENT_QUERY  = DEFAULT_CONTAINER_COPY  + ["location", "status"]
+    # Default database and table names
+    DATABASE_DSN = {
+        "host": os.getenv("TRACKING_DB_HOST", "localhost"),
+        "dbname": os.getenv("TRACKING_DB_NAME", "tracking"),
+        "user": os.getenv("TRACKING_DB_USERNAME", "webapp"),
+        "password": os.getenv("TRACKING_DB_PASSWORD", ""),
+        "cursor_factory": RealDictCursor
+    }
     
     # Default configuration Nominatim geocode API service
     GEOCODING_USER_AGENT    = "Tracking Scraper for Containers"
 
     # Default logging configuration
-    LOGGING_PRINT_FORMAT    = "[%(levelname)s %(asctime)s] %(message)s"
-    LOGGING_FILENAME_FORMAT = "../logs/scraper-{carrier}-{date}.log"
-    LOGGING_LOGNAME_FORMAT  = "scraper-{carrier}"
-    LOGGING_DATE_FORMAT     = "%Y%m%d"
-    LOGGING_MIN_LEVEL       = logging.DEBUG
+    @staticmethod
+    def getlogger(carrier):
+        """Get logging configuration for the Tracking Scraper."""
+        # Prepare formatter
+        formatter = logging.Formatter("[%(levelname)s %(asctime)s] %(message)s")
+        # Prepare handler filename and logger name
+        today    = datetime.now().strftime("%Y%m%d")
+        filename = "../logs/scraper-{}-{}.log".format(carrier, today)
+        logname  = "scraper-{}".format(carrier)
+        # Prepare handler
+        handler = logging.FileHandler(filename)
+        handler.setFormatter(formatter)
+        # Prepare logger
+        logger = logging.getLogger(logname)
+        logger.setLevel(logging.DEBUG)
+        logger.addHandler(handler)
+        return logger
     
     # Default timeouts, in seconds
     DEFAULT_TIMEOUT_SHORT   = 30
@@ -70,9 +89,7 @@ class TrackingScraperConfig:
     # Default thousand separator symbol
     DEFAULT_THOUSAND_SYMBOL = ","
     # Default datetime locale information
-    DEFAULT_DATETIME_LOCALE = {
-        "hours": -5
-    }
+    DEFAULT_DATETIME_LOCALE = {"hours": -5}
     
     # Default image to black-and-white pixel pivot
     DEFAULT_BNW_PIVOT       = 32
@@ -82,3 +99,11 @@ class TrackingScraperConfig:
     DEFAULT_KEY_NUMBERS     = False
     # Default value for the key "length" in image processing (desired text length)
     DEFAULT_KEY_LENGTH      = 4
+    
+    # Email configuration
+    EMAIL_SMTP      = os.getenv("EMAIL_SMTP", "smtp.gmail.com")
+    EMAIL_PORT      = getenvint("EMAIL_PORT", 465)
+    EMAIL_FROM_USER = os.getenv("EMAIL_FROM_USER")
+    EMAIL_FROM_PASS = os.getenv("EMAIL_FROM_PASS")
+    EMAIL_TO_NAME   = os.getenv("EMAIL_TO_NAME", "Anthony")
+    EMAIL_TO_USER   = os.getenv("EMAIL_TO_USER")

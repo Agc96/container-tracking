@@ -1,7 +1,7 @@
 {
-	"config": {
+	"general": {
 		"url": "https://www.shipmentlink.com/servlet/TDB1_CargoTracking.do",
-		"date": "%b-%d-%Y",
+		"dates": ["%b-%d-%Y"],
         "processed": true,
 		"estimated": false
 	},
@@ -35,7 +35,7 @@
 			"selector": "NO",
 			"command": {
 				"type": "write",
-				"attribute": "container",
+				"attribute": "code",
 				"clean": true
 			}
 		},
@@ -43,7 +43,7 @@
 			"type": "id",
 			"selector": "captchaImg",
 			"command": {
-				"type": "ocr",
+				"type": "image",
 				"commands": [
 					{
 						"type": "bnw",
@@ -98,28 +98,7 @@
 				{
 					"index": 2,
 					"type": "save",
-					"key": "description",
-					"required": true
-				},
-				{
-					"index": 3,
-					"type": "save",
-					"key": "last_date",
-					"format": "date",
-					"required": true
-				},
-				{
-					"index": 4,
-					"type": "save",
-					"key": "last_status",
-					"format": "status",
-					"required": true
-				},
-				{
-					"index": 5,
-					"type": "save",
-					"key": "last_location",
-					"format": "location",
+					"key": "type",
 					"required": true
 				}
 			]

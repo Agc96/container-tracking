@@ -1,5 +1,5 @@
-from config import TrackingScraperConfig
-from scraper import TrackingScraper
+from .config import ScraperConfig
+from .scraper import Scraper
 
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
@@ -10,19 +10,19 @@ import json
 import logging
 import unittest
 
-class TrackingScraperTestCase(unittest.TestCase):
+class ScraperTestCase(unittest.TestCase):
     """Unit tests for the Tracking Scraper class."""
     
     def setUp(self):
         # Initialize WebDriver
         chromeoptions = Options()
         chromeoptions.add_argument("--start-maximized")
-        self.driver = WebDriver(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME, options = chromeoptions)
+        self.driver = WebDriver(executable_path = ScraperConfig.DEFAULT_PATH_CHROME, options = chromeoptions)
         # Initialize database
         self.database  = MongoClient()["scrapertests"]
-        self.movements = self.database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
+        self.movements = self.database[ScraperConfig.DEFAULT_MOVEMENT_TABLE]
         # Initialize logger
-        self.logger = TrackingScraperConfig.get_logging_configuration()
+        self.logger = ScraperConfig.get_logging_configuration()
     
     def tearDown(self):
         self.driver.close()
@@ -314,7 +314,7 @@ class TrackingScraperTestCase(unittest.TestCase):
         with open("../config/{}.json".format(container["carrier"]), "w", encoding = "UTF-8") as file:
             configuration = json.load(file)
         # Execute scraper and assert result
-        scraper = TrackingScraper(self.driver, self.database, dict(container), configuration, self.logger)
+        scraper = Scraper(self.driver, self.database, dict(container), configuration, self.logger)
         if scraper.execute() is not True:
             self.fail("Scraper execution failed, check log for details.")
         # Assert from expected container items

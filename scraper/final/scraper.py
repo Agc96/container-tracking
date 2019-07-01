@@ -1,61 +1,58 @@
-from config import TrackingScraperConfig
-from errors import (TrackingScraperAssertionError, TrackingScraperTimeoutError,
-                    TrackingScraperSwitcherError, TrackingScraperError)
-from switcher import TrackingScraperSwitcher
+from config import ScraperConfig
+from errors import ScraperAssertionError, ScraperTimeoutError, ScraperSwitcherError, ScraperError
+from switcher import ScraperSwitcher
 
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException, TimeoutException
 
 import datetime
 import json
+import psycopg2
 import time
 
-class TrackingScraper:
+class Scraper:
     """Main class for the Tracking Web Scraper."""
     
-    def __init__(self, driver, database, container, configuration, logger):
-        self.driver          = driver
-        self.database        = database
-        self.container_table = database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
-        self.movement_table  = database[TrackingScraperConfig.DEFAULT_MOVEMENT_TABLE]
-        self.container       = container
-        self.configuration   = configuration
-        self.logger          = logger
+    def __init__(self, process, container):
+        self.driver    = process.driver
+        self.carrier   = process.carrier
+        self.config    = process.config
+        self.logger    = process.logger
+        self.container = container
+        self.movements = []
         # Check if general configuration exists
-        if "general" not in self.configuration:
-            raise TrackingScraperError("General configuration information not found")
+        if "general" not in self.config:
+            raise ScraperError("General configuration information not found")
     
     ###############################################################################################
     
     def execute(self):
-        """
-        Execute a series of commands based on the configuration file specified in the initializer.
-        """
-        self.input_result    = False
-        self.single_result   = False
-        self.multiple_result = False
-        self.start_time      = time.time()
-        self.elapsed_time    = 0
+        """Execute a series of commands based on the configuration file for this carrier."""
+        self.input_result     = False
+        self.container_result = False
+        self.movements_result = False
+        self.start_time       = time.time()
+        self.elapsed_time     = 0
         try:
             self.go_to_carrier_url()
             while True:
                 # Check if we're still on time
                 self.elapsed_time = time.time() - self.start_time
-                if self.elapsed_time > TrackingScraperConfig.DEFAULT_TIMEOUT_LONG:
-                    raise TrackingScraperTimeoutError(True)
+                if self.elapsed_time > ScraperConfig.DEFAULT_TIMEOUT_LONG:
+                    raise ScraperTimeoutError(True)
                 # Execute input commands
                 self.input_result = self.execute_commands(self.input_result, "input")
                 if self.input_result is not True:
                     self.log_retry("Input execution was unsuccessful, retrying...")
                     continue
-                # Execute single output
-                self.single_result = self.execute_commands(self.single_result, "single")
-                if self.single_result is not True:
+                # Execute container commands
+                self.container_result = self.execute_commands(self.container_result, "container")
+                if self.container_result is not True:
                     self.log_retry("Single output execution was unsuccessful, retrying...")
                     continue
-                # Execute multiple output
-                self.multiple_result = self.execute_multiple_output(self.multiple_result)
-                if self.multiple_result is not True:
+                # Execute movement commands
+                self.movements_result = self.execute_movements(self.movements_result)
+                if self.movements_result is not True:
                     self.log_retry("Multiple output execution was unsuccessful, retrying...")
                     continue
                 # Finish execution, save elements and wait
@@ -66,14 +63,12 @@ class TrackingScraper:
     
     def log_retry(self, logging_message):
         self.logger.info(logging_message)
-        time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
+        time.sleep(ScraperConfig.DEFAULT_WAIT_NORMAL)
     
     def wait_until_timeout(self):
-        """
-        Wait until we've reached the default timeout, to avoid saturating the servers.
-        """
+        """Wait until we've reached the default timeout, to avoid saturating the servers."""
         self.elapsed_time = time.time() - self.start_time
-        while (self.elapsed_time < TrackingScraperConfig.DEFAULT_TIMEOUT_SHORT):
+        while (self.elapsed_time < ScraperConfig.DEFAULT_TIMEOUT_SHORT):
             time.sleep(1)
             self.elapsed_time = time.time() - self.start_time
         # Return the benchmark
@@ -82,22 +77,25 @@ class TrackingScraper:
     def process_exceptions(self, ex):
         self.elapsed_time = time.time() - self.start_time
         # Check assertions
-        if isinstance(ex, TrackingScraperAssertionError):
+        if isinstance(ex, ScraperAssertionError):
             self.logger.warning(str(ex))
             value = self.finish_execution() if ex.assertion_type is False else False
             return (value, self.elapsed_time)
         # Check timeout errors
-        if isinstance(ex, TrackingScraperTimeoutError):
+        if isinstance(ex, ScraperTimeoutError):
             self.logger.warning(str(ex))
+            self.save_error()
             return (False, self.elapsed_time)
         # Check scraper switcher errors
-        if isinstance(ex, TrackingScraperSwitcherError):
-            self.logger.error("Command: %s", TrackingScraperSwitcher.print_command(ex.command))
+        if isinstance(ex, ScraperSwitcherError):
+            self.logger.error("Command: %s", ScraperSwitcher.print_command(ex.command))
             self.logger.error(str(ex))
+            self.save_error()
             return (False, self.elapsed_time)
         # Check common errors
-        if isinstance(ex, TrackingScraperError):
+        if isinstance(ex, ScraperError):
             self.logger.error(str(ex))
+            self.save_error()
             return (False, self.elapsed_time)
         # Check unknown errors
         self.logger.exception("Unknown exception ocurred in scraper")
@@ -106,119 +104,98 @@ class TrackingScraper:
     ###############################################################################################
     
     def go_to_carrier_url(self):
-        # Check if general configuration is declared
-        general_config = self.configuration.get("general")
-        if general_config is None:
-            raise TrackingScraperError("Configuration information not found")
-        
         # Get configuration URL
-        link = self.configuration["general"].get("url")
+        link = self.config["general"].get("url")
         if link is None:
-            raise TrackingScraperError("Configuration URL could not be found")
+            raise ScraperError("Configuration URL could not be found")
         
         # Go to desired URL
         try:
-            self.driver.get(link.format(**self.container))
-            time.sleep(TrackingScraperConfig.DEFAULT_WAIT_LONG)
+            self.driver.get(link.format(container=self.container['code']))
+            time.sleep(ScraperConfig.DEFAULT_WAIT_LONG)
         except TimeoutException:
-            raise TrackingScraperTimeoutError(False)
+            raise ScraperTimeoutError(False)
         
         # Check if page is a Chrome error
         chrome_error = self.driver.find_elements_by_id("main-frame-error")
         if len(chrome_error) > 0:
             self.logger.error("Chrome error detected: %s", chrome_error[0].text)
-            raise TrackingScraperTimeoutError(False)
+            raise ScraperTimeoutError(False)
     
     ###############################################################################################
     
-    def execute_commands(self, parent_result, key):
+    def execute_commands(self, result, key):
         # Check if commands were already executed
-        if parent_result is True:
+        if result is True:
             return True
-        
         # Get commands, if none found, return True
-        commands = self.configuration.get(key)
+        commands = self.config.get(key)
         if commands is None:
             return True
-        
         # Process commands
         for command in commands:
-            switcher = TrackingScraperSwitcher(self.driver, self.database, self.container,
-                                               self.configuration, self.logger, command)
+            switcher = ScraperSwitcher(self, self.container, command)
             if switcher.process() is not True:
                 return False
-        
         # Return True if everything was OK
         return True
     
     ###############################################################################################
     
-    def execute_multiple_output(self, multiple_result):
-        if multiple_result is True:
+    def execute_movements(self, result):
+        if result is True:
             return True
-        
         # Get multiple command, if none found, return True
-        multiple_command = self.configuration.get("multiple")
-        if multiple_command is None:
+        command = self.config.get("movements")
+        if command is None:
             return True
-        
-        # Get configuration key
-        multiple_configuration = self.configuration["general"].get("multiple")
-        if multiple_configuration is None:
-            return True
-        
-        # Create multiple document based on configuration file
-        multiple_document = dict(multiple_configuration)
-        for key in TrackingScraperConfig.DEFAULT_CONTAINER_COPY:
-            multiple_document[key] = self.container[key]
-        
+        # Create movement based on configuration file
+        estimated = self.config["general"].get("estimated", ScraperConfig.DEFAULT_KEY_ESTIMATED)
+        movement = {
+            "container": self.container["id"],
+            "estimated": estimated
+        }
         # Generate and process multiple documents
-        return self.process_multiple_elements(multiple_command, multiple_document, self.driver)
+        return self.process_movements(command, movement, self.driver)
     
-    def process_multiple_elements(self, multiple_command, multiple_document, previous_element):
+    def process_movements(self, command, document, previous):
         # Get single subcommands
-        multiple_single_commands = multiple_command.get("single")
-        if not isinstance(multiple_single_commands, list):
-            raise TrackingScraperError("Multiple command must have single commands key")
+        single_commands = command.get("single")
+        if not isinstance(single_commands, list):
+            raise ScraperError("Multiple command must have single commands key")
         
         # Get command to find parents, if none found, use driver to extract single commands
-        multiple_parents = multiple_command.get("parents")
-        if multiple_parents is None:
-            multiple_elements = [previous_element]
+        parents = command.get("parents")
+        if parents is None:
+            multiple_elements = [previous]
         else:
-            switcher = TrackingScraperSwitcher(self.driver, self.database, {}, self.configuration,
-                                               self.logger, multiple_parents, previous_element)
-            multiple_elements = switcher.process()
+            multiple_elements = ScraperSwitcher(self, {}, parents, previous).process()
             if multiple_elements is False:
                 return True # No elements found
             if multiple_elements is True:
-                raise TrackingScraperError("Parent elements must be a list of web elements")
+                raise ScraperError("Parent elements must be a list of web elements")
         
         # Get multiple subcomamnd
-        multiple_multiple_command = multiple_command.get("multiple")
+        multiple_subcommand = command.get("multiple")
         
         # Process every single command for every multiple element
         for multiple_subelement in multiple_elements:
-            subdocument = dict(multiple_document)
-            for single_command in multiple_single_commands:
-                switcher = TrackingScraperSwitcher(self.driver, self.database, subdocument,
-                                                   self.configuration, self.logger, single_command,
-                                                   multiple_subelement)
+            subdocument = dict(document)
+            for single_command in single_commands:
+                switcher = ScraperSwitcher(self, subdocument, single_command, multiple_subelement)
                 if switcher.process() is not True:
-                    self.logger.info("Multiple: single subcommand failed")
+                    self.logger.info("Movements: single subcommand failed")
                     return False
             
             # Check if multiple subcommand exists, if it doesn't, save and continue.
-            if multiple_multiple_command is None:
-                self.insert_or_update(subdocument, self.movement_table,
-                                       TrackingScraperConfig.DEFAULT_MOVEMENT_QUERY)
+            if multiple_subcommand is None:
+                self.movements.append(subdocument)
                 continue
             
             # If it exists, copy result document and iterate these new multiple elements with it
-            multiple_result = self.process_multiple_elements(multiple_multiple_command,
-                                                             subdocument, multiple_subelement)
+            multiple_result = self.process_movements(multiple_subcommand, subdocument, multiple_subelement)
             if multiple_result is not True:
-                self.logger.info("Multiple: multiple subcommand failed")
+                self.logger.info("Movements: multiple subcommand failed")
                 return False
         
         # Return True to notify everything is OK
@@ -227,44 +204,55 @@ class TrackingScraper:
     ###############################################################################################
     
     def finish_execution(self):
-        # Get configuration for single element
-        single_config = self.configuration["general"].get("single")
-        if single_config is None:
-            return True
-        
-        # Get processed value to save
-        processed_value = single_config.get("processed", TrackingScraperConfig.DEFAULT_KEY_PROCESSED)
-        self.container["processed"] = processed_value
-        
-        # Get collection and upsert container
-        return self.insert_or_update(self.container, self.container_table,
-                                     TrackingScraperConfig.DEFAULT_CONTAINER_QUERY)
-    
-    def insert_or_update(self, document, collection, query_keys):
-        # Create shallow copy of document, with specified keys, for query
-        query_document = self.create_query_document(document, query_keys)
-        self.logger.info("Query document: %s", query_document)
-        
-        # Try to update
-        if "_id" in document:
-            document.pop("_id")
-        document["updated_at"] = datetime.datetime.utcnow()
-        result = collection.update_many(query_document, {"$set": document})
-        
-        if result.matched_count > 0:
-            self.logger.info("Updated: %s", query_document)
-            return True
-        
-        # If update was unsuccessful, insert document
-        document["created_at"] = datetime.datetime.utcnow()
-        document["updated_at"] = None
-        
-        result = collection.insert_one(document)
-        self.logger.info("Inserted: %s", query_document)
+        try:
+            with psycopg2.connect(**ScraperConfig.DATABASE_DSN) as conn:
+                with conn.cursor() as cur:
+                    # Actualizar contenedor
+                    self.container["priority"] += 1
+                    processed = self.config.get("processed", ScraperConfig.DEFAULT_KEY_PROCESSED)
+                    if processed:
+                        self.container["status_id"] = 2
+                    cur.execute("""UPDATE tracking_container SET status_id = %(status_id)s,
+                        arrival_date = %(arrival_date)s WHERE id = %(id)s""", self.container)
+                    # Guardar movimientos de los contenedores
+                    for movement in self.movements:
+                        cur.execute("""SELECT id FROM tracking_movement WHERE container_id = %(container)s
+                            AND status_id = %(status)s AND location_id = %(location)s""", movement)
+                        result = cur.fetchone()
+                        if result is not None:
+                            estimated = self.config.get("estimated", ScraperConfig.DEFAULT_KEY_ESTIMATED)
+                            if "estimated" not in movement:
+                                movement["estimated"] = estimated
+                            if "vessel" not in movement:
+                                movement["vessel"] = None
+                            if "voyage" not in movement:
+                                movement["voyage"] = None
+                            cur.execute("""INSERT INTO tracking_movement (container_id, location_id,
+                                status_id, date, vehicle_id, vessel, voyage, estimated) VALUES
+                                (%(container)s, %(location)s, %(status)s, %(date)s, %(vehicle)s, %(vessel)s,
+                                %(voyage)s, %(estimated)s)""", movement)
+                    cur.commit()
+                conn.commit()
+        except Exception:
+            self.logger.exception("Error al guardar movimientos de contenedores")
+        finally:
+            try:
+                conn.close()
+            except:
+                pass
         return True
     
-    def create_query_document(self, document, query_keys):
-        query_document = {}
-        for key in query_keys:
-            query_document[key] = document.get(key)
-        return query_document
+    def save_error(self):
+        try:
+            with psycopg2.connect(**ScraperConfig.DATABASE_DSN) as conn:
+                with conn.cursor() as cur:
+                    cur.execute("""UPDATE tracking_container SET processed = 3 WHERE id = %(id)s""", self.container)
+                    cur.commit()
+                conn.commit()
+        except Exception:
+            self.logger.exception("Error al guardar error")
+        finally:
+            try:
+                conn.close()
+            except:
+                pass

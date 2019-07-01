@@ -1,7 +1,8 @@
-from errors import TrackingScraperError
-from config import TrackingScraperConfig
-from mail import TrackingScraperEmail
-from scraper import TrackingScraper
+from errors import ScraperError
+from config import ScraperConfig
+from mail import ScraperEmail
+from query import ScraperQuery
+from scraper import Scraper
 
 from datetime import datetime
 from multiprocessing import Process
@@ -14,60 +15,36 @@ import os
 import shutil
 import time
 
-class TrackingScraperProcess():
+class ScraperProcess():
     """Process wrapper for an automatic extraction using the Tracking Web Scraper for containers."""
     
     def __init__(self, carrier):
-        # Initialize database
-        self.database   = MongoClient()[TrackingScraperConfig.DEFAULT_DATABASE_NAME]
-        self.containers = self.database[TrackingScraperConfig.DEFAULT_CONTAINER_TABLE]
         # Get carrier configuration
         self.carrier = carrier
-        # TODO: USAR DATOS EN BASE DE DATOS, PERO DEBEN ESTAR BIEN FORMADOS (SE LEÍAN COMO DOUBLES)
-        with open("../config/{}.json".format(self.carrier), encoding = "UTF-8") as file:
-            self.configuration = json.load(file)
+        with open("../config/{}.json".format(self.carrier["id"]), encoding="UTF-8") as file:
+            self.config = json.load(file)
         # Initialize logger
-        self.get_logging_configuration()
+        self.logger = ScraperConfig.getlogger(self.carrier["id"])
         # Initialize counters
-        self.total_counter = 0
-        self.round_counter = 0
-        self.fail_counter  = 0
-        self.fail_backoff  = 1
+        self.total_counter, self.round_counter, self.fail_counter, self.fail_backoff = 0, 0, 0, 1
         # Initialize driver
         self.create_driver()
-    
-    def get_logging_configuration(self):
-        """
-        Get logging configuration for the Tracking Scraper.
-        """
-        # Prepare formatter
-        formatter = logging.Formatter(TrackingScraperConfig.LOGGING_PRINT_FORMAT)
-        # Prepare handler filename and logger name
-        today    = datetime.now().strftime(TrackingScraperConfig.LOGGING_DATE_FORMAT)
-        filename = TrackingScraperConfig.LOGGING_FILENAME_FORMAT.format(carrier = self.carrier, date = today)
-        logname  = TrackingScraperConfig.LOGGING_LOGNAME_FORMAT.format(carrier = self.carrier)
-        # Prepare handler
-        handler = logging.FileHandler(filename)
-        handler.setFormatter(formatter)
-        # Prepare logger
-        self.logger = logging.getLogger(logname)
-        self.logger.setLevel(TrackingScraperConfig.LOGGING_MIN_LEVEL)
-        self.logger.addHandler(handler)
     
     def execute(self):
         # Get container until no containers are found or there's an unknown exception
         start = time.time()
         while True:
             # Get container, if no container is found, finish execution
-            container = self.containers.find_one({
-                "carrier"   : self.carrier,
-                "processed" : False
-            })
+            container = ScraperQuery.execute_one("""
+                SELECT * FROM tracking_container
+                WHERE carrier_id = %s AND status_id = 1
+                ORDER BY priority;""", (self.carrier["id"],))
+            # Verify if container exists
             if container is None:
-                # Wait 5 minutes
+                # TODO: Wait 5 minutes
                 # time.sleep(300)
                 # continue
-                # self.send_mail(TrackingScraperEmail.FINISH_MESSAGE, self.total_counter)
+                self.send_mail(ScraperEmail.FINISH_MESSAGE, self.total_counter)
                 break
             # Extract container information with the Tracking Scraper
             if not self.execute_scraper(container):
@@ -75,19 +52,18 @@ class TrackingScraperProcess():
         end = time.time()
         
         # Print usage time
-        print("Finished scraping carrier {}!".format(self.carrier))
+        print("Finished scraping carrier {}!".format(self.carrier["name"]))
         print("Total time: {} seconds. Extracted {} containers".format(end - start, self.total_counter))
         # Send message
-        self.send_mail(TrackingScraperEmail.FINISH_MESSAGE, self.total_counter)
+        self.send_mail(ScraperEmail.FINISH_MESSAGE, self.total_counter)
     
     def execute_scraper(self, container):
         try:
-            result = TrackingScraper(self.driver, self.database, container, self.configuration,
-                                     self.logger).execute()
+            result = Scraper(self, container).execute()
         except:
             self.logger.exception("Unknown exception ocurred in scraper")
             return False
-        print("Container", container["container"], "time:", result[1], "seconds")
+        print("Container {} extracted in {} seconds.".format(container['code'], result[1]))
         
         # In case an unknown exception ocurred, finish execution
         if result[0] is None:
@@ -96,7 +72,7 @@ class TrackingScraperProcess():
         # In case there was an error scraping a container, restart the driver
         if result[0] is False:
             # Add to failure count
-            print("Scraper for container", container["container"], "was unsuccessful")
+            print("Scraper for container {} was unsuccessful".format(container['code']))
             self.fail_counter += 1
             # Create new driver
             self.create_driver(True)
@@ -108,7 +84,7 @@ class TrackingScraperProcess():
         self.fail_backoff = 1
         self.total_counter += 1
         self.round_counter += 1
-        if self.round_counter >= TrackingScraperConfig.DEFAULT_RESTART_ROUNDS:
+        if self.round_counter >= ScraperConfig.ROUNDS_RESTART:
             self.create_driver(False)
             self.round_counter = 0
         return True
@@ -117,20 +93,20 @@ class TrackingScraperProcess():
         """Create or recreate the WebDriver. If error = True, take a screenshot of the page for debugging."""
         # Send mail and take screenshot if an error was found
         if error is True:
-            self.send_mail(TrackingScraperEmail.ERROR_MESSAGE, self.fail_counter)
+            self.send_mail(ScraperEmail.ERROR_MESSAGE, self.fail_counter)
             self.screenshot()
             self.save_ocr_image()
         # Close driver if there was one open
         if error is not None:
             self.close_driver()
-            time.sleep(TrackingScraperConfig.DEFAULT_FAILURE_WAIT * self.fail_backoff)
+            time.sleep(ScraperConfig.ROUNDS_FAILURE_WAIT * self.fail_backoff)
         
         # Create new webdriver
-        # chromeoptions = ChromeOptions()
+        # TODO: chromeoptions = ChromeOptions()
         # chromeoptions.headless = True
-        self.driver = Chrome(executable_path = TrackingScraperConfig.DEFAULT_PATH_CHROME) #options = chromeoptions
+        self.driver = Chrome(executable_path = ScraperConfig.PATH_CHROME) #options = chromeoptions
         self.driver.maximize_window()
-        self.driver.set_page_load_timeout(TrackingScraperConfig.DEFAULT_TIMEOUT_LONG)
+        self.driver.set_page_load_timeout(ScraperConfig.DEFAULT_TIMEOUT_LONG)
     
     def close_driver(self):
         """Closes the web browser and the WebDriver."""
@@ -141,7 +117,7 @@ class TrackingScraperProcess():
     
     def screenshot(self):
         """Take a screenshot of the current page and save its HTML content, for debugging."""
-        filename = "../errors/error-{}-{}".format(self.carrier, self.fail_counter)
+        filename = "../errors/error-{}-{}".format(self.carrier["id"], self.fail_counter)
         # Screenshot the current page
         try:
             self.driver.save_screenshot(filename + ".png")
@@ -157,19 +133,18 @@ class TrackingScraperProcess():
     def send_mail(self, message, counter = None):
         """Send an email to the administrator."""
         try:
-            TrackingScraperEmail(counter = counter, carrier = self.carrier).send(message)
+            ScraperEmail(counter=counter, carrier=self.carrier["name"]).send(message)
         except Exception as ex:
             print("Could not send mail to administrator:", str(ex))
     
     def save_ocr_image(self):
-        source = "image-{}.png".format(self.carrier)
-        dest   = "../errors/error-{}-{}-ocr.png".format(self.carrier, self.fail_counter)
+        source = "image-{}.png".format(self.carrier["id"])
+        dest   = "../errors/error-{}-{}-ocr.png".format(self.carrier["id"], self.fail_counter)
         if os.path.exists(source):
             shutil.copyfile(source, dest)
     
     def __del__(self):
         self.close_driver()
-
 
 """
 This is the main process of the Tracking Scraper for Containers.
@@ -177,15 +152,11 @@ It creates a list of processes, each one scraping a container from an assigned c
 """
 
 def execute_process(carrier):
-    TrackingScraperProcess(carrier).execute()
+    ScraperProcess(carrier).execute()
 
 if __name__ == "__main__":
-    # Initialize logging
-    # logging.basicConfig(filename = TrackingScraperConfig.DEFAULT_LOGGING_FILE,
-    #                     level    = TrackingScraperConfig.DEFAULT_LOGGING_LEVEL,
-    #                     format   = TrackingScraperConfig.DEFAULT_LOGGING_FORMAT)
-    # Get carrier names
-    carriers = ["Maersk", "Hapag-Lloyd", "Evergreen", "Textainer"]
+    # Get carriers
+    carriers = ScraperQuery.execute("SELECT id, name FROM tracking_enterprise WHERE carrier = true")
     # Open a process for every carrier
     processes = []
     for carrier in carriers:

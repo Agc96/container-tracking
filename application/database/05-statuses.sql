@@ -32,4 +32,3 @@ INSERT INTO tracking_movement_status (status, name, enterprise_id) VALUES (7, 'D
 INSERT INTO tracking_movement_status (status, name, enterprise_id) VALUES (0, 'Gate out', 1);
 INSERT INTO tracking_movement_status (status, name, enterprise_id) VALUES (0, 'Departure from', 2);
 INSERT INTO tracking_movement_status (status, name, enterprise_id) VALUES (0, 'Pick-up by merchant haulage', 3);
-INSERT INTO tracking_movement_status (status, name, enterprise_id) VALUES (0, 'Retiro', 4);

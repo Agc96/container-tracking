@@ -1,9 +1,7 @@
 {
-	"config": {
+	"general": {
 		"url": "https://www.maersk.com/tracking/#tracking/{container}",
-		"date": "%d %b %Y",
-		"time": "%H:%M",
-		"datetime": "%d %b %Y %H:%M",
+		"dates": ["%d %b %Y", "%H:%M", "%d %b %Y %H:%M"],
 		"processed": true,
 		"estimated": false
 	},
@@ -74,7 +72,7 @@
 						{
 							"index": 3,
 							"type": "save",
-							"key": "description",
+							"key": "type",
 							"required": false
 						}
 					]
@@ -92,42 +90,6 @@
 							"required": true
 						}
 					]
-				},
-				{
-					"index": 3,
-					"type": "tag",
-					"selector": "span",
-					"commands": [
-						{
-							"index": 3,
-							"type": "regex",
-							"pattern": "(.*?) • (.*?)\n(.*?)$",
-							"commands": [
-								{
-									"index": 0,
-									"type": "save",
-									"key": "last_status",
-									"format": "status",
-									"required": true
-								},
-								{
-									"index": 1,
-									"type": "save",
-									"key": "last_location",
-									"format": "location",
-									"required": true
-								},
-								{
-									"index": 2,
-									"type": "save",
-									"key": "last_date",
-									"format": "date",
-									"required": true
-								}
-							]
-						}
-					],
-					"required": false
 				}
 			]
 		}

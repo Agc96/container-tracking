@@ -1,8 +1,8 @@
-class TrackingScraperError(Exception):
+class ScraperError(Exception):
     """General exception for the Container Tracking Scraper."""
     pass
 
-class TrackingScraperTimeoutError(TrackingScraperError):
+class ScraperTimeoutError(ScraperError):
     """Exception for timeouts in the web browser used by the Container Tracking Scraper."""
     def __init__(self, page_loaded):
         message = "Timeout exceeded" if page_loaded else "Could not load page"
@@ -10,7 +10,7 @@ class TrackingScraperTimeoutError(TrackingScraperError):
         # Save attributes
         self.page_loaded = page_loaded
 
-class TrackingScraperAssertionError(TrackingScraperError):
+class ScraperAssertionError(ScraperError):
     """Exception for assertion commands in the Container Tracking Scraper."""
     def __init__(self, process_type, assertion_type):
         # Write message
@@ -20,7 +20,7 @@ class TrackingScraperAssertionError(TrackingScraperError):
         self.process_type   = process_type
         self.assertion_type = assertion_type
 
-class TrackingScraperSwitcherError(TrackingScraperError):
+class ScraperSwitcherError(ScraperError):
     """Exception for errors in the Container Tracking Scraper Switcher command file."""
     def __init__(self, message, command):
         # Write message

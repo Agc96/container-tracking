@@ -36,7 +36,7 @@ CREATE TABLE tracking_container_status (
 CREATE TABLE tracking_container (
     id serial NOT NULL PRIMARY KEY,
     code char(11) NOT NULL,
-    carrier_id integer NOT NULL REFERENCES tracking_carrier,
+    carrier_id integer NOT NULL REFERENCES tracking_enterprise,
     origin_id integer NOT NULL REFERENCES tracking_location,
     destination_id integer NOT NULL REFERENCES tracking_location,
     arrival_date timestamp with time zone DEFAULT NULL,

@@ -49,3 +49,54 @@ He cambiado:
 - "multiple.estimated" a "estimated"
 - "single" a "container"
 - "multiple" a "movements"
+
+POSTGRES + PYTHON:
+http://initd.org/psycopg/docs/usage.html#adapt-date
+
+PASE A PRODUCCIÓN:
+https://docs.aws.amazon.com/es_es/elasticbeanstalk/latest/dg/create-deploy-python-django.html
+
+```Python
+DATABASE_CARRIERS       = "tracking_enterprise"
+DATABASE_CONTAINERS     = "tracking_container"
+DATABASE_MOVEMENTS      = "tracking_movement"
+DATABASE_CONT_STATUSES  = "tracking_container_status"
+DATABASE_MOVE_STATUSES  = "tracking_movement_status"
+DATABASE_LOCATIONS      = "tracking_location"
+
+with psycopg2.connect(dbname="tracking", user="postgres", password="TODO: PASSWORD") as conn:
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM tracking_container ORDER BY priority;")
+        column_names = [desc[0] for desc in cur.description]
+        data_rows = cur.fetchall()
+
+def insert_or_update(self, document, collection, query_keys):
+    raise Exception("TODO: TENGO QUE REESCRIBIR TODO ESTO")
+    # Create shallow copy of document, with specified keys, for query
+    query_document = self.create_query_document(document, query_keys)
+    self.logger.info("Query document: %s", query_document)
+    
+    # Try to update
+    if "_id" in document:
+        document.pop("_id")
+    document["updated_at"] = datetime.datetime.utcnow()
+    result = collection.update_many(query_document, {"$set": document})
+    
+    if result.matched_count > 0:
+        self.logger.info("Updated: %s", query_document)
+        return True
+    
+    # If update was unsuccessful, insert document
+    document["created_at"] = datetime.datetime.utcnow()
+    document["updated_at"] = None
+    
+    result = collection.insert_one(document)
+    self.logger.info("Inserted: %s", query_document)
+    return True
+
+def create_query_document(self, document, query_keys):
+    query_document = {}
+    for key in query_keys:
+        query_document[key] = document.get(key)
+    return query_document
+```

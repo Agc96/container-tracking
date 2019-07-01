@@ -1,8 +1,7 @@
-from converter import TrackingScraperConverter
-from config import TrackingScraperConfig
-from errors import (TrackingScraperSwitcherError, TrackingScraperAssertionError,
-                    TrackingScraperTimeoutError)
-from image import TrackingScraperImageProcessor
+from converter import ScraperConverter
+from config import ScraperConfig
+from errors import ScraperSwitcherError, ScraperAssertionError, ScraperTimeoutError
+from image import ScraperImage
 
 from selenium.common.exceptions import (TimeoutException, ElementNotInteractableException,
                                         NoAlertPresentException)
@@ -15,20 +14,19 @@ import datetime
 import re
 import time
 
-class TrackingScraperSwitcher:
+class ScraperSwitcher:
     """
     Switcher for selecting and saving Web elements and subelements in a tracking-related document.
     """
     
-    def __init__(self, driver, database, document, configuration, logger, parent_command,
-                 parent_element = None):
-        self.driver         = driver
-        self.database       = database
-        self.document       = document
-        self.configuration  = configuration
-        self.logger         = logger
+    def __init__(self, scraper, document, parent_command, parent_element = None):
+        self.driver   = scraper.driver
+        self.carrier  = scraper.carrier
+        self.config   = scraper.config
+        self.logger   = scraper.logger
+        self.document = document
         self.parent_command = parent_command
-        self.parent_element = driver if parent_element is None else parent_element
+        self.parent_element = self.driver if parent_element is None else parent_element
     
     ###############################################################################################
     
@@ -41,16 +39,20 @@ class TrackingScraperSwitcher:
         # Get process type
         process_type = self.parent_command.get("type")
         if process_type is None:
-            raise TrackingScraperSwitcherError("Process type not found", self.parent_command)
+            raise ScraperSwitcherError("Process type not found", self.parent_command)
         # self.logger.debug("Process type: %s", process_type)
         
         # Execute process based on process type
         try:
             method = getattr(self, "process_" + process_type)
-            return method()
         except AttributeError:
-            raise TrackingScraperSwitcherError("Process type " + process_type + " is not valid",
-                                               self.parent_command)
+            raise ScraperSwitcherError("Process type {} is not valid".format(process_type),
+                                        self.parent_command)
+        try:
+            return method()
+        except TypeError:
+            raise ScraperSwitcherError("Process type {} is not a function".format(process_type),
+                                        self.parent_command)
     
     ###############################################################################################
     
@@ -71,7 +73,7 @@ class TrackingScraperSwitcher:
         # Get selector
         selector = self.parent_command.get("selector")
         if selector is None:
-            raise TrackingScraperSwitcherError("Selector not found in process by " + selector_type,
+            raise ScraperSwitcherError("Selector not found in process by " + selector_type,
                                                self.parent_command)
         
         # Check assertions
@@ -84,7 +86,7 @@ class TrackingScraperSwitcher:
         dom_elements = self.parent_element.find_elements(selector_type, selector)
         
         # Check requirements
-        required = self.parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+        required = self.parent_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
         if len(dom_elements) == 0:
             self.logger.debug("Command: %s", self.print_command(self.parent_command))
             self.logger.debug("No elements found, using required")
@@ -114,31 +116,31 @@ class TrackingScraperSwitcher:
         
         if isinstance(assertion, bool):
             # Set expected conditions depending if we want to switch to a frame or not
-            frame = self.parent_command.get("frame", TrackingScraperConfig.DEFAULT_KEY_FRAME)
+            frame = self.parent_command.get("frame", ScraperConfig.DEFAULT_KEY_FRAME)
             if frame:
                 conditions = EC.frame_to_be_available_and_switch_to_it((selector_type, selector))
             else:
                 conditions = EC.presence_of_all_elements_located((selector_type, selector))
             
             # Prepare waiter
-            waiter = WebDriverWait(self.driver, TrackingScraperConfig.DEFAULT_TIMEOUT_SHORT)
+            waiter = WebDriverWait(self.driver, ScraperConfig.DEFAULT_TIMEOUT_SHORT)
             
             if assertion:
                 # Assert at least one element found
                 try:
                     waiter.until(conditions)
                 except TimeoutException:
-                    raise TrackingScraperAssertionError(selector_type, True)
+                    raise ScraperAssertionError(selector_type, True)
             else:
                 # Assert no elements found
                 try:
                     waiter.until_not(conditions)
                 except TimeoutException:
                     result = False if self.parent_command.get("assert_save") else None
-                    raise TrackingScraperAssertionError(selector_type, result)
+                    raise ScraperAssertionError(selector_type, result)
             
             # Wait a little bit and return
-            time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
+            time.sleep(ScraperConfig.DEFAULT_WAIT_SHORT)
             return True
         
         # self.logger.debug("Command: %s", self.print_command())
@@ -150,13 +152,13 @@ class TrackingScraperSwitcher:
             # Get index
             index = child_command.get("index")
             if index is None:
-                raise TrackingScraperSwitcherError("Child index command not found", child_command)
+                raise ScraperSwitcherError("Child index command not found", child_command)
             
             # Check requirements
             if index >= len(elements):
                 self.logger.debug("Command: %s", self.print_command(child_command))
                 self.logger.debug("Child element at index %d, using required", index)
-                return not child_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+                return not child_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
             
             # Process child element at specified index
             # self.logger.debug("Child index: %d", index)
@@ -171,8 +173,7 @@ class TrackingScraperSwitcher:
         return True
     
     def generate_child_process(self, child_command, child_element):
-        return TrackingScraperSwitcher(self.driver, self.database, self.document, self.configuration,
-                                       self.logger, child_command, child_element).process()
+        return ScraperSwitcher(self, self.document, child_command, child_element).process()
     
     ###############################################################################################
     
@@ -185,7 +186,7 @@ class TrackingScraperSwitcher:
         # Get text separator
         delimiter = self.parent_command.get("delimiter")
         if delimiter is None:
-            raise TrackingScraperSwitcherError("No separator found", self.parent_command)
+            raise ScraperSwitcherError("No separator found", self.parent_command)
         
         # Split text
         elements = parent_text.split(delimiter)
@@ -214,11 +215,11 @@ class TrackingScraperSwitcher:
         # Get regular expression pattern
         pattern = self.parent_command.get("pattern")
         if pattern is None:
-            raise TrackingScraperSwitcherError("No regular expression found", self.parent_command)
+            raise ScraperSwitcherError("No regular expression found", self.parent_command)
         
         # Match expression with text
         regex    = re.search(pattern, text)
-        required = self.parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+        required = self.parent_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
         if regex is None:
             self.logger.debug("Command: %s", self.print_command(self.parent_command))
             self.logger.debug("Regular expression does not match text, using required")
@@ -242,7 +243,7 @@ class TrackingScraperSwitcher:
         
         attribute = self.parent_command.get("key")
         if attribute is None:
-            raise TrackingScraperSwitcherError("Save key not found", self.parent_command)
+            raise ScraperSwitcherError("Save key not found", self.parent_command)
         
         # Get value if it was defined, else get from DOM text
         value = self.parent_command.get("value")
@@ -250,7 +251,7 @@ class TrackingScraperSwitcher:
             value = self.get_parent_text()
         
         # Verify if value is an empty string
-        required = self.parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+        required = self.parent_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
         if isinstance(value, str) and len(value) == 0:
             self.logger.debug("Command: %s", self.print_command(self.parent_command))
             self.logger.debug("Text to save is empty, using required")
@@ -259,8 +260,7 @@ class TrackingScraperSwitcher:
         # Format type if necessary
         format_type = self.parent_command.get("format")
         if format_type is not None:
-            value = TrackingScraperConverter(self.database, self.document, self.configuration,
-                                             self.logger, value, format_type).convert()
+            value = ScraperConverter(self, self.document, value, format_type).convert()
             # If a value already exists in the attribute and it's a datetime object, join them
             if self.join_datetimes_if_possible(attribute, value):
                 return True
@@ -291,7 +291,7 @@ class TrackingScraperSwitcher:
         # Get attribute name
         attribute_name = self.parent_command.get("name")
         if attribute_name is None:
-            raise TrackingScraperSwitcherError("Attribute name not found", self.parent_command)
+            raise ScraperSwitcherError("Attribute name not found", self.parent_command)
         
         # Get attribute value from parent element
         attribute = self.parent_element.get_attribute(attribute_name)
@@ -300,8 +300,7 @@ class TrackingScraperSwitcher:
         child_command = self.parent_command.get("command")
         if child_command is not None:
             # self.logger.debug("ATTRIBUTE - Child command found")
-            return TrackingScraperSwitcher(self.driver, self.database, self.document, self.configuration,
-                                           self.logger, child_command, attribute).process()
+            return self.generate_child_process(child_command, attribute)
         # print(attribute)
         # self.logger.debug("ATTRIBUTE - No child command found")
         return attribute
@@ -315,7 +314,7 @@ class TrackingScraperSwitcher:
         # Get values to compare
         values = self.parent_command.get("values")
         if values is None:
-            raise TrackingScraperSwitcherError("Values to compare not found", self.parent_command)
+            raise ScraperSwitcherError("Values to compare not found", self.parent_command)
         
         # Check if text equals to value, or if it is in value list, then act accordingly
         success_commands = self.parent_command.get("success")
@@ -323,7 +322,7 @@ class TrackingScraperSwitcher:
         if success_commands is None and failure_commands is None:
             self.logger.debug("Command: %s", self.print_command(self.parent_command))
             self.logger.debug("No commands found, resorting to required")
-            return not self.parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+            return not self.parent_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
         
         return self.process_compare_commands(success_commands if text in values else failure_commands)
     
@@ -348,28 +347,29 @@ class TrackingScraperSwitcher:
             # Get value from attribute
             attribute = self.parent_command.get("attribute")
             if attribute is None:
-                raise TrackingScraperSwitcherError("No value or attribute to use as input",
-                                                   self.parent_command)
+                raise ScraperSwitcherError("No attribute to use as input", self.parent_command)
             value = self.document.get(attribute)
+            if value is None:
+                raise ScraperSwitcherError("No value to use as input", self.parent_command)
         
         try:
             # Clear element if specified
-            if self.parent_command.get("clean", TrackingScraperConfig.DEFAULT_KEY_CLEAN):
+            if self.parent_command.get("clean", ScraperConfig.DEFAULT_KEY_CLEAN):
                 self.parent_element.clear()
             # Write value
             self.parent_element.send_keys(value)
             # Send enter if specified
-            if self.parent_command.get("enter", TrackingScraperConfig.DEFAULT_KEY_ENTER):
+            if self.parent_command.get("enter", ScraperConfig.DEFAULT_KEY_ENTER):
                 self.parent_element.send_keys(Keys.ENTER)
         except ElementNotInteractableException:
-            raise TrackingScraperSwitcherError("Element is not interactable (because of Selenium)",
+            raise ScraperSwitcherError("Element is not interactable (because of Selenium)",
                                                self.parent_command)
         except AttributeError:
-            raise TrackingScraperSwitcherError("Element is not interactable (because of attribute)",
+            raise ScraperSwitcherError("Element is not interactable (because of attribute)",
                                                self.parent_command)
         
         # Return True to indicate everything is OK
-        time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
+        time.sleep(ScraperConfig.DEFAULT_WAIT_SHORT)
         return True
     
     ###############################################################################################
@@ -381,17 +381,17 @@ class TrackingScraperSwitcher:
             # Try to switch to alert
             alert = self.driver.switch_to.alert
             # Accept or dismiss action depending on command
-            if self.parent_command.get("action", TrackingScraperConfig.DEFAULT_KEY_ACTION):
+            if self.parent_command.get("action", ScraperConfig.DEFAULT_KEY_ACTION):
                 alert.accept()
             else:
                 alert.dismiss()
             # Check assertions
             if assertion is False:
                 result = False if self.parent_command.get("assert_save") else None
-                raise TrackingScraperAssertionError("alert", result)
+                raise ScraperAssertionError("alert", result)
         except NoAlertPresentException:
             if assertion is True:
-                raise TrackingScraperAssertionError("alert", True)
+                raise ScraperAssertionError("alert", True)
         
         # Return True to indicate everything is OK
         return True
@@ -400,7 +400,7 @@ class TrackingScraperSwitcher:
     
     def process_click(self):
         # Check requirements
-        required = self.parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+        required = self.parent_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
         if not self.parent_element.is_displayed():
             return not required
         if not self.parent_element.is_enabled():
@@ -411,38 +411,38 @@ class TrackingScraperSwitcher:
             self.parent_element.click()
             
             # Wait 2 or 5 seconds depending on "wait" attribute
-            wait_time = self.parent_command.get("wait", TrackingScraperConfig.DEFAULT_KEY_WAIT)
+            wait_time = self.parent_command.get("wait", ScraperConfig.DEFAULT_KEY_WAIT)
             if wait_time:
-                time.sleep(TrackingScraperConfig.DEFAULT_WAIT_LONG)
+                time.sleep(ScraperConfig.DEFAULT_WAIT_LONG)
             else:
-                time.sleep(TrackingScraperConfig.DEFAULT_WAIT_SHORT)
+                time.sleep(ScraperConfig.DEFAULT_WAIT_SHORT)
                 
             # Return True to indicate everything is OK
             return True
         except ElementNotInteractableException:
             return not required
         except TimeoutException:
-            raise TrackingScraperTimeoutError(False)
+            raise ScraperTimeoutError(False)
     
     ###############################################################################################
     
-    def process_ocr(self):
+    def process_image(self):
         # Reset image to default width and height
         self.set_element_attribute("width")
         self.set_element_attribute("height")
         
         # Get required
-        required = self.parent_command.get("required", TrackingScraperConfig.DEFAULT_KEY_REQUIRED)
+        required = self.parent_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
         # Get filename
-        filename = "image-{}.png".format(self.configuration.get("carrier"))
+        filename = "image-{}.png".format(self.config.get("carrier"))
         
         start_time = time.time()
         while True:
             # Take screenshot of element and process it
             if not self.parent_element.screenshot(filename):
-                raise TrackingScraperSwitcherError("Process OCR failed, could not take screenshot",
+                raise ScraperSwitcherError("Process OCR failed, could not take screenshot",
                                                    self.parent_command)
-            text = TrackingScraperImageProcessor(self.logger, self.parent_command, filename).execute()
+            text = ScraperImage(self, self.parent_command, filename).execute()
             if text is not None:
                 break
             
@@ -456,16 +456,16 @@ class TrackingScraperSwitcher:
             if result is not True:
                 self.logger.warning("Process OCR failure commands failed, using required")
                 return not required
-            time.sleep(TrackingScraperConfig.DEFAULT_WAIT_NORMAL)
+            time.sleep(ScraperConfig.DEFAULT_WAIT_NORMAL)
 
             # Check if we're out of time
-            if (time.time() - start_time) > TrackingScraperConfig.DEFAULT_TIMEOUT_NORMAL:
-                raise TrackingScraperTimeoutError(True)
+            if (time.time() - start_time) > ScraperConfig.DEFAULT_TIMEOUT_NORMAL:
+                raise ScraperTimeoutError(True)
         
         # Find element to write image text to
         element_command = self.parent_command.get("write")
         if not isinstance(element_command, dict):
-            raise TrackingScraperSwitcherError("Process OCR write command not found",
+            raise ScraperSwitcherError("Process OCR write command not found",
                                                self.parent_command)
         elements = self.generate_child_process(element_command, self.driver)
         
