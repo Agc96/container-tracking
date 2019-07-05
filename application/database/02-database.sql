@@ -2,7 +2,6 @@
 
 CREATE DATABASE tracking;
 GRANT ALL ON DATABASE tracking TO postgres;
-GRANT ALL ON DATABASE tracking TO webmaster;
 GRANT CONNECT ON DATABASE tracking TO webapp;
 
 -- Schema: tracking
@@ -20,8 +19,8 @@ CREATE TABLE tracking_enterprise (
 CREATE TABLE tracking_location (
 	id serial NOT NULL PRIMARY KEY,
 	name varchar(128) NOT NULL,
-	latitude double precision NOT NULL,
-	longitude double precision NOT NULL,
+	latitude double precision DEFAULT NULL,
+	longitude double precision DEFAULT NULL,
     created_at timestamp with time zone NOT NULL DEFAULT NOW()
 );
 
@@ -83,4 +82,3 @@ GRANT INSERT ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT UPDATE ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT DELETE ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO webapp;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO webmaster;

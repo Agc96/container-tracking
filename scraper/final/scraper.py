@@ -231,7 +231,6 @@ class Scraper:
                                 status_id, date, vehicle_id, vessel, voyage, estimated) VALUES
                                 (%(container)s, %(location)s, %(status)s, %(date)s, %(vehicle)s, %(vessel)s,
                                 %(voyage)s, %(estimated)s)""", movement)
-                    cur.commit()
                 conn.commit()
         except Exception:
             self.logger.exception("Error al guardar movimientos de contenedores")
@@ -247,7 +246,6 @@ class Scraper:
             with psycopg2.connect(**ScraperConfig.DATABASE_DSN) as conn:
                 with conn.cursor() as cur:
                     cur.execute("""UPDATE tracking_container SET processed = 3 WHERE id = %(id)s""", self.container)
-                    cur.commit()
                 conn.commit()
         except Exception:
             self.logger.exception("Error al guardar error")
