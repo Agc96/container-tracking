@@ -17,6 +17,9 @@ def login(request):
     # Verificar que no se haya iniciado sesión
     if request.user.is_authenticated:
         return redirect('container-index')
+    # Verificar que el usuario
+    if request.method != 'POST':
+        return redirect('index')
     # Verificar datos de entrada
     username = request.POST.get('username')
     if is_empty(username):
