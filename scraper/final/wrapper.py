@@ -12,6 +12,7 @@ from pymongo import MongoClient
 import json
 import logging
 import os
+import psycopg2
 import shutil
 import time
 
@@ -23,6 +24,8 @@ class ScraperProcess():
         self.carrier = carrier
         with open("../config/{}.json".format(self.carrier["id"]), encoding="UTF-8") as file:
             self.config = json.load(file)
+        # Get database instance
+        self.database = psycopg2.connect(**ScraperConfig.DATABASE_DSN)
         # Initialize logger
         self.logger = ScraperConfig.getlogger(self.carrier["id"])
         # Initialize counters
@@ -35,10 +38,11 @@ class ScraperProcess():
         start = time.time()
         while True:
             # Get container, if no container is found, finish execution
-            container = ScraperQuery.execute_one("""
-                SELECT * FROM tracking_container
-                WHERE carrier_id = %s AND status_id = 1
-                ORDER BY priority;""", (self.carrier["id"],))
+            with self.database:
+                with self.database.cursor() as cur:
+                    cur.execute("""SELECT * FROM tracking_container WHERE carrier_id = %s AND status_id = 1
+                        ORDER BY priority LIMIT 1;""", (self.carrier["id"],))
+                    container = cur.fetchone()
             # Verify if container exists
             if container is None:
                 # TODO: Wait 5 minutes
@@ -145,6 +149,7 @@ class ScraperProcess():
     
     def __del__(self):
         self.close_driver()
+        self.database.close()
 
 """
 This is the main process of the Tracking Scraper for Containers.
@@ -155,8 +160,12 @@ def execute_process(carrier):
     ScraperProcess(carrier).execute()
 
 if __name__ == "__main__":
-    # Get carriers
-    carriers = ScraperQuery.execute("SELECT id, name FROM tracking_enterprise WHERE carrier = true")
+    # Get carriers from database
+    with psycopg2.connect(**ScraperConfig.DATABASE_DSN) as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT id, name FROM tracking_enterprise WHERE carrier = true;")
+            carriers = cur.fetchall()
+    conn.close()
     # Open a process for every carrier
     processes = []
     for carrier in carriers:

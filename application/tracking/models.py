@@ -52,6 +52,9 @@ class Location(models.Model):
             return False, 'La longitud de la ubicación no es válida.'
         # Devolver una nueva instancia de la ubicación
         return True, cls.objects.create(name=name, latitude=latitude, longitude=longitude)
+    @staticmethod
+    def equals(first, second):
+        return (first == second) or ((first.latitude == second.latitude) and (first.longitude == second.longitude))
 
 class ContainerStatus(models.Model):
     name       = models.CharField(max_length=LENGTH_SHORT)
@@ -129,6 +132,9 @@ class Container(models.Model):
             })
             if not valid:
                 return False, 'Error en la ubicación de destino: ' + destination
+        # Validar que las dos ubicaciones no sean las mismas
+        if Location.equals(origin, destination):
+            return False, 'La ubicación de origen no puede ser igual a la ubicación de destino.'
         return True, cls.objects.create(code=code, carrier=carrier, origin=origin, destination=destination)
         # return True, 'Se creó correctamente el contenedor marítimo.'
     class Meta:

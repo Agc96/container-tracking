@@ -11,74 +11,68 @@
     {% include 'tracking/includes/navbar.html' %}
     {# Contenido #}
     <div class="offcanvas-wrapper">
-      <div class="container padding-top-1x">
+      <div class="container-fluid padding-top-1x">
         <h3 class="margin-bottom-1x">Búsqueda de contenedores marítimos</h3>
         {# Formulario de búsqueda #}
         <form class="bg-secondary pt-3 px-3" id="container-search">
           <div class="row">
             {# Código del contenedor #}
-            <div class="col-lg-4 col-sm-6 form-group order-lg-first">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group order-lg-0 order-md-first">
               <label for="code">Código del contenedor:</label>
-              <input type="text" name="code" id="code" class="form-control" placeholder="Máximo 11 caracteres (4 letras + 7 cifras)">
+              <input type="text" name="code" id="code" class="form-control" placeholder="Máximo 11 caracteres">
             </div>
             {# Empresa naviera #}
-            <div class="col-lg-4 col-sm-6 form-group">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group">
               <label for="carrier">Empresa naviera:</label>
               <select name="carrier" id="carrier" class="form-control placeholder">
-                <option value="" selected="">Seleccione una empresa naviera</option>
+                <option value="" selected="">Seleccione una empresa</option>
                 {% for carrier in carriers %}
                   <option value="{{ carrier.id }}">{{ carrier.name }}</option>
                 {% endfor %}
               </select>
             </div>
             {# Fechas de registro #}
-            <div class="col-lg-4 col-sm-6 form-group order-lg-first">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group order-lg-0 order-md-first">
               <label for="date-since">Registrados desde:</label>
               <input type="text" name="date-since" id="date-since" class="form-control date-input"
-                placeholder="Fecha de registro mínima del contenedor">
+                placeholder="Fecha mínima de registro">
             </div>
-            <div class="col-lg-4 col-sm-6 form-group order-lg-first">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group order-lg-0 order-md-first">
               <label for="date-until">Registrados hasta:</label>
               <input type="text" name="date-until" id="date-until" class="form-control date-input"
-                placeholder="Fecha de registro máxima del contenedor">
+                placeholder="Fecha máxima de registro">
             </div>
             {# Ubicaciones #}
-            <div class="col-lg-4 col-sm-6 form-group">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group">
               <label for="origin">Ubicación de origen:</label>
               <input type="text" name="origin" id="origin" class="form-control location-input"
-                placeholder="Busque una ubicación de origen...">
+                placeholder="Busque una ubicación…">
             </div>
-            <div class="col-lg-4 col-sm-6 form-group">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group">
               <label for="destination">Ubicación de destino:</label>
               <input type="text" name="destination" id="destination" class="form-control location-input"
-                placeholder="Busque una ubicación de destino...">
+                placeholder="Busque una ubicación…">
             </div>
-          </div>
-          {# Botones #}
-          <div class="row justify-content-end">
-            <div class="col-auto pb-3">
-              <a class="btn btn-primary m-0" href="{% url 'container-create' %}">
-                <i class="icon-plus"></i> Nuevo <span class="d-md-inline d-none">contenedor</span>
+            {# Botones #}
+            <div class="col text-right align-self-end">
+              <a class="btn btn-sm btn-primary mt-0 mb-3" href="{% url 'container-create' %}">
+                <i class="icon-plus"></i> Nuevo <span class="d-xl-inline d-lg-none d-sm-inline d-none">contenedor</span>
               </a>
-            </div>
-            <div class="col-auto pb-3">
-              <button type="button" class="btn btn-success m-0" data-toggle="modal" data-target="#import-modal">
+              <button type="button" class="btn btn-sm btn-success mt-0 mb-3" data-toggle="modal" data-target="#import-modal">
                 <i class="icon-upload"></i> Importar
               </button>
-            </div>
-            <div class="col-auto pb-3">
-              <button type="submit" class="btn btn-info m-0"><i class="icon-search"></i> Buscar</button>
+              <button type="submit" class="btn btn-sm btn-info mt-0 mb-3"><i class="icon-search"></i> Buscar</button>
             </div>
           </div>
         </form>
         {# Resultados de la búsqueda #}
         <h4 class="margin-top-1x">Resultados de la búsqueda</h4>
-        <hr class="margin-bottom-1x">
+        <hr class="mb-3">
         <div class="row align-items-center">
-          <div id="results-message" class="col">Presione <strong>Buscar</strong> para ver la lista de contenedores.</div>
-          <div class="col-auto">
-            <div class="btn-group m-0">
-              <button class="btn btn-success dropdown-toggle" id="container-export" type="button" data-toggle="dropdown" disabled="">
+          <div class="col-sm col-12" id="results-message">Presione <strong>Buscar</strong> para ver la lista de contenedores.</div>
+          <div class="col-sm-auto col-12 text-right">
+            <div class="btn-group mx-0 mt-sm-0 mt-2 mb-0">
+              <button class="btn btn-sm btn-success dropdown-toggle" id="container-export" type="button" data-toggle="dropdown" disabled="">
                 <i class="icon-download"></i> Exportar
               </button>
               <div class="dropdown-menu">
@@ -114,7 +108,7 @@
       <div class="col-md-6 col-12">
         <div class="card">
           <div class="card-header">
-            <h6>Contenedor {{code}}</h6>
+            <h6><a class="navi-link" href="{{url}}">Contenedor {{code}}</a></h6>
           </div>
           <div class="card-body">
             {{! Datos del contenedor }}
@@ -142,7 +136,7 @@
             </div>
             {{! Botones }}
             <div class="text-right">
-              <a class="btn btn-sm btn-primary" href="{{url}}">Ver detalles</a>
+              <a class="btn btn-sm btn-outline-secondary" href="{{url}}"><i class="icon-eye"></i> Ver detalles</a>
             </div>
           </div>
         </div>

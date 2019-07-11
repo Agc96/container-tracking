@@ -12,7 +12,6 @@
       <div class="container padding-top-1x">
         <h3 class="margin-bottom-1x">Ingreso de datos de contenedores</h3>
         <form id="container-save" action="{% url 'container-save' %}" method="post">
-          {% csrf_token %}
           <div class="row">
             {# Formulario de creación #}
             <div class="col-lg-5 col-sm-6">
@@ -31,52 +30,48 @@
                 </select>
               </div>
               {# Ubicación de origen #}
-              <div class="row">
-                <div class="col-12 form-group">
+              <div class="form-group row">
+                <div class="col-12">
                   <label for="origin">Ubicación de origen:</label>
                   <input type="text" id="origin-name" name="origin-name" class="form-control location-input"
-                    placeholder="Busque una ubicación de origen...">
+                    placeholder="Busque una ubicación de origen…">
                 </div>
-                <div class="col pr-2 form-group">
+                <div class="col mt-2 pr-2">
                   <input type="text" id="origin-latitude" name="origin-latitude" class="form-control location-latitude"
-                    placeholder="Latitud origen" disabled="">
+                    placeholder="Latitud de origen" disabled="">
                 </div>
-                <div class="col pl-2 form-group">
+                <div class="col mt-2 px-2">
                   <input type="text" id="origin-longitude" name="origin-longitude" class="form-control location-longitude"
-                    placeholder="Longitud origen" disabled="">
+                    placeholder="Longitud de origen" disabled="">
                 </div>
-                {% comment 'TODO: Agregar estos botones' %}
-                <div class="col-auto text-right">
-                  <button type="button" id="origin-edit" class="btn btn-info location-edit my-0" data-toggle="tooltip"
+                <div class="col-auto pl-2 text-right">
+                  <button type="button" class="btn btn-sm btn-info location-edit mx-0 mb-0" id="origin-edit" data-toggle="tooltip"
                     data-original-title="Editar manualmente"><i class="icon-paper"></i></button>
-                  <button type="button" id="origin-cancel" class="btn btn-danger location-cancel my-0" data-toggle="tooltip"
+                  <button type="button" class="btn btn-sm btn-danger location-cancel mx-0 mb-0" id="origin-cancel" data-toggle="tooltip"
                     data-original-title="Cancelar edición" style="display: none;"><i class="icon-cross"></i></button>
                 </div>
-                {% endcomment %}
               </div>
               {# Ubicación de destino #}
-              <div class="row">
-                <div class="col-12 form-group">
+              <div class="form-group row">
+                <div class="col-12">
                   <label for="destination">Ubicación de destino:</label>
                   <input type="text" id="destination-name" name="destination-name" class="form-control location-input"
-                    placeholder="Busque una ubicación de destino...">
+                    placeholder="Busque una ubicación de destino…">
                 </div>
-                <div class="col pr-2 form-group">
+                <div class="col mt-2 pr-2">
                   <input type="text" id="destination-latitude" name="destination-latitude" class="form-control location-latitude"
-                    placeholder="Latitud destino" disabled="">
+                    placeholder="Latitud de destino" disabled="">
                 </div>
-                <div class="col pl-2 form-group">
+                <div class="col mt-2 px-2">
                   <input type="text" id="destination-longitude" name="destination-longitude" class="form-control location-longitude"
-                    placeholder="Longitud destino" disabled="">
+                    placeholder="Longitud de destino" disabled="">
                 </div>
-                {% comment 'TODO: Agregar estos botones' %}
-                <div class="col-auto text-right">
-                  <button type="button" class="btn btn-info m-0" id="destination-edit" data-toggle="tooltip"
+                <div class="col-auto pl-2 text-right">
+                  <button type="button" class="btn btn-sm btn-info mx-0 mb-0" id="destination-edit" data-toggle="tooltip"
                     data-original-title="Editar manualmente"><i class="icon-paper"></i></button>
-                  <button type="button" class="btn btn-danger m-0" id="destination-cancel" data-toggle="tooltip"
+                  <button type="button" class="btn btn-sm btn-danger mx-0 mb-0" id="destination-cancel" data-toggle="tooltip"
                     data-original-title="Cancelar edición" style="display: none;"><i class="icon-cross"></i></button>
                 </div>
-                {% endcomment %}
               </div>
             </div>
             {# Mapa #}
@@ -85,8 +80,8 @@
             </div>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary mt-3 my-0">Guardar</button>
-            <a class="btn btn-outline-secondary mt-3 my-0" href="{% url 'container-index' %}">Cancelar</a>
+            <button class="btn btn-sm btn-primary mt-3 my-0" type="submit">Guardar</button>
+            <a class="btn btn-sm btn-outline-secondary mt-3 my-0" href="{% url 'container-index' %}">Cancelar</a>
           </div>
         </form>
       </div>

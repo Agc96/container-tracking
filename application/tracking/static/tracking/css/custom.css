@@ -108,7 +108,28 @@
   margin-bottom: 0;
 }
 
-/* Selects con placeholders */
+/* Inputs y botones */
+
+.form-group {
+  margin-bottom: 1rem !important;
+}
+.form-group label:not(.custom-file-label) {
+  padding-left: 0;
+  margin-bottom: .25rem;
+}
+.form-control {
+  border-radius: .25rem;
+}
+.form-control:not(textarea):not(.form-control-normal) {
+  height: 2.25rem;
+}
+select.form-control:not([size]):not([multiple]) {
+  height: 2.25rem;
+}
+
+.btn, .custom-file, .custom-file-input, .custom-file-label, .custom-file-label::after {
+  border-radius: .25rem;
+}
 
 select.placeholder {
   color: #9da9b9;
@@ -120,7 +141,7 @@ option[value=""] {
 /* Mapas */
 
 .maps {
-  min-height: 512px;
+  min-height: 320px;
   height: 100%;
   width: 100%;
 }

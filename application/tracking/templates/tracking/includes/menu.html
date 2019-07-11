@@ -12,7 +12,23 @@
   <nav class="offcanvas-menu">
     <ul class="menu">
       {# Contenedores #}
-      <li class="active"><a href="{% url 'container-index' %}">Contenedores marítimos</a></li>
+      {% url 'container-index' as container_index %}
+      {% url 'container-create' as container_create %}
+      <li class="has-children active">
+        <span><a href="{{container_index}}">Contenedores</a><span class="sub-menu-toggle"></span></span>
+        <ul class="offcanvas-submenu">
+          {% if request.path == container_index %}
+            <li class="active"><a href="{{container_index}}">Búsqueda</a></li>
+          {% else %}
+            <li><a href="{{container_index}}">Búsqueda</a></li>
+          {% endif %}
+          {% if request.path == container_create %}
+            <li class="active"><a href="{{container_create}}">Nuevo</a></li>
+          {% else %}
+            <li><a href="{{container_create}}">Nuevo</a></li>
+          {% endif %}
+        </ul>
+      </li>
       {# Opciones de usuario #}
       <div class="offcanvas-header">
         <h3 class="offcanvas-title">Opciones de usuario</h3>
