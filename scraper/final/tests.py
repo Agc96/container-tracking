@@ -1,5 +1,5 @@
-from .config import ScraperConfig
-from .scraper import Scraper
+from config import ScraperConfig
+from scraper import Scraper
 
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options

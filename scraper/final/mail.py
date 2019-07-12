@@ -30,7 +30,7 @@ class ScraperEmail:
     def send_message(self, content, subject):
         """Sends an email to the administrator."""
         # Parse message
-        self.data["content"] = content
+        self.data["content"] = content.format(**self.data)
         content = ("Hola {user},\n{content}\nSaludos,\nEl equipo de Tracking Scraper").format(**self.data)
         # Parse subject
         message = MIMEText(content, "plain", "UTF-8")

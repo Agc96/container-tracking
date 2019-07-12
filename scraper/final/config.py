@@ -5,15 +5,6 @@ import logging
 import os
 import sys
 
-def getenvint(key, default):
-    value = os.getenv(key)
-    if value is None:
-        return default
-    try:
-        return int(value)
-    except ValueError:
-        return default
-
 class ScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
     
@@ -101,8 +92,8 @@ class ScraperConfig:
     DEFAULT_KEY_LENGTH      = 4
     
     # Email configuration
-    EMAIL_SMTP      = os.getenv("EMAIL_SMTP", "smtp.gmail.com")
-    EMAIL_PORT      = getenvint("EMAIL_PORT", 465)
+    EMAIL_SMTP      = "smtp.gmail.com"
+    EMAIL_PORT      = 465
     EMAIL_FROM_USER = os.getenv("EMAIL_FROM_USER")
     EMAIL_FROM_PASS = os.getenv("EMAIL_FROM_PASS")
     EMAIL_TO_NAME   = os.getenv("EMAIL_TO_NAME", "Anthony")

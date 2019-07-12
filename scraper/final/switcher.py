@@ -20,6 +20,7 @@ class ScraperSwitcher:
     """
     
     def __init__(self, scraper, document, parent_command, parent_element = None):
+        self.database = scraper.database
         self.driver   = scraper.driver
         self.carrier  = scraper.carrier
         self.config   = scraper.config

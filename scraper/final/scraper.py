@@ -7,13 +7,13 @@ from selenium.common.exceptions import WebDriverException, TimeoutException
 
 import datetime
 import json
-import psycopg2
 import time
 
 class Scraper:
     """Main class for the Tracking Web Scraper."""
     
     def __init__(self, process, container):
+        self.database  = process.database
         self.driver    = process.driver
         self.carrier   = process.carrier
         self.config    = process.config
@@ -193,7 +193,8 @@ class Scraper:
                 continue
             
             # If it exists, copy result document and iterate these new multiple elements with it
-            multiple_result = self.process_movements(multiple_subcommand, subdocument, multiple_subelement)
+            multiple_result = self.process_movements(multiple_subcommand, subdocument,
+                                                     multiple_subelement)
             if multiple_result is not True:
                 self.logger.info("Movements: multiple subcommand failed")
                 return False
@@ -204,53 +205,56 @@ class Scraper:
     ###############################################################################################
     
     def finish_execution(self):
-        try:
-            with psycopg2.connect(**ScraperConfig.DATABASE_DSN) as conn:
-                with conn.cursor() as cur:
-                    # Actualizar contenedor
-                    self.container["priority"] += 1
-                    processed = self.config.get("processed", ScraperConfig.DEFAULT_KEY_PROCESSED)
-                    if processed:
-                        self.container["status_id"] = 2
-                    cur.execute("""UPDATE tracking_container SET status_id = %(status_id)s,
-                        arrival_date = %(arrival_date)s WHERE id = %(id)s""", self.container)
-                    # Guardar movimientos de los contenedores
-                    for movement in self.movements:
-                        cur.execute("""SELECT id FROM tracking_movement WHERE container_id = %(container)s
-                            AND status_id = %(status)s AND location_id = %(location)s""", movement)
-                        result = cur.fetchone()
-                        if result is not None:
-                            estimated = self.config.get("estimated", ScraperConfig.DEFAULT_KEY_ESTIMATED)
-                            if "estimated" not in movement:
-                                movement["estimated"] = estimated
-                            if "vessel" not in movement:
-                                movement["vessel"] = None
-                            if "voyage" not in movement:
-                                movement["voyage"] = None
-                            cur.execute("""INSERT INTO tracking_movement (container_id, location_id,
-                                status_id, date, vehicle_id, vessel, voyage, estimated) VALUES
-                                (%(container)s, %(location)s, %(status)s, %(date)s, %(vehicle)s, %(vessel)s,
-                                %(voyage)s, %(estimated)s)""", movement)
-                conn.commit()
-        except Exception:
-            self.logger.exception("Error al guardar movimientos de contenedores")
-        finally:
-            try:
-                conn.close()
-            except:
-                pass
+        with self.database as conn:
+            with conn.cursor() as cur:
+                # Actualizar contenedor
+                self.prepare_container_for_save()
+                cur.execute("""UPDATE tracking_container SET status_id = %(status_id)s,
+                    arrival_date = %(arrival_date)s, priority = %(priority)s
+                    WHERE id = %(id)s;""", self.container)
+                # Guardar movimientos de los contenedores
+                for movement in self.movements:
+                    self.prepare_movement_for_save(movement)
+                    # Verificar si el movimiento ya existe
+                    cur.execute("""SELECT id FROM tracking_movement WHERE container_id =
+                        %(container)s AND status_id = %(status)s AND location_id = %(location)s
+                        LIMIT 1;""", movement)
+                    result = cur.fetchone()
+                    if result is None:
+                        # Caso 1: El movimiento no existe, crear uno nuevo
+                        cur.execute("""INSERT INTO tracking_movement (container_id, location_id,
+                            status_id, date, vehicle_id, vessel, voyage, estimated) VALUES
+                            (%(container)s, %(location)s, %(status)s, %(date)s, %(vehicle)s,
+                            %(vessel)s,  %(voyage)s, %(estimated)s)""", movement)
+                    else:
+                        # Caso 2: El movimiento ya existe, actualizarlo
+                        movement["id"] = result["id"]
+                        cur.execute("""UPDATE tracking_movement SET date = %(date)s, vehicle_id =
+                            %(vehicle)s, vessel = %(vessel)s, voyage = %(voyage)s, estimated =
+                            %(estimated)s WHERE id = %(id)s;""", movement)
+            # conn.commit() TODO: Ver si es necesario
         return True
     
+    def prepare_container_for_save(self):
+        """Updates the container data before saving to database."""
+        # Aumentar en 1 la prioridad
+        self.container["priority"] += 1
+        # Colocar si fue procesado o no, dependiendo de la configuración
+        if self.config.get("processed", ScraperConfig.DEFAULT_KEY_PROCESSED):
+            self.container["status_id"] = 2
+    
+    def prepare_movement_for_save(self, movement):
+        """Updates the container movement data before saving to database."""
+        estimated = self.config.get("estimated", ScraperConfig.DEFAULT_KEY_ESTIMATED)
+        if "estimated" not in movement:
+            movement["estimated"] = estimated
+        if "vessel" not in movement:
+            movement["vessel"] = None
+        if "voyage" not in movement:
+            movement["voyage"] = None
+    
     def save_error(self):
-        try:
-            with psycopg2.connect(**ScraperConfig.DATABASE_DSN) as conn:
-                with conn.cursor() as cur:
-                    cur.execute("""UPDATE tracking_container SET processed = 3 WHERE id = %(id)s""", self.container)
-                conn.commit()
-        except Exception:
-            self.logger.exception("Error al guardar error")
-        finally:
-            try:
-                conn.close()
-            except:
-                pass
+        with self.database as conn:
+            with conn.cursor() as cur:
+                cur.execute("""UPDATE tracking_container SET processed = 3 WHERE id = %(id)s""", self.container)
+            # conn.commit() TODO: Ver si es necesario
