@@ -1,7 +1,6 @@
 from errors import ScraperError
 from config import ScraperConfig
 from mail import ScraperEmail
-from query import ScraperQuery
 from scraper import Scraper
 
 from datetime import datetime

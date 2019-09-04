@@ -67,8 +67,8 @@ class ContainerStatus(models.Model):
 class Container(models.Model):
     code         = models.CharField(max_length=LENGTH_CONTAINER)
     carrier      = models.ForeignKey(Enterprise, on_delete=DEFAULT_ON_DELETE)
-    origin       = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE, related_name='origin')
-    destination  = models.ForeignKey(Location, on_delete=DEFAULT_ON_DELETE, related_name='destination')
+    origin       = models.ForeignKey(Location, default=None, on_delete=DEFAULT_ON_DELETE, related_name='origin')
+    destination  = models.ForeignKey(Location, default=None, on_delete=DEFAULT_ON_DELETE, related_name='destination')
     arrival_date = models.DateTimeField(default=None)
     status       = models.ForeignKey(ContainerStatus, on_delete=DEFAULT_ON_DELETE, default=DEFAULT_STATUS)
     priority     = models.IntegerField(default=1)
@@ -167,6 +167,6 @@ class Movement(models.Model):
     estimated  = models.BooleanField()
     created_at = models.DateTimeField(default=timezone.now)
     def __str__(self):
-        return '{}: {} at {}'.format(container.name, status.name, date.strftime(DATETIME_FORMAT))
+        return '{}: {} at {}'.format(self.container.name, self.status.name, self.date.strftime(DATETIME_FORMAT))
     class Meta:
         ordering = ['id', 'date']

@@ -14,16 +14,15 @@ export EMAIL_FROM_PASS=
 # TODO: Colocar el correo electrónico del webmaster
 export EMAIL_TO_USER=
 
-# Iniciar el Web Scraper
 cd final
 
+# Iniciar los tests del servidor de correo electrónico
 if [ "$1" = "mail" ]; then
-    # Iniciar los tests del servidor de correo electrónico
     python3 mail.py
+# Iniciar los tests del Web Scraper
 elif [ "$1" = "tests" ]; then
-    # Iniciar los tests del Web Scraper
     python3 tests.py
+# Iniciar el Web Scraper
 else
-    # Iniciar el Web Scraper
     python3 wrapper.py
 fi

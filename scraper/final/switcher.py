@@ -435,7 +435,7 @@ class ScraperSwitcher:
         # Get required
         required = self.parent_command.get("required", ScraperConfig.DEFAULT_KEY_REQUIRED)
         # Get filename
-        filename = "image-{}.png".format(self.config.get("carrier"))
+        filename = "image-{}.png".format(self.carrier.get("id"))
         
         start_time = time.time()
         while True:

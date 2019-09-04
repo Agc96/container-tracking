@@ -3,3 +3,6 @@ driver
 
 # Error-related files
 errors
+
+# Images
+image-*.png

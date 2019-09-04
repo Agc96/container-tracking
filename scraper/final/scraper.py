@@ -252,6 +252,8 @@ class Scraper:
             movement["vessel"] = None
         if "voyage" not in movement:
             movement["voyage"] = None
+        if "vehicle" not in movement:
+            movement["vehicle"] = None
     
     def save_error(self):
         with self.database as conn:
