@@ -98,6 +98,7 @@ class TrackingPredictor:
                     # Predict arrival date
                     X = [container["carrier"], origin[0], origin[1], destination[0], destination[1]]
                     Y = self.regr.predict(X)
+                    # TODO
                     arrival = datetime.datetime.now()
                     # Save the container
                     with conn.cursor() as cur:

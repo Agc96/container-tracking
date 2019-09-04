@@ -42,5 +42,5 @@ def detail(request, container_id):
         'container': container,
         'movements': movements,
         'locations': json.dumps(locations),
-        'maps': os.getenv('TRACKING_MAPS_KEY', '')
+        'maps': os.getenv('MAPS_KEY', '')
     })

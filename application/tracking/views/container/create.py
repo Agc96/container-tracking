@@ -15,7 +15,7 @@ def create(request):
     return render(request, 'tracking/container/create.html', {
         'fullname': request.user.first_name + ' ' + request.user.last_name,
         'carriers': Enterprise.objects.filter(carrier=True),
-        'maps': os.getenv('TRACKING_MAPS_KEY', '')
+        'maps': os.getenv('MAPS_KEY', '')
     })
 
 def save(request):

@@ -75,7 +75,17 @@ CREATE TABLE tracking_movement (
     created_at timestamp with time zone NOT NULL DEFAULT NOW()
 );
 
--- Permissions for the Web application
+-- Permissions for the scraper
+GRANT USAGE ON SCHEMA public TO scraper;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO scraper;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO scraper;
+
+-- Permissions for the predictor
+GRANT USAGE ON SCHEMA public TO predictor;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO predictor;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO predictor;
+
+-- Permissions for the webapp
 GRANT USAGE ON SCHEMA public TO webapp;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO webapp;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO webapp;
