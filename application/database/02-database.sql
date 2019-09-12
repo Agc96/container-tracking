@@ -1,11 +1,15 @@
 -- Database: tracking
-
 CREATE DATABASE tracking;
 GRANT ALL ON DATABASE tracking TO postgres;
-GRANT CONNECT ON DATABASE tracking TO webapp;
+REVOKE ALL ON DATABASE tracking FROM scraper;
+REVOKE ALL ON DATABASE tracking FROM predict;
+REVOKE ALL ON DATABASE tracking FROM webapp;
 
--- Schema: tracking
--- OJO: Cambiar la base de datos actual de "postgres" a "tracking" (\c tracking)
+-- OJO: Cambiar la base de datos actual de "postgres" a "tracking"
+-- \c tracking
+
+-- Schema: public
+CREATE SCHEMA public;
 
 -- Table: Carriers
 CREATE TABLE tracking_enterprise (
@@ -74,6 +78,11 @@ CREATE TABLE tracking_movement (
     estimated boolean NOT NULL,
     created_at timestamp with time zone NOT NULL DEFAULT NOW()
 );
+
+-- General permissions
+GRANT CONNECT ON DATABASE tracking TO scraper;
+GRANT CONNECT ON DATABASE tracking TO predictor;
+GRANT CONNECT ON DATABASE tracking TO webapp;
 
 -- Permissions for the scraper
 GRANT USAGE ON SCHEMA public TO scraper;

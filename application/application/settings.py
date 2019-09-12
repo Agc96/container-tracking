@@ -24,7 +24,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv("DEBUG"))
 
-ALLOWED_HOSTS = ['3.223.148.3', 'ec2-3-223-148-3.compute-1.amazonaws.com']
+ALLOWED_HOSTS = ['ec2-3-223-148-3.compute-1.amazonaws.com', '3.223.148.3', 'localhost']
 
 # Application definition
 
@@ -120,3 +120,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = '/var/www/tracking/static/'
