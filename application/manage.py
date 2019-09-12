@@ -8,7 +8,7 @@ def main():
     try:
         from dotenv import load_dotenv
     except ImportError as ex:
-        raise ImportError("Couldn't import python-dotenv." + message) from ex
+        raise ImportError("Couldn't import python-dotenv. " + message) from ex
     try:
         from django.core.management import execute_from_command_line
     except ImportError as ex:

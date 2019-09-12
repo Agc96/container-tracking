@@ -15,18 +15,16 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%f4*c-9#f+*&(e3)qtw1lo4d3%r+er76emq-1#(z-+xq7vo1@@'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv("DEBUG"))
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['3.223.148.3', 'ec2-3-223-148-3.compute-1.amazonaws.com']
 
 # Application definition
 
@@ -77,10 +75,10 @@ WSGI_APPLICATION = 'application.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tracking',
-        'HOST': 'localhost', # TODO: Reemplazar por la URL de AWS cuando se haga el despliegue
-        'USER': 'webapp',
-        'PASSWORD': 'pass' # TODO: Reemplazar 'pass' con la contraseña para la webapp
+        'NAME': os.getenv('DB_NAME', 'tracking'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'USER': os.getenv('DB_USER', 'webapp'),
+        'PASSWORD': os.getenv('DB_PASS')
     }
 }
 
