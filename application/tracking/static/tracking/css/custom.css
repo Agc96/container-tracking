@@ -101,11 +101,11 @@
 .card-container {
   margin-top: 1rem;
 }
-.card-container .card {
+.card-container > div {
   margin-bottom: 1rem;
 }
-.card-container:not(.row) .card:last-child {
-  margin-bottom: 0;
+.card-container .card {
+  height: 100%;
 }
 
 /* Inputs y botones */
@@ -141,7 +141,7 @@ option[value=""] {
 /* Mapas */
 
 .maps {
-  min-height: 320px;
+  min-height: 400px;
   height: 100%;
   width: 100%;
 }

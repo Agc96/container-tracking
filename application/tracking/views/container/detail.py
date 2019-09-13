@@ -1,12 +1,13 @@
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render, redirect
 
-from ...models import Container, Movement
+from ...models import Container, Movement, MovementStatus
 
 import json
 import os
 
+SCHARFF = 4
 DOUBLE_ROUND_DIGITS = 4
 
 def detail(request, container_id):
@@ -23,6 +24,12 @@ def detail(request, container_id):
     movements = Movement.objects.filter(container=container)
     locations = []
     for movement in movements:
+        # Formatear estado del movimiento
+        try:
+            # TODO: ID de la empresa debe guardarse en un registro 1 a 1 con el usuario de Django
+            movement.translation = MovementStatus.objects.get(status=movement.status.status, enterprise_id=SCHARFF)
+        except (ObjectDoesNotExist, MultipleObjectsReturned):
+            movement.translation = movement.status
         # Formatear ubicación, latitud y longitud
         location = movement.location.name
         movement.formatted_location = location.replace('\n', '. ')

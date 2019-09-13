@@ -5,7 +5,7 @@ INSERT INTO tracking_enterprise (name, carrier) VALUES ('Scharff', FALSE);
 
 INSERT INTO tracking_container_status (name) VALUES ('Pendiente');
 INSERT INTO tracking_container_status (name) VALUES ('Procesado');
-INSERT INTO tracking_container_status (name) VALUES ('Estimado');
+INSERT INTO tracking_container_status (name) VALUES ('Procesado y estimado');
 -- INSERT INTO tracking_container_status (name) VALUES ('Sin estimación');
 INSERT INTO tracking_container_status (id, name) VALUES (0, 'Error al procesar');
 

@@ -83,7 +83,7 @@
           </div>
         </div>
         {# Lista de contenedores #}
-        <div id="container-results" class="card-container row"></div>
+        <div class="card-container row" id="container-results"></div>
         {# Paginado #}
         <div class="entry-navigation d-none">
           <div class="column text-left">
@@ -130,7 +130,7 @@
               </div>
               {{#arrival_date}}
               <div class="card-item">
-                <strong>Fecha estimada de llegada:</strong> {{arrival_date}} ({{arrival_time}} días)
+                <strong>Fecha estimada de llegada:</strong> {{arrival_date}} {{! (arrival_time días) }}
               </div>
               {{/arrival_date}}
             </div>
@@ -241,19 +241,26 @@
         function beautifyContainer(container) {
           // Formatear fecha de registro/creación
           container.created_at = formatDate(container.created_at);
+          if (container.arrival_date) {
+            container.arrival_date = formatDate(container.arrival_date);
+          } else {
+            container.arrival_date = 'No especificado';
+          }
           // Formatear estado del contenedor
           switch (container.status) {
-            case 1:
+            case 1: // Pendiente
               container.status_color = 'warning';
               break;
-            case 2:
+            case 2: // Procesado
+              container.status_color = 'primary';
+              break;
+            case 3: // Procesado y estimado
+            case 4: // Finalizado
               container.status_color = 'success';
               break;
-            case 3:
+            default: // Error
               container.status_color = 'danger';
               break;
-            default:
-              container.status_color = 'default';
           }
           return container;
         }

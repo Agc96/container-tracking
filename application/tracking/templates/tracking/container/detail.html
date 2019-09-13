@@ -10,60 +10,61 @@
     {# Contenido #}
     <div class="offcanvas-wrapper">
       <div class="container padding-top-1x">
-        <h3 class="margin-bottom-1x">Ver detalles del contenedor {{container.code}}</h3>
-        <div class="row">
-          <div class="col-lg-6 col-12">
-            {# Detalles del contenedor #}
-            <div class="margin-bottom-1x">
-              <div><strong>Empresa naviera:</strong> {{container.carrier}}</div>
-              <div><strong>Ubicación de origen:</strong> {{container.origin}}</div>
-              <div><strong>Ubicación de destino:</strong> {{container.destination}}</div>
-              {% if container.arrival_date %}
-                <div><strong>Tiempo estimado de llegada</strong>: {{container.arrival_time}} días</div>
-                <div><strong>Fecha estimada de llegada</strong>: {{container.arrival_date}}</div>
-              {% endif %}
-            </div>
-            {# Lista de movimientos #}
-            <h5>Lista de movimientos</h5>
-            {% if movements %}
-            <div class="card-container" id="container-movements">
-              {% for movement in movements %}
-              <div class="card">
-                <div class="card-header">
-                  <h6>{{movement.status}}</h6>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <strong>Fecha:</strong> {{movement.date}} {% if movement.estimated %}(estimada){% endif %}
-                    </div>
-                    <div class="col-12"><strong>Ubicación:</strong> {{movement.formatted_location}}</div>
-                    <div class="col-6"><strong>Latitud:</strong> {{movement.formatted_latitude}}</div>
-                    <div class="col-6"><strong>Longitud:</strong> {{movement.formatted_longitude}}</div>
-                    <div class="col-12"><strong>Vía de transporte:</strong> {{movement.vehicle}}</div>
-                    {% if movement.vessel %}
-                      <div class="col-12"><strong>Buque:</strong> {{movement.vessel}}</div>
-                    {% endif %}
-                    {% if movement.voyage %}
-                      <div class="col-12"><strong>Número de viaje:</strong> {{movement.voyage}}</div>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
+        <h3 class="margin-bottom-1x">Detalles del contenedor {{container.code}}</h3>
+        <div class="row margin-bottom-1x">
+          <div class="col-md-6 col-12"><strong>Empresa naviera:</strong> {{container.carrier}}</div>
+          <div class="col-md-6 col-12"><strong>Ubicación de origen:</strong> {{container.origin}}</div>
+          <div class="col-md-6 col-12"><strong>Ubicación de destino:</strong> {{container.destination}}</div>
+          <div class="col-md-6 col-12">
+            <strong>Fecha estimada de llegada:</strong>
+            {% if container.arrival_date %}
+              {{container.arrival_date}}
             {% else %}
-            <p>No se encontraron movimientos para este contenedor.</p>
+              No especificado
             {% endif %}
           </div>
-          {# Mapa #}
-          <div class="col-lg-6 col-12 maps-container">
-            <div id="movements-map" class="maps"></div>
-          </div>
         </div>
+        {% if movements %}
+          {# Mapa del recorrido #}
+          <h5 class="mb-3">Mapa del recorrido</h5>
+          <div id="movements-map" class="maps"></div>
+          {# Lista de movimientos #}
+          <h5 class="margin-top-1x">Lista de movimientos</h5>
+          <div class="card-container row" id="container-movements">
+            {% for movement in movements %}
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="card" style="height: 100%;">
+                <div class="card-header">
+                  <h6>{{movement.translation}}</h6>
+                </div>
+                <div class="card-body">
+                  <div>
+                    <strong>Fecha:</strong> {{movement.date}}
+                    {% if movement.estimated %}(estimada){% endif %}
+                  </div>
+                  <div>
+                    <strong>Ubicación:</strong> {{movement.formatted_location}}<br>
+                    ({{movement.formatted_latitude}}, {{movement.formatted_longitude}})
+                  </div>
+                  <div><strong>Vía de transporte:</strong> {{movement.vehicle}}</div>
+                  {% if movement.vessel %}
+                    <div><strong>Buque:</strong> {{movement.vessel}}</div>
+                  {% endif %}
+                  {% if movement.voyage %}
+                    <div><strong>Número de viaje:</strong> {{movement.voyage}}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <h5>Lista de movimientos</h5>
+          <p>No se encontraron movimientos para este contenedor.</p>
+        {% endif %}
         <div class="text-center">
-          <!-- a class="btn btn-primary mt-3 my-0" href="#">Exportar</a -->
-          <a class="btn btn-outline-secondary mt-3 my-0" href="{% url 'container-index' %}">Regresar</a>
+          <!-- a class="btn btn-sm btn-primary mt-3 my-0" href="#">Exportar</a -->
+          <a class="btn btn-sm btn-outline-secondary my-0" href="{% url 'container-index' %}">Regresar</a>
         </div>
       </div>
     </div>
@@ -76,7 +77,7 @@
         var mapContainer = document.getElementById('movements-map');
         var map = new google.maps.Map(mapContainer, {
           center: { lat: 0, lng: 0 },
-          zoom: 3
+          zoom: 2
         });
         // Obtener la lista de marcadores
         var markers = [
@@ -132,6 +133,8 @@
         return Math.abs(number1 - number2) < precision;
       }
     </script>
+    {% if movements %}
     <script src="https://maps.googleapis.com/maps/api/js?key={{maps}}&callback=createMap" async defer></script>
+    {% endif %}
   </body>
 </html>

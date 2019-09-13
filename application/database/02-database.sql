@@ -81,7 +81,7 @@ CREATE TABLE tracking_movement (
 
 -- General permissions
 GRANT CONNECT ON DATABASE tracking TO scraper;
-GRANT CONNECT ON DATABASE tracking TO predictor;
+GRANT CONNECT ON DATABASE tracking TO predict;
 GRANT CONNECT ON DATABASE tracking TO webapp;
 
 -- Permissions for the scraper
@@ -90,9 +90,9 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO scraper;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO scraper;
 
 -- Permissions for the predictor
-GRANT USAGE ON SCHEMA public TO predictor;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO predictor;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO predictor;
+GRANT USAGE ON SCHEMA public TO predict;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO predict;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO predict;
 
 -- Permissions for the webapp
 GRANT USAGE ON SCHEMA public TO webapp;

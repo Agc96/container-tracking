@@ -18,7 +18,6 @@ from django.shortcuts import redirect
 from django.urls import include, path
 
 urlpatterns = [
-    path('tracking/', include('tracking.urls')),
-    path('admin/', admin.site.urls),
-    path('', lambda request: redirect('index'))
+    path('', include('tracking.urls')),
+    path('admin/', admin.site.urls)
 ]
