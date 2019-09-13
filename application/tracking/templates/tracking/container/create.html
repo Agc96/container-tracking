@@ -109,6 +109,7 @@
             });
           },
           minLength: 3,
+          delay: 500,
           select: function (event, ui) {
             var context = $(this).parents('.row').first();
             context.find('.location-latitude').val(ui.item.latitude);
