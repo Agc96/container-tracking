@@ -142,7 +142,6 @@ class ScraperConverter:
                     INSERT INTO tracking_movement_status (status, name, enterprise_id)
                     VALUES (%s, %s, %s) RETURNING id""", (0, self.text, self.carrier["id"]))
                 result = cur.fetchone()
-            # conn.commit() TODO: Ver si es necesario
         return result["id"] if result is not None else None
     
     def convert_to_vehicle(self):

@@ -1,5 +1,4 @@
--- TODO: Reemplazar 'pass' con la contraseña para la conexión a BD desde el sistema Web
+-- TODO: Reemplazar 'pass' con las contraseñas para la conexión a BD
+CREATE USER scraper WITH ENCRYPTED PASSWORD 'pass';
+CREATE USER predict WITH ENCRYPTED PASSWORD 'pass';
 CREATE USER webapp WITH ENCRYPTED PASSWORD 'pass';
-
--- TODO: Reemplazar 'pass' con la contraseña para el administrador de base de datos
-CREATE USER webmaster with ENCRYPTED PASSWORD 'pass';

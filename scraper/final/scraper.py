@@ -12,6 +12,9 @@ import time
 class Scraper:
     """Main class for the Tracking Web Scraper."""
     
+    PROCESSED = 2
+    ERROR = 0
+    
     def __init__(self, process, container):
         self.database  = process.database
         self.driver    = process.driver
@@ -241,7 +244,7 @@ class Scraper:
         self.container["priority"] += 1
         # Colocar si fue procesado o no, dependiendo de la configuración
         if self.config.get("processed", ScraperConfig.DEFAULT_KEY_PROCESSED):
-            self.container["status_id"] = 2
+            self.container["status_id"] = self.PROCESSED
     
     def prepare_movement_for_save(self, movement):
         """Updates the container movement data before saving to database."""
@@ -258,5 +261,5 @@ class Scraper:
     def save_error(self):
         with self.database as conn:
             with conn.cursor() as cur:
-                cur.execute("""UPDATE tracking_container SET processed = 3 WHERE id = %(id)s""", self.container)
-            # conn.commit() TODO: Ver si es necesario
+                cur.execute("UPDATE tracking_container SET status_id = %s WHERE id = %s",
+                            (self.ERROR, self.container["id"]))

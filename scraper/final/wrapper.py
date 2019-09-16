@@ -18,6 +18,8 @@ import time
 class ScraperProcess():
     """Process wrapper for an automatic extraction using the Tracking Web Scraper for containers."""
     
+    SLEEP_TIME = 60 # seconds
+    
     def __init__(self, carrier):
         # Get carrier configuration
         self.carrier = carrier
@@ -44,8 +46,8 @@ class ScraperProcess():
                     container = cur.fetchone()
             # Verify if container exists
             if container is None:
-                # TODO: Wait 5 minutes
-                # time.sleep(300)
+                # TODO: Wait a minute to find a container
+                # time.sleep(self.SLEEP_TIME)
                 # continue
                 self.send_mail(ScraperEmail.FINISH_MESSAGE, self.total_counter)
                 break

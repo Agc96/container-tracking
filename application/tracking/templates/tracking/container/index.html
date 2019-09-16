@@ -69,7 +69,7 @@
         <h4 class="margin-top-1x">Resultados de la búsqueda</h4>
         <hr class="mb-3">
         <div class="row align-items-center">
-          <div class="col-sm col-12" id="results-message">Presione <strong>Buscar</strong> para ver la lista de contenedores.</div>
+          <div class="col-sm col-12" id="results-message">Cargando contenedores...</div>
           <div class="col-sm-auto col-12 text-right">
             <div class="btn-group mx-0 mt-sm-0 mt-2 mb-0">
               <button class="btn btn-sm btn-success dropdown-toggle" id="container-export" type="button" data-toggle="dropdown" disabled="">
@@ -319,6 +319,8 @@
           }
         });
 
+        // Realizar la búsqueda apenas termine de cargar la página
+        $('#container-search').submit();
       });
     </script>
   </body>
