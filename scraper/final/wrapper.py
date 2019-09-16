@@ -1,24 +1,25 @@
-from errors import ScraperError
-from config import ScraperConfig
-from mail import ScraperEmail
-from scraper import Scraper
-
-from datetime import datetime
-from multiprocessing import Process
-from selenium.webdriver import Chrome, ChromeOptions
-from pymongo import MongoClient
-
 import json
 import logging
 import os
-import psycopg2
 import shutil
 import time
+from multiprocessing import Process
+
+import psycopg2
+from dotenv import load_dotenv
+from selenium.webdriver import Chrome, ChromeOptions
+
+from config import ScraperConfig
+from errors import ScraperError
+from mail import ScraperEmail
+from scraper import Scraper
 
 class ScraperProcess():
     """Process wrapper for an automatic extraction using the Tracking Web Scraper for containers."""
     
     SLEEP_TIME = 60 # seconds
+    MAX_BACKOFF = 128 # minutes (assuming ScraperConfig.ROUNDS_FAILURE_WAIT is 60 seconds)
+    MIN_FAIL_TO_SEND_EMAIL = 5 # after 5 errors, send an email
     
     def __init__(self, carrier):
         # Get carrier configuration
@@ -26,7 +27,7 @@ class ScraperProcess():
         with open("../config/{}.json".format(self.carrier["id"]), encoding="UTF-8") as file:
             self.config = json.load(file)
         # Get database instance
-        self.database = psycopg2.connect(**ScraperConfig.DATABASE_DSN)
+        self.database = ScraperConfig.get_database()
         # Initialize logger
         self.logger = ScraperConfig.getlogger(self.carrier["id"])
         # Initialize counters
@@ -46,11 +47,11 @@ class ScraperProcess():
                     container = cur.fetchone()
             # Verify if container exists
             if container is None:
-                # TODO: Wait a minute to find a container
-                # time.sleep(self.SLEEP_TIME)
-                # continue
-                self.send_mail(ScraperEmail.FINISH_MESSAGE, self.total_counter)
-                break
+                self.logger.info("Waiting a minute to find a container...")
+                time.sleep(self.SLEEP_TIME)
+                continue
+                # self.send_mail(ScraperEmail.FINISH_MESSAGE, self.total_counter)
+                # break
             # Extract container information with the Tracking Scraper
             if not self.execute_scraper(container):
                 break
@@ -81,7 +82,8 @@ class ScraperProcess():
             self.fail_counter += 1
             # Create new driver
             self.create_driver(True)
-            self.fail_backoff *= 2
+            if self.fail_backoff <= self.MAX_BACKOFF:
+                self.fail_backoff *= 2
             # Continue execution
             return True
         
@@ -98,7 +100,8 @@ class ScraperProcess():
         """Create or recreate the WebDriver. If error = True, take a screenshot of the page for debugging."""
         # Send mail and take screenshot if an error was found
         if error is True:
-            self.send_mail(ScraperEmail.ERROR_MESSAGE, self.fail_counter)
+            if self.fail_counter >= self.MIN_FAIL_TO_SEND_EMAIL:
+                self.send_mail(ScraperEmail.ERROR_MESSAGE, self.fail_counter)
             self.screenshot()
             self.save_ocr_image()
         # Close driver if there was one open
@@ -107,10 +110,10 @@ class ScraperProcess():
             time.sleep(ScraperConfig.ROUNDS_FAILURE_WAIT * self.fail_backoff)
         
         # Create new webdriver
-        # TODO: chromeoptions = ChromeOptions()
-        # chromeoptions.headless = True
-        self.driver = Chrome(executable_path = ScraperConfig.PATH_CHROME) #options = chromeoptions
-        self.driver.maximize_window()
+        options = ChromeOptions()
+        options.set_headless(True)
+        self.driver = Chrome(executable_path=ScraperConfig.PATH_CHROME, options=options)
+        # self.driver.maximize_window()
         self.driver.set_page_load_timeout(ScraperConfig.DEFAULT_TIMEOUT_LONG)
     
     def close_driver(self):
@@ -130,7 +133,7 @@ class ScraperProcess():
             print("Screenshot could not be taken:", str(ex))
         # Save the page's HTML content
         try:
-            with open(filename + ".html", "w", encoding = "UTF-8") as file:
+            with open(filename + ".html", "w", encoding="UTF-8") as file:
                 file.write(self.driver.page_source)
         except Exception as ex:
             print("HTML source could not be saved:", str(ex))
@@ -161,8 +164,9 @@ def execute_process(carrier):
     ScraperProcess(carrier).execute()
 
 if __name__ == "__main__":
+    load_dotenv()
     # Get carriers from database
-    with psycopg2.connect(**ScraperConfig.DATABASE_DSN) as conn:
+    with ScraperConfig.get_database() as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT id, name FROM tracking_enterprise WHERE carrier = true;")
             carriers = cur.fetchall()

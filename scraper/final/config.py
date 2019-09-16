@@ -1,9 +1,10 @@
-from datetime import datetime
-from psycopg2.extras import RealDictCursor
-
+import datetime
 import logging
 import os
 import sys
+
+import psycopg2
+import psycopg2.extras
 
 class ScraperConfig:
     """Constants and basic configuration for the Tracking Web Scraper."""
@@ -18,16 +19,16 @@ class ScraperConfig:
     PATH_FIREFOX = "C:/WebDriver/geckodriver"  if sys.platform == "win32" else "/usr/local/bin/geckodriver"
     
     # Default database and table names
-    DATABASE_DSN = {
-        "host": os.getenv("TRACKING_DB_HOST", "localhost"),
-        "dbname": os.getenv("TRACKING_DB_NAME", "tracking"),
-        "user": os.getenv("TRACKING_DB_USERNAME", "webapp"),
-        "password": os.getenv("TRACKING_DB_PASSWORD", ""),
-        "cursor_factory": RealDictCursor
-    }
+    @staticmethod
+    def get_database():
+        return psycopg2.connect(cursor_factory=psycopg2.extras.RealDictCursor,
+                                host=os.getenv("DB_HOST", "localhost"),
+                                dbname=os.getenv("DB_NAME", "tracking"),
+                                user=os.getenv("DB_USER", "scraper"),
+                                password=os.getenv("DB_PASS"))
     
     # Default configuration Nominatim geocode API service
-    GEOCODING_USER_AGENT    = "Tracking Scraper for Containers"
+    GEOCODING_USER_AGENT = "Tracking Scraper for Containers"
 
     # Default logging configuration
     @staticmethod
@@ -36,7 +37,7 @@ class ScraperConfig:
         # Prepare formatter
         formatter = logging.Formatter("[%(levelname)s %(asctime)s] %(message)s")
         # Prepare handler filename and logger name
-        today    = datetime.now().strftime("%Y%m%d")
+        today    = datetime.datetime.now().strftime("%Y%m%d")
         filename = "../logs/scraper-{}-{}.log".format(carrier, today)
         logname  = "scraper-{}".format(carrier)
         # Prepare handler
@@ -90,11 +91,3 @@ class ScraperConfig:
     DEFAULT_KEY_NUMBERS     = False
     # Default value for the key "length" in image processing (desired text length)
     DEFAULT_KEY_LENGTH      = 4
-    
-    # Email configuration
-    EMAIL_SMTP      = "smtp.gmail.com"
-    EMAIL_PORT      = 465
-    EMAIL_FROM_USER = os.getenv("EMAIL_FROM_USER")
-    EMAIL_FROM_PASS = os.getenv("EMAIL_FROM_PASS")
-    EMAIL_TO_NAME   = os.getenv("EMAIL_TO_NAME", "Anthony")
-    EMAIL_TO_USER   = os.getenv("EMAIL_TO_USER")

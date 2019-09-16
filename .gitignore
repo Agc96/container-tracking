@@ -24,3 +24,6 @@ desktop.ini
 
 # Files with sensitive data
 sensitive-*
+
+# Amazon Web Services commands and keys
+aws/

@@ -1,11 +1,12 @@
-from config import ScraperConfig
-
-from datetime import datetime
-from email.mime.text import MIMEText
-
+import datetime
 import os
 import smtplib
 import ssl
+from email.mime.text import MIMEText
+
+from dotenv import load_dotenv
+
+from config import ScraperConfig
 
 class ScraperEmail:
     """Mail service for the Tracking Scraper."""
@@ -23,26 +24,31 @@ class ScraperEmail:
     }
     
     def __init__(self, **kwargs):
-        self.data = kwargs
-        self.data["user"] = ScraperConfig.EMAIL_TO_NAME
-        self.data["date"] = datetime.now().strftime("%d/%m/%Y a las %H:%M")
+        self.login_user   = os.getenv("MAIL_LOGIN_USER")
+        self.login_pass   = os.getenv("MAIL_LOGIN_PASS")
+        self.send_name    = os.getenv("MAIL_SEND_NAME")
+        self.send_user    = os.getenv("MAIL_SEND_USER")
+        self.data         = kwargs
+        self.data["user"] = self.send_name
+        self.data["date"] = datetime.datetime.now().strftime("%d/%m/%Y a las %H:%M")
     
     def send_message(self, content, subject):
         """Sends an email to the administrator."""
         # Parse message
         self.data["content"] = content.format(**self.data)
-        content = ("Hola {user},\n{content}\nSaludos,\nEl equipo de Tracking Scraper").format(**self.data)
+        content = "Hola {user},\n{content}\nSaludos,\nEl equipo de Tracking Scraper".format(**self.data)
         # Parse subject
         message = MIMEText(content, "plain", "UTF-8")
         message["Subject"] = subject.format(**self.data)
         # Send message through Gmail SMTP server
-        with smtplib.SMTP_SSL(ScraperConfig.EMAIL_SMTP, ScraperConfig.EMAIL_PORT) as server:
-            server.login(ScraperConfig.EMAIL_FROM_USER, ScraperConfig.EMAIL_FROM_PASS)
-            server.sendmail(ScraperConfig.EMAIL_FROM_USER, ScraperConfig.EMAIL_TO_USER, message.as_string())
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(self.login_user, self.login_pass)
+            server.sendmail(self.login_user, self.send_user, message.as_string())
     
     def send(self, msg_info):
         """Wrapper for `send_message`, passing a `dict` as message information."""
         self.send_message(msg_info["content"], msg_info["subject"])
 
 if __name__ == "__main__":
+    load_dotenv()
     ScraperEmail().send(ScraperEmail.TEST_MESSAGE)
