@@ -13,15 +13,17 @@
         <h3 class="margin-bottom-1x">Detalles del contenedor {{container.code}}</h3>
         <div class="row margin-bottom-1x">
           <div class="col-md-6 col-12"><strong>Empresa naviera:</strong> {{container.carrier}}</div>
-          <div class="col-md-6 col-12"><strong>Ubicación de origen:</strong> {{container.origin}}</div>
-          <div class="col-md-6 col-12"><strong>Ubicación de destino:</strong> {{container.destination}}</div>
+          <div class="col-md-6 col-12">
+            <strong>Ubicación de origen:</strong>
+            {% if container.origin %}{{container.origin}}{% else %}No especificado{% endif %}
+          </div>
+          <div class="col-md-6 col-12">
+            <strong>Ubicación de destino:</strong>
+            {% if container.destination %}{{container.destination}}{% else %}No especificado{% endif %}
+          </div>
           <div class="col-md-6 col-12">
             <strong>Fecha estimada de llegada:</strong>
-            {% if container.arrival_date %}
-              {{container.arrival_date}}
-            {% else %}
-              No especificado
-            {% endif %}
+            {% if container.arrival_date %}{{container.arrival_date}}{% else %}No especificado{% endif %}
           </div>
         </div>
         {% if movements %}
@@ -71,6 +73,7 @@
     {# Footer #}
     {% include 'tracking/includes/footer.html' %}
     {% load static %}
+    {% if movements %}
     <script>
       function createMap() {
         // Crear el mapa
@@ -133,7 +136,6 @@
         return Math.abs(number1 - number2) < precision;
       }
     </script>
-    {% if movements %}
     <script src="https://maps.googleapis.com/maps/api/js?key={{maps}}&callback=createMap" async defer></script>
     {% endif %}
   </body>

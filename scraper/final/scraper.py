@@ -100,6 +100,11 @@ class Scraper:
             self.logger.error(str(ex))
             self.save_error()
             return (False, self.elapsed_time)
+        # Check any webdriver-related errors
+        if isinstance(ex, WebDriverException):
+            self.logger.exception("An error error ocurred while using the WebDriver")
+            # Don't save the error, reprocess it
+            return (False, self.elapsed_time)
         # Check unknown errors
         self.logger.exception("Unknown exception ocurred in scraper")
         return (None, self.elapsed_time)

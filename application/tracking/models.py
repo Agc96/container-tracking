@@ -67,8 +67,8 @@ class ContainerStatus(models.Model):
 class Container(models.Model):
     code         = models.CharField(max_length=LENGTH_CONTAINER)
     carrier      = models.ForeignKey(Enterprise, on_delete=DEFAULT_ON_DELETE)
-    origin       = models.ForeignKey(Location, default=None, on_delete=DEFAULT_ON_DELETE, related_name='origin')
-    destination  = models.ForeignKey(Location, default=None, on_delete=DEFAULT_ON_DELETE, related_name='destination')
+    origin       = models.ForeignKey(Location, blank=True, null=True, default=None, on_delete=DEFAULT_ON_DELETE, related_name='origin')
+    destination  = models.ForeignKey(Location, blank=True, null=True, default=None, on_delete=DEFAULT_ON_DELETE, related_name='destination')
     arrival_date = models.DateTimeField(default=None)
     status       = models.ForeignKey(ContainerStatus, on_delete=DEFAULT_ON_DELETE, default=DEFAULT_STATUS)
     priority     = models.IntegerField(default=1)
@@ -103,37 +103,39 @@ class Container(models.Model):
         # Obtener la ubicación de origen del contenedor
         origin_name = parse_query(data, 'origin_name')
         if is_empty(origin_name):
-            return False, 'Ingrese la ubicación de origen del contenedor.'
-        try:
-            origin = Location.objects.get(name__iexact=origin_name)
-        except MultipleObjectsReturned:
-            return False, 'Se encontraron varias ubicaciones de origen para el contenedor.'
-        except ObjectDoesNotExist:
-            valid, origin = Location.validate_and_create({
-                'name': origin_name,
-                'latitude': data.get('origin_latitude'),
-                'longitude': data.get('origin_longitude')
-            })
-            if not valid:
-                return False, 'Error en la ubicación de origen: ' + origin
+            origin = None
+        else:
+            try:
+                origin = Location.objects.get(name__iexact=origin_name)
+            except MultipleObjectsReturned:
+                return False, 'Se encontraron varias ubicaciones de origen para el contenedor.'
+            except ObjectDoesNotExist:
+                valid, origin = Location.validate_and_create({
+                    'name': origin_name,
+                    'latitude': data.get('origin_latitude'),
+                    'longitude': data.get('origin_longitude')
+                })
+                if not valid:
+                    return False, 'Error en la ubicación de origen: ' + origin
         # Obtener la ubicación de destino del contenedor
         destination_name = parse_query(data, 'destination_name')
         if is_empty(destination_name):
-            return False, 'Ingrese la ubicación de destino del contenedor.'
-        try:
-            destination = Location.objects.get(name__iexact=destination_name)
-        except MultipleObjectsReturned:
-            return False, 'Se encontraron varias ubicaciones de destino para el contenedor.'
-        except ObjectDoesNotExist:
-            valid, destination = Location.validate_and_create({
-                'name': destination_name,
-                'latitude': data.get('destination_latitude'),
-                'longitude': data.get('destination_longitude')
-            })
-            if not valid:
-                return False, 'Error en la ubicación de destino: ' + destination
+            destination = None
+        else:
+            try:
+                destination = Location.objects.get(name__iexact=destination_name)
+            except MultipleObjectsReturned:
+                return False, 'Se encontraron varias ubicaciones de destino para el contenedor.'
+            except ObjectDoesNotExist:
+                valid, destination = Location.validate_and_create({
+                    'name': destination_name,
+                    'latitude': data.get('destination_latitude'),
+                    'longitude': data.get('destination_longitude')
+                })
+                if not valid:
+                    return False, 'Error en la ubicación de destino: ' + destination
         # Validar que las dos ubicaciones no sean las mismas
-        if Location.equals(origin, destination):
+        if origin and destination and Location.equals(origin, destination):
             return False, 'La ubicación de origen no puede ser igual a la ubicación de destino.'
         return True, cls.objects.create(code=code, carrier=carrier, origin=origin, destination=destination)
         # return True, 'Se creó correctamente el contenedor marítimo.'

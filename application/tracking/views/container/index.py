@@ -37,8 +37,8 @@ def search(request):
     for container_db in page.object_list:
         container_json = model_to_dict(container_db)
         container_json['carrier'] = container_db.carrier.name
-        container_json['origin'] = container_db.origin.name
-        container_json['destination'] = container_db.destination.name
+        container_json['origin'] = container_db.origin.name if container_db.origin else None
+        container_json['destination'] = container_db.destination.name if container_db.destination else None
         container_json['status_name'] = container_db.status.name
         container_json['url'] = reverse('container-detail', args=[container_db.id])
         containers.append(container_json)

@@ -239,6 +239,13 @@
         }
 
         function beautifyContainer(container) {
+          // Formatear ubicaciones
+          if (!container.origin) {
+            container.origin = 'No especificado';
+          }
+          if (!container.destination) {
+            container.destination = 'No especificado';
+          }
           // Formatear fecha de registro/creación
           container.created_at = formatDate(container.created_at);
           if (container.arrival_date) {

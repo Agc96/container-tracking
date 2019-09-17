@@ -113,7 +113,7 @@ class ScraperProcess():
         options = ChromeOptions()
         options.set_headless(True)
         self.driver = Chrome(executable_path=ScraperConfig.PATH_CHROME, options=options)
-        # self.driver.maximize_window()
+        self.driver.maximize_window()
         self.driver.set_page_load_timeout(ScraperConfig.DEFAULT_TIMEOUT_LONG)
     
     def close_driver(self):

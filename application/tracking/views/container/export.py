@@ -67,9 +67,15 @@ def export_data(request):
         'Longitud de origen', 'Ubicacion de destino', 'Latitud de destino', 'Longitud de destino',
         'Fecha de registro', 'Estado', 'Fecha estimada de llegada'])
     for container in containers:
-        writer.writerow([container.code, container.carrier, container.origin, container.origin.latitude,
-            container.origin.longitude, container.destination, container.destination.latitude,
-            container.destination.longitude, container.created_at, container.status, container.arrival_date])
+        # Formatear datos del contenedor
+        origin_latitude = container.origin.latitude if container.origin else None
+        origin_longitude = container.origin.longitude if container.origin else None
+        destination_latitude = container.origin.latitude if container.destination else None
+        destination_longitude = container.destination.longitude if container.destination else None
+        # Escribir datos del contenedor
+        writer.writerow([container.code, container.carrier, container.origin, origin_latitude,
+            origin_longitude, container.destination, destination_latitude, destination_longitude,
+            container.created_at, container.status, container.arrival_date])
     # Enviar respuesta como archivo
     response = HttpResponse(output.getvalue(), content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="container-export.csv"'
