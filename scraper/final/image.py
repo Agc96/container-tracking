@@ -1,3 +1,5 @@
+import re
+
 from config import ScraperConfig
 from errors import ScraperError, ScraperSwitcherError
 
@@ -71,18 +73,16 @@ class ScraperImage:
     def image_to_text(self):
         config = "--psm 7"
         whitelist = ""
-        
+
         # Check if we should include alphabetical letters
         if self.parent_command.get("alphabet", ScraperConfig.DEFAULT_KEY_ALPHABET):
-            whitelist += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            whitelist += "A-Z"
         # Check if we should include numeric letters
         if self.parent_command.get("numbers", ScraperConfig.DEFAULT_KEY_NUMBERS):
-            whitelist += "1234567890"
-        
+            whitelist += "0-9"
+
         # Process image according to whitelist
+        text = pytesseract.image_to_string(self.image, config=config)
         if whitelist:
-            config += " -c tessedit_char_whitelist=" + whitelist
-        
-        # Clean whitespace and return
-        text = pytesseract.image_to_string(self.image, config = config)
+            return re.sub("[^{0}]+".format(whitelist), "", text)
         return text.replace(" ", "")
