@@ -36,7 +36,7 @@ class ScraperImage:
             return None
         # Check for possible problems in text
         filter_words = self.parent_command.get("filters")
-        if not isinstance(filter_words, list):
+        if (filter_words is None) or (not isinstance(filter_words, list)):
             return text
         for word in filter_words:
             if word in text:

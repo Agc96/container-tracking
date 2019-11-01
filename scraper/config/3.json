@@ -53,7 +53,6 @@
 				"length": 4,
 				"alphabet": true,
 				"numbers": false,
-				"filters": ["C", "I"],
 				"failure": {
 					"type": "css",
 					"selector": "a[href=\"javascript:captchaReload()\"]",
@@ -64,8 +63,8 @@
 					}
 				},
 				"write": {
-					"type": "id",
-					"selector": "captcha_input"
+					"type": "css",
+					"selector": "#captcha_div_s #captcha_input"
 				}
 			}
 		},

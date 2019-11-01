@@ -82,24 +82,21 @@ class Scraper:
         # Check assertions
         if isinstance(ex, ScraperAssertionError):
             self.logger.warning(str(ex))
-            value = self.finish_execution() if ex.assertion_type is False else False
+            value = self.finish_execution() if ex.assertion_type is False else False # No guardar error!
             return (value, self.elapsed_time)
         # Check timeout errors
         if isinstance(ex, ScraperTimeoutError):
             self.logger.warning(str(ex))
-            self.save_error()
-            return (False, self.elapsed_time)
+            return (self.save_error(), self.elapsed_time)
         # Check scraper switcher errors
         if isinstance(ex, ScraperSwitcherError):
             self.logger.error("Command: %s", ScraperSwitcher.print_command(ex.command))
             self.logger.error(str(ex))
-            self.save_error()
-            return (False, self.elapsed_time)
+            return (self.save_error(), self.elapsed_time)
         # Check common errors
         if isinstance(ex, ScraperError):
             self.logger.error(str(ex))
-            self.save_error()
-            return (False, self.elapsed_time)
+            return (self.save_error(), self.elapsed_time)
         # Check any webdriver-related errors
         if isinstance(ex, WebDriverException):
             self.logger.exception("An error error ocurred while using the WebDriver")
@@ -268,3 +265,4 @@ class Scraper:
             with conn.cursor() as cur:
                 cur.execute("UPDATE tracking_container SET status_id = %s WHERE id = %s",
                             (self.ERROR, self.container["id"]))
+        return False

@@ -17,6 +17,7 @@ from scraper import Scraper
 class ScraperProcess():
     """Process wrapper for an automatic extraction using the Tracking Web Scraper for containers."""
     
+    PENDING = 1 # Estado pendiente
     SLEEP_TIME = 60 # seconds
     MAX_BACKOFF = 128 # minutes (assuming ScraperConfig.ROUNDS_FAILURE_WAIT is 60 seconds)
     MIN_FAIL_TO_SEND_EMAIL = 5 # after 5 errors, send an email
@@ -39,21 +40,27 @@ class ScraperProcess():
         # Get container until no containers are found or there's an unknown exception
         start = time.time()
         while True:
-            # Get container, if no container is found, finish execution
-            with self.database:
-                with self.database.cursor() as cur:
-                    cur.execute("""SELECT * FROM tracking_container WHERE carrier_id = %s AND status_id = 1
-                        ORDER BY priority LIMIT 1;""", (self.carrier["id"],))
-                    container = cur.fetchone()
-            # Verify if container exists
-            if container is None:
-                self.logger.info("Waiting a minute to find a container...")
-                time.sleep(self.SLEEP_TIME)
-                continue
-                # self.send_mail(ScraperEmail.FINISH_MESSAGE, self.total_counter)
-                # break
-            # Extract container information with the Tracking Scraper
-            if not self.execute_scraper(container):
+            try:
+                # Get container, if no container is found, finish execution
+                with self.database:
+                    with self.database.cursor() as cur:
+                        cur.execute(""" SELECT * FROM tracking_container
+                                        WHERE carrier_id = %s AND status_id IN %s
+                                        ORDER BY priority
+                                        LIMIT 1; """,
+                                        (self.carrier["id"], (self.PENDING,)))
+                        container = cur.fetchone()
+                # Verify if container exists
+                if container is None:
+                    self.logger.info("Waiting a minute to find a container...")
+                    time.sleep(self.SLEEP_TIME)
+                    continue
+                    # self.send_mail(ScraperEmail.FINISH_MESSAGE, self.total_counter)
+                    # break
+                # Extract container information with the Tracking Scraper
+                if not self.execute_scraper(container):
+                    break
+            except KeyboardInterrupt:
                 break
         end = time.time()
         
@@ -111,7 +118,10 @@ class ScraperProcess():
         
         # Create new webdriver
         options = ChromeOptions()
-        options.set_headless(True)
+        try:
+            options.headless = True
+        except:
+            options.set_headless(True)
         self.driver = Chrome(executable_path=ScraperConfig.PATH_CHROME, options=options)
         self.driver.maximize_window()
         self.driver.set_page_load_timeout(ScraperConfig.DEFAULT_TIMEOUT_LONG)
@@ -181,7 +191,7 @@ if __name__ == "__main__":
     try:
         for p in processes:
             p.join()
-    except:
+    except KeyboardInterrupt:
         for p in processes:
-            p.terminate()
+            p.join()
     print("Finished execution!")
