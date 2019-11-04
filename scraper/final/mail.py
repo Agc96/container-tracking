@@ -40,6 +40,8 @@ class ScraperEmail:
         # Parse subject
         message = MIMEText(content, "plain", "UTF-8")
         message["Subject"] = subject.format(**self.data)
+        message["From"]    = self.login_user
+        message["To"]      = self.send_user
         # Send message through Gmail SMTP server
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.ehlo()
