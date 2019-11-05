@@ -25,7 +25,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group">
               <label for="carrier">Empresa naviera:</label>
               <select name="carrier" id="carrier" class="form-control placeholder">
-                <option value="" selected="">Seleccione una empresa</option>
+                <option value="" selected="">Todas las empresas</option>
                 {% for carrier in carriers %}
                   <option value="{{ carrier.id }}">{{ carrier.name }}</option>
                 {% endfor %}
@@ -53,15 +53,22 @@
               <input type="text" name="destination" id="destination" class="form-control location-input"
                 placeholder="Busque una ubicación…">
             </div>
+            {# Estados #}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 form-group">
+              <label for="status">Estado:</label>
+              <select name="status" id="status" class="form-control placeholder">
+                <option value="" selected="">Todos los estados</option>
+                {% for status in statuses %}
+                  <option value="{{ status.id }}">{{ status.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
             {# Botones #}
             <div class="col text-right align-self-end">
-              <a class="btn btn-sm btn-primary mt-0 mb-3" href="{% url 'container-create' %}">
-                <i class="icon-plus"></i> Nuevo <span class="d-xl-inline d-lg-none d-sm-inline d-none">contenedor</span>
-              </a>
-              <button type="button" class="btn btn-sm btn-success mt-0 mb-3" data-toggle="modal" data-target="#import-modal">
-                <i class="icon-upload"></i> Importar
-              </button>
               <button type="submit" class="btn btn-sm btn-info mt-0 mb-3"><i class="icon-search"></i> Buscar</button>
+              <button type="reset" class="btn btn-sm btn-secondary mt-0 mb-3">
+                <i class="icon-repeat"></i> <span class="d-xl-inline d-lg-none d-md-inline d-sm-none d-inline">Limpiar</span>
+              </button>
             </div>
           </div>
         </form>
@@ -69,12 +76,19 @@
         <h4 class="margin-top-1x">Resultados de la búsqueda</h4>
         <hr class="mb-3">
         <div class="row align-items-center">
-          <div class="col-sm col-12" id="results-message">Cargando contenedores...</div>
-          <div class="col-sm-auto col-12 text-right">
-            <div class="btn-group mx-0 mt-sm-0 mt-2 mb-0">
-              <button class="btn btn-sm btn-success dropdown-toggle" id="container-export" type="button" data-toggle="dropdown" disabled="">
-                <i class="icon-download"></i> Exportar
-              </button>
+          <div class="col-md col-12" id="results-message">Cargando contenedores...</div>
+          <div class="col-md-auto col-12 text-right mt-md-0 mt-2">
+            {# Botón de nuevo contenedor #}
+            <a class="btn btn-sm btn-primary my-0" href="{% url 'container-create' %}">
+              <i class="icon-plus"></i> Nuevo contenedor
+            </a>
+            {# Botón de importar contenedores #}
+            <button type="button" class="btn btn-sm btn-success my-0" data-toggle="modal"
+              data-target="#import-modal"><i class="icon-upload"></i> Importar</button>
+            {# Botón de exportar contenedores #}
+            <div class="btn-group m-0">
+              <button class="btn btn-sm btn-success dropdown-toggle" id="container-export" type="button"
+                data-toggle="dropdown" disabled=""><i class="icon-download"></i> Exportar</button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" id="export-all" href="{% url 'container-export' %}" target="_blank">Todos los resultados</a>
                 <a class="dropdown-item" id="export-page" href="{% url 'container-export' %}" target="_blank">Solo esta página</a>
@@ -175,6 +189,7 @@
             destination: $('#destination').val(),
             since: $('#date-since').val(),
             until: $('#date-until').val(),
+            status: $('#status').val()
           };
           // Realizar la consulta
           $.get("{% url 'container-search' %}", query, processSearchResults);

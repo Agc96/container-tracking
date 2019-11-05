@@ -12,6 +12,10 @@ jQuery(document).ready(function ($) {
 		}
 	}
 
+	$('[type=reset]').click(function () {
+		$(this).parents('form').find('select').addClass('placeholder');
+	});
+
 	/* Inputs tipo fecha */
 
 	if ($.fn.datepicker) {

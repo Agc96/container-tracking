@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .utils import prepare_query
-from ...models import Enterprise, Container
+from ...models import Enterprise, Container, ContainerStatus
 from ...utils import parse_query, RestResponse, PAGE_COUNT
 
 def index(request):
@@ -14,7 +14,8 @@ def index(request):
         return redirect('index')
     return render(request, 'tracking/container/index.html', {
         'fullname': request.user.first_name + ' ' + request.user.last_name,
-        'carriers': Enterprise.objects.filter(carrier=True)
+        'carriers': Enterprise.objects.filter(carrier=True),
+        'statuses': ContainerStatus.objects.all()
     })
 
 def search(request):

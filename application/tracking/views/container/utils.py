@@ -20,5 +20,8 @@ def prepare_query(request):
     # Agregar filtro por fecha de registro máxima del contenedor
     if not add_to_query(request, query, 'until', 'created_at__lte', datetime.date):
         return False, 'La fecha de registro máxima debe tener el formato dd/mm/aaaa.'
+    # Agregar filtro por estado del contenedor
+    if not add_to_query(request, query, 'status', 'status__id', int):
+        return False, 'Seleccione un estado de contenedor válido.'
     # Si no hubo error alguno, devuelve NULL.
     return True, query
