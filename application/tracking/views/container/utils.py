@@ -1,4 +1,4 @@
-from ...utils import add_to_query
+from ...utils import add_to_query, DATETIME_FORMAT
 
 import datetime
 
@@ -25,3 +25,9 @@ def prepare_query(request):
         return False, 'Seleccione un estado de contenedor válido.'
     # Si no hubo error alguno, devuelve NULL.
     return True, query
+
+def format_location(attribute):
+    return (attribute.latitude, attribute.longitude) if attribute else (None, None)
+
+def format_date(attribute, default=None):
+    return attribute.strftime(DATETIME_FORMAT) if attribute else default

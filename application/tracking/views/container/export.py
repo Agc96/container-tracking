@@ -1,15 +1,15 @@
+import csv
+import io
+
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from .utils import prepare_query
 from ...models import Container
-from ...utils import RestResponse, parse_query, PAGE_COUNT
-
-import csv
-import io
+from ...utils import PAGE_COUNT, RestResponse, parse_query
+from .utils import prepare_query, format_date, format_location
 
 def import_data(request):
     """Crea varios contenedores a partir de un archivo CSV."""
@@ -68,14 +68,14 @@ def export_data(request):
         'Fecha de registro', 'Estado', 'Fecha estimada de llegada'])
     for container in containers:
         # Formatear datos del contenedor
-        origin_latitude = container.origin.latitude if container.origin else None
-        origin_longitude = container.origin.longitude if container.origin else None
-        destination_latitude = container.origin.latitude if container.destination else None
-        destination_longitude = container.destination.longitude if container.destination else None
+        origin_latitude, origin_longitude = format_location(container.origin)
+        destination_latitude, destination_longitude = format_location(container.destination)
+        created_at = format_date(container.created_at)
+        arrival_date = format_date(container.arrival_date)
         # Escribir datos del contenedor
         writer.writerow([container.code, container.carrier, container.origin, origin_latitude,
             origin_longitude, container.destination, destination_latitude, destination_longitude,
-            container.created_at, container.status, container.arrival_date])
+            created_at, container.status, arrival_date])
     # Enviar respuesta como archivo
     response = HttpResponse(output.getvalue(), content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="container-export.csv"'

@@ -262,7 +262,12 @@
             container.destination = 'No especificado';
           }
           // Formatear fecha de registro/creación
-          container.created_at = formatDate(container.created_at);
+          if (container.created_at) {
+            container.created_at = formatDate(container.created_at);
+          } else {
+            container.created_at = 'No especificado';
+          }
+          // Formatear fecha de llegada estimada
           if (container.arrival_date) {
             container.arrival_date = formatDate(container.arrival_date);
           } else {
@@ -285,18 +290,6 @@
               break;
           }
           return container;
-        }
-
-        function formatDate(dateTimeString) {
-          // Obtener la fecha exacta
-          var date = new Date(dateTimeString);
-          date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-          // Colocar la fecha en el formato dd/mm/aa hh:mm
-          function twoDigits(number) {
-            return (number > 10) ? number : '0' + number;
-          }
-          return twoDigits(date.getDate()) + '/' + twoDigits(date.getMonth() + 1) + '/' + date.getFullYear()
-                  + ' ' + twoDigits(date.getHours()) + ':' + twoDigits(date.getMinutes());
         }
 
         /* Importar lista de contenedores */

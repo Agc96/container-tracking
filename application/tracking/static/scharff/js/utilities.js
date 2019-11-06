@@ -60,3 +60,20 @@ function showErrorMessage(content) {
 function showSuccessMessage(content) {
 	showMessage('success', content, 'icon-check', 'Éxito');
 }
+
+function formatDate(dateTimeString) {
+	// Obtener la fecha exacta
+	var date = new Date(dateTimeString);
+	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+	// Colocar la fecha en el formato dd/mm/aa hh:mm
+	var day = twoDigits(date.getDate());
+	var month = twoDigits(date.getMonth() + 1);
+	var year = date.getFullYear();
+	var hours = twoDigits(date.getHours());
+	var minutes = twoDigits(date.getMinutes());
+	return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
+}
+
+function twoDigits(number) {
+	return (number >= 10) ? number : '0' + number;
+}

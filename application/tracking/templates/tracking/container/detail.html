@@ -22,8 +22,7 @@
             {% if container.destination %}{{container.destination}}{% else %}No especificado{% endif %}
           </div>
           <div class="col-md-6 col-12">
-            <strong>Fecha estimada de llegada:</strong>
-            {% if container.arrival_date %}{{container.arrival_date}}{% else %}No especificado{% endif %}
+            <strong>Fecha estimada de llegada:</strong> {{container.formatted_arrival_date}}
           </div>
         </div>
         {% if movements %}
@@ -41,7 +40,7 @@
                 </div>
                 <div class="card-body">
                   <div>
-                    <strong>Fecha:</strong> {{movement.date}}
+                    <strong>Fecha:</strong> {{movement.formatted_date}}
                     {% if movement.estimated %}(estimada){% endif %}
                   </div>
                   <div>
